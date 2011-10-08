@@ -95,6 +95,17 @@ function SetupGroups()
 }
 
 defaultproperties {
+     Begin Object Class=GUISectionBackground Name=BGPerks
+         bFillClient=True
+         Caption="Stats"
+         WinTop=0.012063
+         WinLeft=0.019240
+         WinWidth=0.961520
+         WinHeight=0.796032
+         OnPreDraw=BGPerks.InternalPreDraw
+     End Object
+     i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGamePerks.BGPerks'
+
      Begin Object Class=GSTStatListBox Name=StatSelectList
          OnCreateComponent=StatSelectList.InternalOnCreateComponent
          WinTop=0.057760
