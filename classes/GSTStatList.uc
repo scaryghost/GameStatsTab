@@ -7,6 +7,10 @@ var	texture	InfoBackground;
 var	localized array<string>			StatName;
 var	array<int>					StatProgress;
 
+function PostBeginPlay() {
+    StatProgress.Length= 12;
+}
+
 function bool PreDraw(Canvas Canvas) {
 	return false;
 }
