@@ -4,7 +4,7 @@ var array<int> numSpecimenKilled;
 var int numShotsFired;
 var int numShotsHit;
 
-void addKill(KFMonster victim) {
+function addKill(KFMonster victim) {
     local int index;
     if (ZombieCrawler(victim) != none) {
         index= 0;

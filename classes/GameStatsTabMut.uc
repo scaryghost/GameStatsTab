@@ -1,8 +1,8 @@
 class GameStatsTabMut extends Mutator;
 
 struct PlayerStats {
-    string idHash;
-    GSTStats stats;
+    var string idHash;
+    var GSTStats stats;
 };
 
 var array<PlayerStats> playerArray;
@@ -15,33 +15,33 @@ function PostBeginPlay() {
 function MutatorTakeDamage( out int ActualDamage, Pawn Victim, 
         Pawn InstigatedBy, out Vector HitLocation, out Vector Momentum, 
         name DamageType) {
-    local KFHumanPawn KFHP(InstigatedBy);
+    local KFHumanPawn KFHP;
+    local KFMonster KFM;
     local string hash;
     local PlayerStats tempStats;
     local int index;
 
-	if (KFHP != none && KFMonster(Victim) != none &&
-            KFMonster(Victime).Health <= 0) {
+    KFHP= KFHumanPawn(InstigatedBy);
+    KFM= KFMonster(Victim);
+	if (KFHP != none && KFM != none && KFM.Health <= 0) {
         hash= KFHP.KFPC.getPlayerIDHash();
         index= findPlayer(hash);
         if ( index == -1 ) {
             tempStats.idHash= hash;
-            tempStats.stats.addKill(Victim);
-            playerArray.insert(playerArray.Length, tempStats);
+            tempStats.stats.addKill(KFM);
+            default.playerArray.insert(default.playerArray.Length, 1);
+            default.playerArray[default.playerArray.Length-1]= tempStats;
         } else {
-            playerArray[index].stats.addKill(Victim);
+            default.playerArray[index].stats.addKill(KFM);
         }
         
 	}
-	if ( NextDamageMutator != None )
-		NextDamageMutator.MutatorTakeDamage( ActualDamage, Victim, InstigatedBy, 
-                HitLocation, Momentum, DamageType );
 }
 
-static int function findPlayer(string hash) {
+static function int findPlayer(string hash) {
     local int i;
-    for (i= 0; i < playerArray.Length; i++) {
-        if (playerArray[i].idHash == hash) {
+    for (i= 0; i < default.playerArray.Length; i++) {
+        if (default.playerArray[i].idHash == hash) {
             return i;
         }
     }
