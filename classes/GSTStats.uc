@@ -4,6 +4,32 @@ var array<int> numSpecimenKilled;
 var int numShotsFired;
 var int numShotsHit;
 
+void addKill(KFMonster victim) {
+    local int index;
+    if (ZombieCrawler(victim) != none) {
+        index= 0;
+    } else if (ZombieStalker(victim) != none) {
+        index= 1;
+    } else if (ZombieClot(victim) != none) {
+        index= 2;
+    } else if (ZombieGorefast(victim) != none) {
+        index= 3;
+    } else if (ZombieBloat(victim) != none) {
+        index= 4;
+    } else if (ZombieSiren(victim) != none) {
+        index= 5;
+    } else if (ZombieHusk(victim) != none) {
+        index= 6;
+    } else if (ZombieScrake(victim) != none) {
+        index= 7;
+    } else if (ZombieFleshPound(victim) != none) {
+        index= 8;
+    } else if (ZombieBoss(victim) != none) {
+        index= 9;
+    }
+
+    numSpecimenKilled[index]++;
+}
 
 defaultproperties {
     numSpecimenKilled(0)=0  //crawlers
