@@ -14,5 +14,5 @@ function InitComponent(GUIController MyController, GUIComponent MyComponent)
 
 defaultproperties
 {
-     Panels(4)=(ClassName="GameStatsTab.GSTMidGamePerks",Caption="Stats",Hint="View stats about your current game")
+     Panels(4)=(ClassName="GameStatsTab.GSTMidGamesStats",Caption="Game Stats",Hint="View stats about your current game")
 }

@@ -1,4 +1,4 @@
-class GSTMidGamePerks extends KFTab_MidGamePerks;
+class GSTMidGameStats extends KFTab_MidGamePerks;
 
 var	automated GSTStatListBox    lb_StatSelect;
 
@@ -103,7 +103,7 @@ defaultproperties {
          WinHeight=0.796032
          OnPreDraw=BGPerks.InternalPreDraw
      End Object
-     i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGamePerks.BGPerks'
+     i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGameStats.BGPerks'
 
      Begin Object Class=GSTStatListBox Name=StatSelectList
          OnCreateComponent=StatSelectList.InternalOnCreateComponent
@@ -112,6 +112,6 @@ defaultproperties {
          WinWidth=0.941520
          WinHeight=0.742836
      End Object
-     lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGamePerks.StatSelectList'
+     lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGameStats.StatSelectList'
 
 }
