@@ -6,6 +6,6 @@ function PostBeginPlay() {
 
 defaultproperties {
     GroupName= "KFGameStatsTab"
-    FriendlNAme= "Detailed Stats Tab"
+    FriendlyName= "Detailed Stats Tab"
     Description= "Displays detailed statistics about your current game"
 }

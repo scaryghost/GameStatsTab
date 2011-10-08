@@ -4,15 +4,15 @@ var	automated GSTStatListBox    lb_StatSelect;
 
 function ShowPanel(bool bShow)
 {
-	local ClientPerkRepLink L;
+	local GSTStats L;
 
 	super.ShowPanel(bShow);
 
 	if ( bShow )
 	{
-		L = Class'ClientPerkRepLink'.Static.FindStats(PlayerOwner());
+//		L = Class'ClientPerkRepLink'.Static.FindStats(PlayerOwner());
 		if ( L!=None )
-			lb_StatSelect.List.InitList(L);
+			lb_StatSelect.statList.InitList(L);
 		InitGRI();
 	}
 }
@@ -102,6 +102,6 @@ defaultproperties {
          WinWidth=0.941520
          WinHeight=0.742836
      End Object
-     lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGamePerks.GSTStatSelectList'
+     lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGamePerks.StatSelectList'
 
 }
