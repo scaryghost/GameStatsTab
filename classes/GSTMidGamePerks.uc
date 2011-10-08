@@ -115,4 +115,12 @@ defaultproperties {
      End Object
      lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGamePerks.StatSelectList'
 
+    lb_PerkSelect= None;
+
+    i_BGPerkEffects= None;
+    lb_PerkEffects= None;
+
+    i_BGPerkNextLevel= None;
+    lb_PerkProgress= None;
+
 }
