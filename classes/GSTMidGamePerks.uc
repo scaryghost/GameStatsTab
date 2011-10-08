@@ -5,17 +5,13 @@ var	automated GSTStatListBox    lb_StatSelect;
 function ShowPanel(bool bShow)
 {
 	local GSTStats L;
-    local int index;
 
 	super.ShowPanel(bShow);
 
 	if ( bShow )
 	{
-		index = Class'GameStatsTab.GameStatsTabMut'.Static.findPlayer(PlayerOwner().getPlayerIDHash());
-		if ( index != -1 ) {
-            L= Class'GameStatsTab.GameStatsTabMut'.default.playerArray[index].stats;
-			lb_StatSelect.statList.InitList(L);
-        }
+		L = Class'GameStatsTab.GameStatsTabMut'.Static.findStats(PlayerOwner().getPlayerIDHash());
+		lb_StatSelect.statList.InitList(L);
 		InitGRI();
 	}
 }
