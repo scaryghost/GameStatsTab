@@ -37,7 +37,8 @@ function InitList( GSTStats statsObject ) {
 	}
 }
 
-function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, float Width, float Height, bool bSelected, bool bPending) {
+function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, 
+        float Width, float Height, bool bSelected, bool bPending) {
 	local float TempX, TempY;
 	local float TempWidth, TempHeight;
 	local string S;
@@ -49,14 +50,16 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, float Width, fl
 	// Initialize the Canvas
 	Canvas.Style = 1;
 	Canvas.Font = class'ROHUD'.Static.GetSmallMenuFont(Canvas);
-	Canvas.SetDrawColor(255, 255, 255, 255);
+	Canvas.SetDrawColor(class'GameStatsTabMut'.default.bgR, 
+            class'GameStatsTabMut'.default.bgG, class'GameStatsTabMut'.default.bgB, 255);
 
 	// Draw Item Background
 	Canvas.SetPos(TempX, TempY);
 	Canvas.DrawTileStretched(InfoBackground, Width, Height);
 
 	// Select Text Color
-	Canvas.SetDrawColor(0, 0, 0, 255);
+	Canvas.SetDrawColor(class'GameStatsTabMut'.default.txtR, 
+            class'GameStatsTabMut'.default.txtG, class'GameStatsTabMut'.default.txtB, 255);
 
 	// Draw the Perk's Level Name
 	Canvas.TextSize(StatName[CurIndex],TempWidth,TempHeight);
