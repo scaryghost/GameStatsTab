@@ -14,9 +14,10 @@ function bool PreDraw(Canvas Canvas) {
 function InitList( GSTStats statsObject ) {
     local int i;
     // Update the ItemCount and select the first item
+    itemCount= statsObject.EStatKeys.EnumCount;
     SetIndex(0);
 
-    statValue.Length= statsObject.EStatKeys.EnumCount;
+    statValue.Length= itemCount;
     for(i= 0; i < statsObject.statArray.Length; i++) {
         statName[i]= statsObject.statArray[i].descrip;
         statValue[i]= statsObject.statArray[i].statValue;
@@ -104,7 +105,6 @@ function float PerkHeight(Canvas c) {
 
 defaultproperties {
      InfoBackground=Texture'KF_InterfaceArt_tex.Menu.Item_box_bar'
-     ItemCount= 17;
      GetItemHeight=GSTStatList.PerkHeight
      OnDrawItem=GSTStatList.DrawStat
      FontScale=FNS_Medium
