@@ -51,7 +51,8 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 	Canvas.Style = 1;
 	Canvas.Font = class'ROHUD'.Static.GetSmallMenuFont(Canvas);
 	Canvas.SetDrawColor(class'GameStatsTabMut'.default.bgR, 
-            class'GameStatsTabMut'.default.bgG, class'GameStatsTabMut'.default.bgB, 255);
+            class'GameStatsTabMut'.default.bgG, class'GameStatsTabMut'.default.bgB, 
+            class'GameStatsTabMut'.default.bgA);
 
 	// Draw Item Background
 	Canvas.SetPos(TempX, TempY);
@@ -59,7 +60,8 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
 	// Select Text Color
 	Canvas.SetDrawColor(class'GameStatsTabMut'.default.txtR, 
-            class'GameStatsTabMut'.default.txtG, class'GameStatsTabMut'.default.txtB, 255);
+            class'GameStatsTabMut'.default.txtG, class'GameStatsTabMut'.default.txtB, 
+            class'GameStatsTabMut'.default.txtA);
 
 	// Draw the Perk's Level Name
 	Canvas.TextSize(StatName[CurIndex],TempWidth,TempHeight);

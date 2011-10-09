@@ -6,8 +6,8 @@ struct propertyDescTuple {
     var string shortDescription;
 };
 
-var config int bgR, bgG, bgB;
-var config int txtR, txtG, txtB;
+var config int bgR, bgG, bgB, bgA;
+var config int txtR, txtG, txtB, txtA;
 var array<propertyDescTuple> propDescripArray;
 
 function PostBeginPlay() {
@@ -44,10 +44,12 @@ defaultproperties {
     FriendlyName= "Detailed Stats Tab"
     Description= "Displays detailed statistics about your current game"
 
-    propDescripArray(0)=(property="bgR",longDescription="Set red value for stat field background color",shortDescription="Backgound RGB.R")
+    propDescripArray(0)=(property="bgR",longDescription="Set red value for stat field background color",shortDescription="Background RGB.R")
     propDescripArray(1)=(property="bgG",longDescription="Set green value for stat field background color",shortDescription="Background RGB.G")
     propDescripArray(2)=(property="bgB",longDescription="Set blue value for stat field background color",shortDescription="Background RGB.B")
-    propDescripArray(3)=(property="txtR",longDescription="Set red value for stat text color",shortDescription="Text RGB.R")
-    propDescripArray(4)=(property="txtG",longDescription="Set green value for stat text color",shortDescription="Text RGB.G")
-    propDescripArray(5)=(property="txtB",longDescription="Set blue value for stat text color",shortDescription="Text RGB.B")
+    propDescripArray(3)=(property="bgA",longDescription="Set alpha value for stat field background color",shortDescription="Background RGB.A")
+    propDescripArray(4)=(property="txtR",longDescription="Set red value for stat text color",shortDescription="Text RGB.R")
+    propDescripArray(5)=(property="txtG",longDescription="Set green value for stat text color",shortDescription="Text RGB.G")
+    propDescripArray(6)=(property="txtB",longDescription="Set blue value for stat text color",shortDescription="Text RGB.B")
+    propDescripArray(7)=(property="txtA",longDescription="Set alpha value for stat text color",shortDescription="Text RGB.A")
 }
