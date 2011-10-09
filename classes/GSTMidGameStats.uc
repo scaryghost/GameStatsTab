@@ -1,4 +1,4 @@
-class GSTMidGamePerks extends MidGamePanel;
+class GSTMidGameStats extends MidGamePanel;
 
 var automated GUISectionBackground i_BGPerks;
 var	automated GSTStatListBox    lb_StatSelect;
@@ -13,9 +13,8 @@ function ShowPanel(bool bShow)
 
 	if ( bShow )
 	{
-//		L = Class'ClientPerkRepLink'.Static.FindStats(PlayerOwner());
-		if ( L!=None )
-			lb_StatSelect.statList.InitList(L);
+		L = Class'GameStatsTab.GameStatsTabMut'.Static.findStats(PlayerOwner().getPlayerIDHash());
+		lb_StatSelect.statList.InitList(L);
 		SetupGroups();
 	}
 }
@@ -45,7 +44,7 @@ defaultproperties {
          WinHeight=0.796032
          OnPreDraw=BGPerks.InternalPreDraw
      End Object
-     i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGamePerks.BGPerks'
+     i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGameStats.BGPerks'
 
      Begin Object Class=GSTStatListBox Name=StatSelectList
          OnCreateComponent=StatSelectList.InternalOnCreateComponent
@@ -54,5 +53,6 @@ defaultproperties {
          WinWidth=0.941520
          WinHeight=0.742836
      End Object
-     lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGamePerks.StatSelectList'
+     lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGameStats.StatSelectList'
+
 }

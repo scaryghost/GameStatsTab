@@ -6,12 +6,69 @@ struct propertyDescTuple {
     var string shortDescription;
 };
 
+struct PlayerStats {
+    var string idHash;
+    var GSTStats stats;
+};
+
 var config int bgR, bgG, bgB, bgA;
 var config int txtR, txtG, txtB, txtA;
 var array<propertyDescTuple> propDescripArray;
 
+var array<PlayerStats> playerArray;
+
 function PostBeginPlay() {
-    DeathMatch(Level.Game).LoginMenuClass = string(Class'GSTInvasionLoginMenu');
+    local KFGameType kfgt;
+
+    kfgt= KFGameType(Level.Game);
+    if (kfgt == none) {
+        Destroy();
+        return;
+    }
+
+    Spawn(class'GSTGameRules');
+    AddToPackageMap();
+    DeathMatch(Level.Game).LoginMenuClass = 
+            string(Class'GSTInvasionLoginMenu');
+
+    kfgt.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
+    kfgt.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
+}
+
+static function int findIndex(string hash) {
+    local int i;
+    for (i= 0; i < default.playerArray.Length; i++) {
+        if (default.playerArray[i].idHash == hash) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+static function GSTStats findStats(string hash) {
+    local int i;
+    local GSTStats gs;
+
+    i= findIndex(hash);
+    if (i != -1) {
+        return default.playerArray[i].stats;
+    }
+    gs= new class'GSTStats';
+    update(hash, gs);
+    return gs;
+}
+
+static function update(string hash, GSTStats newStats) {
+    local int i;
+    i= findIndex(hash);
+
+    if (i == -1) {
+        default.playerArray.insert(default.playerArray.Length, 1);
+        default.playerArray[default.playerArray.Length-1].idHash= hash;
+        default.playerArray[default.playerArray.Length-1].stats= newStats;
+    } else {
+        default.playerArray[i].stats= newStats;
+    }
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
@@ -52,4 +109,6 @@ defaultproperties {
     propDescripArray(5)=(property="txtG",longDescription="Set green value for stat text color",shortDescription="Text RGB.G")
     propDescripArray(6)=(property="txtB",longDescription="Set blue value for stat text color",shortDescription="Text RGB.B")
     propDescripArray(7)=(property="txtA",longDescription="Set alpha value for stat text color",shortDescription="Text RGB.A")
+
+    LifeSpan=0.1
 }
