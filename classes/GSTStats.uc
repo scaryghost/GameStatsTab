@@ -4,8 +4,11 @@ var array<int> numSpecimenKilled;
 var int numRoundsFired;
 var float totalDamageTaken;
 var float totalShieldLost;
+var float ffDamage;
+var float totalHealAmtRecieved;
 var int numSecondsAlive; 
 var int numFragsTossed;
+
 
 function addKill(KFMonster victim) {
     local int index;
@@ -52,4 +55,6 @@ defaultproperties {
     totalDamageTaken= 0
     totalShieldLost= 0
     numFragsTossed= 0
+    ffDamage= 0;
+    totalHealAmtRecieved= 0;
 }

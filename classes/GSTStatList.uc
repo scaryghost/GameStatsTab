@@ -8,7 +8,7 @@ var	localized array<string>			StatName;
 var	array<int>					StatProgress;
 
 function PostBeginPlay() {
-    StatProgress.Length= 15;
+    StatProgress.Length= 17;
 }
 
 function bool PreDraw(Canvas Canvas) {
@@ -31,9 +31,11 @@ function InitList( GSTStats statsObject ) {
 	StatProgress[9]= statsObject.numSpecimenKilled[9];
 	StatProgress[10]= statsObject.numRoundsFired;
     StatProgress[11]= statsObject.numFragsTossed;
-    StatProgress[12]= statsObject.totalDamageTaken;
-    StatProgress[13]= statsObject.totalShieldLost;
-    StatProgress[14]= statsObject.numSecondsAlive;
+    StatProgress[12]= statsObject.totalHealAmtRecieved;
+    StatProgress[13]= statsObject.totalDamageTaken;
+    StatProgress[14]= statsObject.totalShieldLost;
+    StatProgress[15]= statsObject.ffDamage;
+    StatProgress[16]= statsObject.numSecondsAlive;
 
 	if ( bNotify ) {
 		CheckLinkedObjects(Self);
@@ -101,7 +103,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 	Canvas.DrawText(StatName[CurIndex]$":");
 
 	// Draw the Perk's Level
-    if (curIndex == 14) {
+    if (curIndex == StatProgress.Length-1) {
         S= formatTime(StatProgress[CurIndex]);
     } else {
     	S = string(StatProgress[CurIndex]);
@@ -130,10 +132,12 @@ defaultproperties
      StatName(9)="Patriarchs killed"
      StatName(10)="Number of rounds fired"
      StatName(11)="Number of frags tossed"
-     StatName(12)="Total damage taken"
-     StatName(13)="Total shield lost"
-     StatName(14)="Time alive"
-     ItemCount= 15;
+     StatName(12)="Total amount of healing recieved"
+     StatName(13)="Total damage taken"
+     StatName(14)="Total shield lost"
+     StatName(15)="Friendly fire damage dealt"
+     StatName(16)="Time alive"
+     ItemCount= 17;
      GetItemHeight=GSTStatList.PerkHeight
      OnDrawItem=GSTStatList.DrawStat
      FontScale=FNS_Medium
