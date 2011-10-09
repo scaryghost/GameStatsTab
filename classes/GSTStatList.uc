@@ -7,35 +7,20 @@ var	texture	InfoBackground;
 var	localized array<string>			StatName;
 var	array<int>					StatProgress;
 
-function PostBeginPlay() {
-    StatProgress.Length= 17;
-}
-
 function bool PreDraw(Canvas Canvas) {
 	return false;
 }
 
 function InitList( GSTStats statsObject ) {
+    local int i;
 	// Update the ItemCount and select the first item
 	SetIndex(0);
 
-	StatProgress[0]= statsObject.numSpecimenKilled[0];
-	StatProgress[1]= statsObject.numSpecimenKilled[1];
-	StatProgress[2]= statsObject.numSpecimenKilled[2];
-	StatProgress[3]= statsObject.numSpecimenKilled[3];
-	StatProgress[4]= statsObject.numSpecimenKilled[4];
-    StatProgress[5]= statsObject.numSpecimenKilled[5];
-	StatProgress[6]= statsObject.numSpecimenKilled[6];
-	StatProgress[7]= statsObject.numSpecimenKilled[7];
-	StatProgress[8]= statsObject.numSpecimenKilled[8];
-	StatProgress[9]= statsObject.numSpecimenKilled[9];
-	StatProgress[10]= statsObject.numRoundsFired;
-    StatProgress[11]= statsObject.numFragsTossed;
-    StatProgress[12]= statsObject.totalHealAmtRecieved;
-    StatProgress[13]= statsObject.totalDamageTaken;
-    StatProgress[14]= statsObject.totalShieldLost;
-    StatProgress[15]= statsObject.ffDamage;
-    StatProgress[16]= statsObject.numSecondsAlive;
+    StatProgress.Length= statsObject.EStatKeys.EnumCount;
+    for(i= 0; i < statsObject.statArray.Length; i++) {
+        StatName[i]= statsObject.statArray[i].descrip;
+        StatProgress[i]= statsObject.statArray[i].statValue;
+    }
 
 	if ( bNotify ) {
 		CheckLinkedObjects(Self);
@@ -100,7 +85,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 	TempX += Width*0.1f;
 	TempY += (Height-TempHeight)*0.5f;
 	Canvas.SetPos(TempX, TempY);
-	Canvas.DrawText(StatName[CurIndex]$":");
+	Canvas.DrawText(StatName[CurIndex]);
 
 	// Draw the Perk's Level
     if (curIndex == StatProgress.Length-1) {
@@ -120,23 +105,6 @@ function float PerkHeight(Canvas c) {
 defaultproperties
 {
      InfoBackground=Texture'KF_InterfaceArt_tex.Menu.Item_box_bar'
-     StatName(0)="Crawlers killed"
-     StatName(1)="Stalkers killed"
-     StatName(2)="Clots killed"
-     StatName(3)="Gorefasts killed"
-     StatName(4)="Bloats killed"
-     StatName(5)="Sirens killed"
-     StatName(6)="Husks killed"
-     StatName(7)="Scrakes killed"
-     StatName(8)="Fleshpounds killed"
-     StatName(9)="Patriarchs killed"
-     StatName(10)="Number of rounds fired"
-     StatName(11)="Number of frags tossed"
-     StatName(12)="Total amount of healing recieved"
-     StatName(13)="Total damage taken"
-     StatName(14)="Total shield lost"
-     StatName(15)="Friendly fire damage dealt"
-     StatName(16)="Time alive"
      ItemCount= 17;
      GetItemHeight=GSTStatList.PerkHeight
      OnDrawItem=GSTStatList.DrawStat

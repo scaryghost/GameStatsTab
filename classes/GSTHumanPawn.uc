@@ -5,13 +5,13 @@ var GSTStats gs;
 simulated function PostBeginPlay() {
     super.PostBeginPlay();
 
-    gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
     setTimer(1.0, true);
 }
 
 function timer() {
     if (Health > 0) {
-        gs.numSecondsAlive++;
+        gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
+        gs.statArray[gs.EStatKeys.TIME_ALIVE].statValue++;
     }
 }
 
@@ -29,12 +29,13 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     Super.TakeDamage(Damage,instigatedBy,hitlocation,momentum,damageType);
     
     friendPawn= KFHumanPawn(InstigatedBy);
-    if (friendPawn != none) {
+    if (friendPawn != none && friendPawn != Self) {
         friendStats= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-        friendStats.ffDamage+= (oldHealth - Health);
+        friendStats.statArray[gs.EStatKeys.FF_DAMAGE_DEALT].statValue+= (oldHealth - Health);
     }
-    gs.totalDamageTaken+= (oldHealth - Health);
-    gs.totalShieldLost+= (oldShield - ShieldStrength);
+    gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
+    gs.statArray[gs.EStatKeys.DAMAGE_TAKEN].statValue+= (oldHealth - Health);
+    gs.statArray[gs.EStatKeys.SHIELD_LOST].statValue+= (oldShield - ShieldStrength);
 }
 
 function bool GiveHealth(int HealAmount, int HealMax)
@@ -63,7 +64,8 @@ function bool GiveHealth(int HealAmount, int HealMax)
 
 	if( Health<HealMax )
 	{
-        gs.totalHealAmtRecieved+= HealAmount;
+        gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
+        gs.statArray[gs.EStatKeys.HEALING_RECIEVED].statValue+= HealAmount;
 		HealthToGive+=HealAmount;
 		lastHealTime = level.timeSeconds;
 		return true;
@@ -90,7 +92,8 @@ function ThrowGrenade()
 
             //TODO: cache this without setting SecItem yet
             //SecondaryItem = aFrag;
-            gs.numFragsTossed++;
+            gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
+            gs.statArray[gs.EStatKeys.FRAGS_TOSSED].statValue++;
             KFWeapon(Weapon).ClientGrenadeState = GN_TempDown;
             Weapon.PutDown();
             break;

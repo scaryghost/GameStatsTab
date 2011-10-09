@@ -14,6 +14,6 @@ exec function Fire(optional float F)
     super.Fire(F);
 
     gs= class'GameSTatsTabMut'.static.findStats(getPlayerIDHash());
-    gs.numRoundsFired++;
+    gs.statArray[gs.EStatKeys.ROUNDS_FIRED].statValue++;
 }
 
