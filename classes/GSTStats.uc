@@ -4,6 +4,7 @@ var array<int> numSpecimenKilled;
 var int numRoundsFired;
 var float totalDamageTaken;
 var float totalShieldLost;
+var int numSecondsAlive; 
 
 function addKill(KFMonster victim) {
     local int index;

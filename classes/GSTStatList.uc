@@ -8,7 +8,7 @@ var	localized array<string>			StatName;
 var	array<int>					StatProgress;
 
 function PostBeginPlay() {
-    StatProgress.Length= 13;
+    StatProgress.Length= 14;
 }
 
 function bool PreDraw(Canvas Canvas) {
@@ -32,6 +32,7 @@ function InitList( GSTStats statsObject ) {
 	StatProgress[10]= statsObject.numRoundsFired;
     StatProgress[11]= statsObject.totalDamageTaken;
     StatProgress[12]= statsObject.totalShieldLost;
+    StatProgress[13]= statsObject.numSecondsAlive;
 
 	if ( bNotify ) {
 		CheckLinkedObjects(Self);
@@ -40,6 +41,29 @@ function InitList( GSTStats statsObject ) {
 	if ( MyScrollBar != none ) {
 		MyScrollBar.AlignThumb();
 	}
+}
+
+function string formatTime(int seconds) {
+    local string timeStr;
+    local int i;
+    local array<int> timeValues;
+    
+    timeValues.Length= 3;
+    timeValues[0]= seconds / 60;
+    timeValues[1]= seconds / 3600;
+    timeValues[2]= seconds % 60;
+    for(i= 0; i < timeValues.Length; i++) {
+        if (timeValues[i] < 10) {
+            timeStr= timeStr$"0"$timeValues[i];
+        } else {
+            timeStr= timeStr$timeValues[i];
+        }
+        if (i < timeValues.Length-1) {
+            timeStr= timeStr$":";
+        }
+    }
+
+    return timeStr;
 }
 
 function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, float Width, float Height, bool bSelected, bool bPending) {
@@ -71,7 +95,11 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, float Width, fl
 	Canvas.DrawText(StatName[CurIndex]$":");
 
 	// Draw the Perk's Level
-	S = string(StatProgress[CurIndex]);
+    if (curIndex == 13) {
+        S= formatTime(StatProgress[CurIndex]);
+    } else {
+    	S = string(StatProgress[CurIndex]);
+    }
 	Canvas.TextSize(S,TempWidth,TempHeight);
 	Canvas.SetPos(X + Width*0.88f - TempWidth, TempY);
 	Canvas.DrawText(S);
@@ -97,8 +125,9 @@ defaultproperties
      StatName(10)="Number of rounds fired"
      StatName(11)="Total damage taken"
      StatName(12)="Total shield lost"
+     StatName(13)="Time alive"
+     ItemCount= 14;
      GetItemHeight=GSTStatList.PerkHeight
-     ItemCount=13
      OnDrawItem=GSTStatList.DrawStat
      FontScale=FNS_Medium
      OnPreDraw=GSTStatList.PreDraw
