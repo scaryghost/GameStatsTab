@@ -1,6 +1,7 @@
 class GSTStats extends Object;
 
 enum EStatKeys {
+    TIME_ALIVE,
     CRAWLER_KILLS,
     STALKER_KILLS,
     CLOT_KILLS,
@@ -16,8 +17,7 @@ enum EStatKeys {
     HEALING_RECIEVED,
     DAMAGE_TAKEN,
     SHIELD_LOST,
-    FF_DAMAGE_DEALT,
-    TIME_ALIVE
+    FF_DAMAGE_DEALT
 };
 
 struct StatDescripValuePair {
@@ -33,7 +33,7 @@ function addKill(KFMonster victim) {
    
     for(i= 0; i < monsterIndexArray.Length; i++) {
         if (InStr(string(victim),monsterIndexArray[i]) != -1) {
-            statArray[i].statValue++;
+            statArray[i+1].statValue++;
             break;
         }
     }
@@ -51,21 +51,21 @@ defaultproperties {
     monsterIndexArray(8)="ZombieFleshPound"
     monsterIndexArray(9)="ZombieBoss"
     
-    statArray(0)=(descrip="Crawler kills",statValue=0)
-    statArray(1)=(descrip="Stalker kills",statValue=0)
-    statArray(2)=(descrip="Clot kills",statValue=0)
-    statArray(3)=(descrip="Gorefast kills",statValue=0)
-    statArray(4)=(descrip="Bloat kills",statValue=0)
-    statArray(5)=(descrip="Siren kills",statValue=0)
-    statArray(6)=(descrip="Husk kills",statValue=0)
-    statArray(7)=(descrip="Scrake kills",statValue=0)
-    statArray(8)=(descrip="Fleshpound kills",statValue=0)
-    statArray(9)=(descrip="Patriarch kills",statValue=0)
-    statArray(10)=(descrip="Rounds fired",statValue=0)
-    statArray(11)=(descrip="Frags tossed",statValue=0)
-    statArray(12)=(descrip="Total healing recieved",statValue=0)
-    statArray(13)=(descrip="Total damage taken",statValue=0)
-    statArray(14)=(descrip="Total shield lost",statValue=0)
-    statArray(15)=(descrip="Friendly fire damage",statValue=0)
-    statArray(16)=(descrip="Time alive",statValue=0)
+    statArray(0)=(descrip="Time alive",statValue=0)
+    statArray(1)=(descrip="Crawler kills",statValue=0)
+    statArray(2)=(descrip="Stalker kills",statValue=0)
+    statArray(3)=(descrip="Clot kills",statValue=0)
+    statArray(4)=(descrip="Gorefast kills",statValue=0)
+    statArray(5)=(descrip="Bloat kills",statValue=0)
+    statArray(6)=(descrip="Siren kills",statValue=0)
+    statArray(7)=(descrip="Husk kills",statValue=0)
+    statArray(8)=(descrip="Scrake kills",statValue=0)
+    statArray(9)=(descrip="Fleshpound kills",statValue=0)
+    statArray(10)=(descrip="Patriarch kills",statValue=0)
+    statArray(11)=(descrip="Rounds fired",statValue=0)
+    statArray(12)=(descrip="Frags tossed",statValue=0)
+    statArray(13)=(descrip="Total healing recieved",statValue=0)
+    statArray(14)=(descrip="Total damage taken",statValue=0)
+    statArray(15)=(descrip="Total shield lost",statValue=0)
+    statArray(16)=(descrip="Friendly fire damage",statValue=0)
 }

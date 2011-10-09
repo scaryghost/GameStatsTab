@@ -89,7 +89,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
     Canvas.DrawText(statName[CurIndex]);
 
     // Draw the Perk's Level
-    if (curIndex == statValue.Length-1) {
+    if (curIndex == 0) {
         S= formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
