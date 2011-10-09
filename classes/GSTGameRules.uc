@@ -9,11 +9,14 @@ function PostBeginPlay()
 function ScoreKill(Controller Killer, Controller Killed)
 {
     local GSTStats gs;
+    local KFPlayerController kfpc;
 
     Super.ScoreKill(Killer,Killed);
     
-    gs= class'GameStatsTabMut'.static.findStats(KFPlayerController(killer).getPlayerIDHash());
-    gs.addKill(KFMonster(Killed.pawn));
-    class'GameStatsTabMut'.static.update(KFPlayerController(killer).getPlayerIDHash(), gs);
+    kfpc= KFPlayerController(killer);
+    if(kfpc != none) {
+        gs= class'GameStatsTabMut'.static.findStats(kfpc.getPlayerIDHash());
+        gs.addKill(KFMonster(Killed.pawn));
+    }
 
 }

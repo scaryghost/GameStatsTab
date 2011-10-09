@@ -1,8 +1,9 @@
 class GSTStats extends Object;
 
 var array<int> numSpecimenKilled;
-var int numShotsFired;
-var int numShotsHit;
+var int numRoundsFired;
+var float totalDamageTaken;
+var float totalShieldLost;
 
 function addKill(KFMonster victim) {
     local int index;
@@ -26,6 +27,9 @@ function addKill(KFMonster victim) {
         index= 8;
     } else if (ZombieBoss(victim) != none) {
         index= 9;
+    } else {
+        //attacking custom specimen not derived from base monsters
+        return;
     }
 
     numSpecimenKilled[index]++;
@@ -42,6 +46,7 @@ defaultproperties {
     numSpecimenKilled(7)=0  //scrakes
     numSpecimenKilled(8)=0  //fleshpound
     numSpecimenKilled(9)=0  //patriarch
-    numShotsFired= 0
-    numShotsHit= 0
+    numRoundsFired= 0
+    totalDamageTaken= 0
+    totalShieldLost= 0
 }

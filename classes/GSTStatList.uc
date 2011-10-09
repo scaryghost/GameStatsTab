@@ -8,7 +8,7 @@ var	localized array<string>			StatName;
 var	array<int>					StatProgress;
 
 function PostBeginPlay() {
-    StatProgress.Length= 12;
+    StatProgress.Length= 13;
 }
 
 function bool PreDraw(Canvas Canvas) {
@@ -19,18 +19,19 @@ function InitList( GSTStats statsObject ) {
 	// Update the ItemCount and select the first item
 	SetIndex(0);
 
-	StatProgress[0] = statsObject.numSpecimenKilled[0];
-	StatProgress[1] = statsObject.numSpecimenKilled[1];
-	StatProgress[2] = statsObject.numSpecimenKilled[2];
-	StatProgress[3] = statsObject.numSpecimenKilled[3];
-	StatProgress[4] = statsObject.numSpecimenKilled[4];
-    StatProgress[5] = statsObject.numSpecimenKilled[5];
-	StatProgress[6] = statsObject.numSpecimenKilled[6];
-	StatProgress[7] = statsObject.numSpecimenKilled[7];
-	StatProgress[8] = statsObject.numSpecimenKilled[8];
-	StatProgress[9] = statsObject.numSpecimenKilled[9];
-	StatProgress[10] = statsObject.numShotsFired;
-	StatProgress[11] = statsObject.numShotsHit;
+	StatProgress[0]= statsObject.numSpecimenKilled[0];
+	StatProgress[1]= statsObject.numSpecimenKilled[1];
+	StatProgress[2]= statsObject.numSpecimenKilled[2];
+	StatProgress[3]= statsObject.numSpecimenKilled[3];
+	StatProgress[4]= statsObject.numSpecimenKilled[4];
+    StatProgress[5]= statsObject.numSpecimenKilled[5];
+	StatProgress[6]= statsObject.numSpecimenKilled[6];
+	StatProgress[7]= statsObject.numSpecimenKilled[7];
+	StatProgress[8]= statsObject.numSpecimenKilled[8];
+	StatProgress[9]= statsObject.numSpecimenKilled[9];
+	StatProgress[10]= statsObject.numRoundsFired;
+    StatProgress[11]= statsObject.totalDamageTaken;
+    StatProgress[12]= statsObject.totalShieldLost;
 
 	if ( bNotify ) {
 		CheckLinkedObjects(Self);
@@ -93,10 +94,11 @@ defaultproperties
      StatName(7)="Scrakes killed"
      StatName(8)="Fleshpounds killed"
      StatName(9)="Patriarchs killed"
-     StatName(10)="Number of shots fired"
-     StatName(11)="Number of shots hit"
+     StatName(10)="Number of rounds fired"
+     StatName(11)="Total damage taken"
+     StatName(12)="Total shield lost"
      GetItemHeight=GSTStatList.PerkHeight
-     ItemCount=12
+     ItemCount=13
      OnDrawItem=GSTStatList.DrawStat
      FontScale=FNS_Medium
      OnPreDraw=GSTStatList.PreDraw
