@@ -2,6 +2,7 @@ class GSTZombieScrake extends ZombieScrake;
 
 var GSTStats gs;
 var Pawn lastHitBy;
+var bool isRaging;
 /**
  * Copied from ZombieScrake.TakeDamage
  */
@@ -22,9 +23,10 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 	Super(KFMonster).takeDamage(Damage, instigatedBy, hitLocation, momentum, damageType, HitIndex);
 
     hpRatio= float(Health)/HealthMax;
-    if (kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
+    if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
         gs= class'GameStatsTabMut'.static.findStats(kfhp.KFPC.getPlayerIDHash());
         gs.statArray[gs.EStatKeys.SCRAKES_RAGED].statValue++;
+        isRaging= true;
     }
 	if ( Level.Game.GameDifficulty >= 5.0 && !IsInState('SawingLoop') && 
             !IsInState('RunningState') && float(Health) / HealthMax < 0.75 )
@@ -42,4 +44,8 @@ function bool FlipOver() {
     }
 
     return super.FlipOver();
+}
+
+defaultproperties {
+    isRaging= false
 }
