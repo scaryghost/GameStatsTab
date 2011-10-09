@@ -33,4 +33,33 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     gs.totalShieldLost+= (oldShield - ShieldStrength);
 }
     
+function ThrowGrenade()
+{
+    local inventory inv;
+    local Frag aFrag;
+    local GSTStats gs;
+
+    for ( inv = inventory; inv != none; inv = inv.Inventory )
+    {
+        aFrag = Frag(inv);
+
+        if ( aFrag != none && aFrag.HasAmmo() && !bThrowingNade )
+        {
+            if ( KFWeapon(Weapon) == none || Weapon.GetFireMode(0).NextFireTime - Level.TimeSeconds > 0.1 ||
+                 (KFWeapon(Weapon).bIsReloading && !KFWeapon(Weapon).InterruptReload()) )
+            {
+                return;
+            }
+
+            //TODO: cache this without setting SecItem yet
+            //SecondaryItem = aFrag;
+            gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
+            gs.numFragsTossed++;
+            KFWeapon(Weapon).ClientGrenadeState = GN_TempDown;
+            Weapon.PutDown();
+            break;
+            //aFrag.StartThrow();
+        }
+    }
+}
 

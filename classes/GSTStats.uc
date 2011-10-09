@@ -5,6 +5,7 @@ var int numRoundsFired;
 var float totalDamageTaken;
 var float totalShieldLost;
 var int numSecondsAlive; 
+var int numFragsTossed;
 
 function addKill(KFMonster victim) {
     local int index;
@@ -50,4 +51,5 @@ defaultproperties {
     numRoundsFired= 0
     totalDamageTaken= 0
     totalShieldLost= 0
+    numFragsTossed= 0
 }
