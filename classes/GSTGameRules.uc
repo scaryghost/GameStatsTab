@@ -1,13 +1,11 @@
 class GSTGameRules extends GameRules;
 
-function PostBeginPlay()
-{
-	NextGameRules = Level.Game.GameRulesModifiers;
-	Level.Game.GameRulesModifiers = Self;
+function PostBeginPlay() {
+    NextGameRules = Level.Game.GameRulesModifiers;
+    Level.Game.GameRulesModifiers = Self;
 }
 
-function ScoreKill(Controller Killer, Controller Killed)
-{
+function ScoreKill(Controller Killer, Controller Killed) {
     local GSTStats gs;
     local KFPlayerController kfpc;
 

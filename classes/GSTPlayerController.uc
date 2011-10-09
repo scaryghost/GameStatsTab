@@ -7,8 +7,7 @@ function SetPawnClass(string inClass, string inCharacter) {
     PlayerReplicationInfo.SetCharacterName(inCharacter);
 }
 
-exec function Fire(optional float F)
-{
+exec function Fire(optional float F) {
     local GSTStats gs;
 
     super.Fire(F);
@@ -16,4 +15,3 @@ exec function Fire(optional float F)
     gs= class'GameSTatsTabMut'.static.findStats(getPlayerIDHash());
     gs.statArray[gs.EStatKeys.ROUNDS_FIRED].statValue++;
 }
-

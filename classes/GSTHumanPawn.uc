@@ -38,13 +38,10 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     gs.statArray[gs.EStatKeys.SHIELD_LOST].statValue+= (oldShield - ShieldStrength);
 }
 
-function bool GiveHealth(int HealAmount, int HealMax)
-{
+function bool GiveHealth(int HealAmount, int HealMax) {
     // If someone gets healed while burning, reduce the burn length/damage
-    if( BurnDown > 0 )
-    {
-        if( BurnDown > 1 )
-        {
+    if( BurnDown > 0 ) {
+        if( BurnDown > 1 ) {
             BurnDown *= 0.5;
         }
 
@@ -52,41 +49,34 @@ function bool GiveHealth(int HealAmount, int HealMax)
     }
 
     // Don't let them heal more than the max health
-	if( (healAmount + HealthToGive + Health) > HealthMax)
-	{
-		healAmount = HealthMax - (Health + HealthToGive);
+    if( (healAmount + HealthToGive + Health) > HealthMax) {
+        healAmount = HealthMax - (Health + HealthToGive);
 
-		if( healAmount == 0 )
-		{
+        if( healAmount == 0 ) {
             return false;
-		}
-	}
+        }
+    }
 
-	if( Health<HealMax )
-	{
+    if( Health<HealMax ) {
         gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
         gs.statArray[gs.EStatKeys.HEALING_RECIEVED].statValue+= HealAmount;
-		HealthToGive+=HealAmount;
-		lastHealTime = level.timeSeconds;
-		return true;
-	}
-	Return False;
+        HealthToGive+=HealAmount;
+        lastHealTime = level.timeSeconds;
+        return true;
+    }
+    Return False;
 }
  
-function ThrowGrenade()
-{
+function ThrowGrenade() {
     local inventory inv;
     local Frag aFrag;
 
-    for ( inv = inventory; inv != none; inv = inv.Inventory )
-    {
+    for ( inv = inventory; inv != none; inv = inv.Inventory ) {
         aFrag = Frag(inv);
 
-        if ( aFrag != none && aFrag.HasAmmo() && !bThrowingNade )
-        {
+        if ( aFrag != none && aFrag.HasAmmo() && !bThrowingNade ) {
             if ( KFWeapon(Weapon) == none || Weapon.GetFireMode(0).NextFireTime - Level.TimeSeconds > 0.1 ||
-                 (KFWeapon(Weapon).bIsReloading && !KFWeapon(Weapon).InterruptReload()) )
-            {
+                 (KFWeapon(Weapon).bIsReloading && !KFWeapon(Weapon).InterruptReload()) ) {
                 return;
             }
 
