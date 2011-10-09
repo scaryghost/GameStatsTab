@@ -49,7 +49,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
 	// Initialize the Canvas
 	Canvas.Style = 1;
-	Canvas.Font = class'ROHUD'.Static.GetSmallMenuFont(Canvas);
+	Canvas.Font = class'ROHUD'.Static.GetSmallerMenuFont(Canvas);
 	Canvas.SetDrawColor(class'GameStatsTabMut'.default.bgR, 
             class'GameStatsTabMut'.default.bgG, class'GameStatsTabMut'.default.bgB, 
             class'GameStatsTabMut'.default.bgA);
