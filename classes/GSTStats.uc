@@ -17,7 +17,10 @@ enum EStatKeys {
     HEALING_RECIEVED,
     DAMAGE_TAKEN,
     SHIELD_LOST,
-    FF_DAMAGE_DEALT
+    FF_DAMAGE_DEALT,
+    FLESHPOUNDS_RAGED,
+    SCRAKES_RAGED,
+    SCRAKES_STUNNED
 };
 
 struct StatDescripValuePair {
@@ -68,4 +71,7 @@ defaultproperties {
     statArray(14)=(descrip="Total damage taken",statValue=0)
     statArray(15)=(descrip="Total shield lost",statValue=0)
     statArray(16)=(descrip="Friendly fire damage",statValue=0)
+    statArray(17)=(descrip="Fleshpounds raged",statValue=0)
+    statArray(18)=(descrip="Scrakes raged",statValue=0)
+    statArray(19)=(descrip="Scrakes stunned",statValue=0)
 }
