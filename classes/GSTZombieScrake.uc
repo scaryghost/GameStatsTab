@@ -1,7 +1,6 @@
 class GSTZombieScrake extends ZombieScrake;
 
 var GSTStats gs;
-var Pawn lastHitBy;
 var bool isRaging;
 /**
  * Copied from ZombieScrake.TakeDamage
@@ -25,22 +24,21 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     hpRatio= float(Health)/HealthMax;
     if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
         gs= class'GameStatsTabMut'.static.findStats(kfhp.KFPC.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.SCRAKES_RAGED].statValue++;
+        gs.statArray[gs.EStatKeys.SCRAKES_RAGED].statValue+= 1;
         isRaging= true;
     }
 	if ( Level.Game.GameDifficulty >= 5.0 && !IsInState('SawingLoop') && 
             !IsInState('RunningState') && float(Health) / HealthMax < 0.75 )
 		RangedAttack(InstigatedBy);
-    lastHitBy= instigatedBy;
 }
 
 function bool FlipOver() {
-    local KFHumanPawn kfhp;
+    local KFPlayerController kfpc;
     
-    kfhp= KFHumanPawn(lastHitBy);
-    if (kfhp != none) {
-        gs= class'GameStatsTabMut'.static.findStats(kfhp.KFPC.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.SCRAKES_STUNNED].statValue++;
+    kfpc= KFPlayerController(lastHitBy);
+    if (kfpc != none) {
+        gs= class'GameStatsTabMut'.static.findStats(kfpc.getPlayerIDHash());
+        gs.statArray[gs.EStatKeys.SCRAKES_STUNNED].statValue+= 1;
     }
 
     return super.FlipOver();

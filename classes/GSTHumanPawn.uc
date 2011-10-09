@@ -2,16 +2,11 @@ class GSTHumanPawn extends KFHumanPawn;
 
 var GSTStats gs;
 
-simulated function PostBeginPlay() {
-    super.PostBeginPlay();
-
-    setTimer(1.0, true);
-}
-
 function timer() {
+    super.Timer();
     if (Health > 0) {
         gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.TIME_ALIVE].statValue++;
+        gs.statArray[gs.EStatKeys.TIME_ALIVE].statValue+= 1.5;
     }
 }
 
@@ -83,7 +78,7 @@ function ThrowGrenade() {
             //TODO: cache this without setting SecItem yet
             //SecondaryItem = aFrag;
             gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-            gs.statArray[gs.EStatKeys.FRAGS_TOSSED].statValue++;
+            gs.statArray[gs.EStatKeys.FRAGS_TOSSED].statValue+= 1 ;
             KFWeapon(Weapon).ClientGrenadeState = GN_TempDown;
             Weapon.PutDown();
             break;

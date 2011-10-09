@@ -22,7 +22,7 @@ state BeginRaging {
         kfhp= KFHumanPawn(lastHurtBy);
         if (kfhp != none) {
             gs= class'GameStatsTabMut'.static.findStats(kfhp.KFPC.getPlayerIDHash());
-            gs.statArray[gs.EStatKeys.FLESHPOUNDS_RAGED].statValue++;
+            gs.statArray[gs.EStatKeys.FLESHPOUNDS_RAGED].statValue+= 1;
         }
         
     }

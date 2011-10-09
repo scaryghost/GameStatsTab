@@ -20,12 +20,13 @@ enum EStatKeys {
     FF_DAMAGE_DEALT,
     FLESHPOUNDS_RAGED,
     SCRAKES_RAGED,
-    SCRAKES_STUNNED
+    SCRAKES_STUNNED,
+    SHOT_BY_HUSK
 };
 
 struct StatDescripValuePair {
     var string descrip;
-    var int statValue;
+    var float statValue;
 };
 
 var array<StatDescripValuePair> statArray;
@@ -36,7 +37,7 @@ function addKill(KFMonster victim) {
    
     for(i= 0; i < monsterIndexArray.Length; i++) {
         if (InStr(string(victim),monsterIndexArray[i]) != -1) {
-            statArray[i+1].statValue++;
+            statArray[i+1].statValue+= 1;
             break;
         }
     }
@@ -74,4 +75,5 @@ defaultproperties {
     statArray(17)=(descrip="Fleshpounds raged",statValue=0)
     statArray(18)=(descrip="Scrakes raged",statValue=0)
     statArray(19)=(descrip="Scrakes stunned",statValue=0)
+    statArray(20)=(descrip="Shot by husk",statValue=0)
 }
