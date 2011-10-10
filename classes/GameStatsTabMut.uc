@@ -1,5 +1,10 @@
 class GameStatsTabMut extends Mutator;
 
+struct oldNewZombiePair {
+    var string oldClass;
+    var string newClass;
+};
+
 struct propertyDescTuple {
     var string property;
     var string longDescription;
@@ -11,28 +16,67 @@ struct PlayerStats {
     var GSTStats stats;
 };
 
-var config int bgR, bgG, bgB, bgA;
-var config int txtR, txtG, txtB, txtA;
+var() config int bgR, bgG, bgB, bgA;
+var() config int txtR, txtG, txtB, txtA;
 var array<propertyDescTuple> propDescripArray;
-
 var array<PlayerStats> playerArray;
+var array<oldNewZombiePair> replacementArray;
 
 function PostBeginPlay() {
-    local KFGameType kfgt;
+    local KFGameType gameType;
+    local int i,k;
+    local oldNewZombiePair replacementValue;
 
-    kfgt= KFGameType(Level.Game);
-    if (kfgt == none) {
+    gameType= KFGameType(Level.Game);
+    if (gameType == none) {
         Destroy();
         return;
     }
 
     Spawn(class'GSTGameRules');
-    AddToPackageMap();
+    AddToPackageMap("GameStatsTab");
     DeathMatch(Level.Game).LoginMenuClass = 
             string(Class'GSTInvasionLoginMenu');
 
-    kfgt.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
-    kfgt.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
+    gameType.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
+    gameType.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
+
+    //Replace all instances of the old specimens with the new ones 
+    for( i=0; i<gameType.StandardMonsterClasses.Length; i++) {
+        for(k=0; k<replacementArray.Length; k++) {
+            replacementValue= replacementArray[k];
+            //Use ~= for case insensitive compare
+            if (gameType.StandardMonsterClasses[i].MClassName ~= replacementValue.oldClass) {
+                gameType.StandardMonsterClasses[i].MClassName= replacementValue.newClass;
+            }
+        }
+    }
+
+    //Replace the special squad arrays
+    replaceSpecialSquad(gameType.ShortSpecialSquads);
+    replaceSpecialSquad(gameType.NormalSpecialSquads);
+    replaceSpecialSquad(gameType.LongSpecialSquads);
+    replaceSpecialSquad(gameType.FinalSquads);
+
+    gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
+}
+
+/**
+ *  Replaces the zombies in the given squadArray
+ */
+function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
+    local int i,j,k;
+    local oldNewZombiePair replacementValue;
+    for(j=0; j<squadArray.Length; j++) {
+        for(i=0;i<squadArray[j].ZedClass.Length; i++) {
+            for(k=0; k<replacementArray.Length; k++) {
+                replacementValue= replacementArray[k];
+                if(squadArray[j].ZedClass[i] ~= replacementValue.oldClass) {
+                    squadArray[j].ZedClass[i]=  replacementValue.newClass;
+                }
+            }
+        }
+    }
 }
 
 static function int findIndex(string hash) {
@@ -109,6 +153,16 @@ defaultproperties {
     propDescripArray(5)=(property="txtG",longDescription="Set green value for stat text color",shortDescription="Text RGB.G")
     propDescripArray(6)=(property="txtB",longDescription="Set blue value for stat text color",shortDescription="Text RGB.B")
     propDescripArray(7)=(property="txtA",longDescription="Set alpha value for stat text color",shortDescription="Text RGB.A")
+
+    replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab.GSTZombieFleshpound")
+    replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab.GSTZombieGorefast")
+    replacementArray(2)=(oldClass="KFChar.ZombieStalker",newClass="GameStatsTab.GSTZombieStalker")
+    replacementArray(3)=(oldClass="KFChar.ZombieSiren",newClass="GameStatsTab.GSTZombieSiren")
+    replacementArray(4)=(oldClass="KFChar.ZombieScrake",newClass="GameStatsTab.GSTZombieScrake")
+    replacementArray(5)=(oldClass="KFChar.ZombieHusk",newClass="GameStatsTab.GSTZombieHusk")
+    replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab.GSTZombieCrawler")
+    replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab.GSTZombieBloat")
+    replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab.GSTZombieClot")
 
     LifeSpan=0.1
 }
