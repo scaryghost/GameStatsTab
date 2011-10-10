@@ -12,7 +12,6 @@ enum EStatKeys {
     SCRAKE_KILLS,
     FLESHPOUND_KILLS,
     PATRIARCH_KILLS,
-    ROUNDS_FIRED,
     NUM_DECAPS,
     FRAGS_TOSSED,
     HEALING_RECIEVED,
@@ -67,15 +66,14 @@ defaultproperties {
     statArray(8)=(descrip="Scrake kills",statValue=0)
     statArray(9)=(descrip="Fleshpound kills",statValue=0)
     statArray(10)=(descrip="Patriarch kills",statValue=0)
-    statArray(11)=(descrip="Rounds fired",statValue=0)
-    statArray(12)=(descrip="Number of decapitations",statValue=0)
-    statArray(13)=(descrip="Frags tossed",statValue=0)
-    statArray(14)=(descrip="Total healing recieved",statValue=0)
-    statArray(15)=(descrip="Total damage taken",statValue=0)
-    statArray(16)=(descrip="Total shield lost",statValue=0)
-    statArray(17)=(descrip="Friendly fire damage",statValue=0)
-    statArray(18)=(descrip="Fleshpounds raged",statValue=0)
-    statArray(19)=(descrip="Scrakes raged",statValue=0)
-    statArray(20)=(descrip="Scrakes stunned",statValue=0)
-    statArray(21)=(descrip="Shot by husk",statValue=0)
+    statArray(11)=(descrip="Number of decapitations",statValue=0)
+    statArray(12)=(descrip="Frags tossed",statValue=0)
+    statArray(13)=(descrip="Total healing recieved",statValue=0)
+    statArray(14)=(descrip="Total damage taken",statValue=0)
+    statArray(15)=(descrip="Total shield lost",statValue=0)
+    statArray(16)=(descrip="Friendly fire damage",statValue=0)
+    statArray(17)=(descrip="Fleshpounds raged",statValue=0)
+    statArray(18)=(descrip="Scrakes raged",statValue=0)
+    statArray(19)=(descrip="Scrakes stunned",statValue=0)
+    statArray(20)=(descrip="Shot by husk",statValue=0)
 }
