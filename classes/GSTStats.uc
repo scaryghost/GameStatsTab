@@ -53,7 +53,7 @@ defaultproperties {
     monsterIndexArray(5)="ZombieSiren"
     monsterIndexArray(6)="ZombieHusk"
     monsterIndexArray(7)="ZombieScrake"
-    monsterIndexArray(8)="ZombieFleshPound"
+    monsterIndexArray(8)="ZombieFleshpound"
     monsterIndexArray(9)="ZombieBoss"
     
     statArray(0)=(descrip="Time alive",statValue=0)
