@@ -26,8 +26,7 @@ function ShowPanel(bool bShow) {
     EnableComponent(sl_alpha);
 }
 
-function InternalOnLoadINI(GUIComponent Sender, string s)
-{
+function InternalOnLoadINI(GUIComponent Sender, string s) {
     switch (Sender) {
         case sl_bgR:
             bgR= class'GameStatsTabMut'.default.bgR;
@@ -60,9 +59,8 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
     }
 }
 
-function InternalOnChange(GUIComponent Sender)
-{
-	switch (Sender) {
+function InternalOnChange(GUIComponent Sender) {
+    switch (Sender) {
         case sl_bgR:
             bgR= sl_bgR.GetValue();
             break;
