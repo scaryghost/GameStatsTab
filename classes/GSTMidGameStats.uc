@@ -53,34 +53,44 @@ function InternalOnLoadINI(GUIComponent Sender, string s) {
             sl_txtB.SetComponentValue(txtB, true);
             break;
         case sl_alpha:
-            alpha= class'GameStatsTabMut'.default.txtA;
+            alpha= class'GameStatsTabMut'.default.alpha;
             sl_alpha.SetComponentValue(alpha, true);
             break;
     }
 }
 
 function InternalOnChange(GUIComponent Sender) {
+    local PlayerController PC;
+
+    PC= PlayerOwner();
     switch (Sender) {
         case sl_bgR:
             bgR= sl_bgR.GetValue();
+            class'GameStatsTabMut'.default.bgR= bgR;
             break;
         case sl_bgG:
             bgG= sl_bgG.GetValue();
+            class'GameStatsTabMut'.default.bgG= bgG;
             break;
         case sl_bgB:
             bgB= sl_bgB.GetValue();
+            class'GameStatsTabMut'.default.bgB= bgB;
             break;
         case sl_txtR:
             txtR= sl_txtR.GetValue();
+            class'GameStatsTabMut'.default.txtR= txtR;
             break;
         case sl_txtG:
             txtG= sl_txtG.GetValue();
+            class'GameStatsTabMut'.default.txtG= txtG;
             break;
         case sl_txtB:
             txtB= sl_txtB.GetValue();
+            class'GameStatsTabMut'.default.txtB= txtB;
             break;
         case sl_alpha:
             alpha= sl_alpha.GetValue();
+            class'GameStatsTabMut'.default.alpha= alpha;
             break;
     }
 }
@@ -230,7 +240,7 @@ defaultproperties {
         IniOption="@Internal"
         IniDefault="255"
         Hint="Adjust alpha of the stat panel"
-        WinTop=0.925
+        WinTop=0.95
         WinLeft=0.25
         WinWidth=0.461445
         TabOrder=2
