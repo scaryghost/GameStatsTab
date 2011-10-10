@@ -27,33 +27,36 @@ function ShowPanel(bool bShow) {
 }
 
 function InternalOnLoadINI(GUIComponent Sender, string s) {
+    local PlayerController PC;
+
+    PC= PlayerOwner();
     switch (Sender) {
         case sl_bgR:
-            bgR= class'GameStatsTabMut'.default.bgR;
+            bgR= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut bgR "));
             sl_bgR.SetComponentValue(bgR, true);
             break;
         case sl_bgG:
-            bgG= class'GameStatsTabMut'.default.bgG;
+            bgG= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut bgG "));
             sl_bgG.SetComponentValue(bgG, true);
             break;
         case sl_bgB:
-            bgB= class'GameStatsTabMut'.default.bgB;
+            bgB= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut bgB "));
             sl_bgB.SetComponentValue(bgB, true);
             break;
         case sl_txtR:
-            txtR= class'GameStatsTabMut'.default.txtR;
+            txtR= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut txtR "));
             sl_txtR.SetComponentValue(txtR, true);
             break;
         case sl_txtG:
-            txtG= class'GameStatsTabMut'.default.txtG;
+            txtG= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut txtG "));
             sl_txtG.SetComponentValue(txtG, true);
             break;
         case sl_txtB:
-            txtB= class'GameStatsTabMut'.default.txtB;
+            txtB= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut txtB "));
             sl_txtB.SetComponentValue(txtB, true);
             break;
         case sl_alpha:
-            alpha= class'GameStatsTabMut'.default.alpha;
+            alpha= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut alpha "));
             sl_alpha.SetComponentValue(alpha, true);
             break;
     }
@@ -67,30 +70,37 @@ function InternalOnChange(GUIComponent Sender) {
         case sl_bgR:
             bgR= sl_bgR.GetValue();
             class'GameStatsTabMut'.default.bgR= bgR;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut bgR "$bgR);
             break;
         case sl_bgG:
             bgG= sl_bgG.GetValue();
             class'GameStatsTabMut'.default.bgG= bgG;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut bgG "$bgG);
             break;
         case sl_bgB:
             bgB= sl_bgB.GetValue();
             class'GameStatsTabMut'.default.bgB= bgB;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut bgB "$bgB);
             break;
         case sl_txtR:
             txtR= sl_txtR.GetValue();
             class'GameStatsTabMut'.default.txtR= txtR;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut txtR "$txtR);
             break;
         case sl_txtG:
             txtG= sl_txtG.GetValue();
             class'GameStatsTabMut'.default.txtG= txtG;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut txtG "$txtG);
             break;
         case sl_txtB:
             txtB= sl_txtB.GetValue();
             class'GameStatsTabMut'.default.txtB= txtB;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut txtB "$txtB);
             break;
         case sl_alpha:
             alpha= sl_alpha.GetValue();
             class'GameStatsTabMut'.default.alpha= alpha;
+            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut alpha "$alpha);
             break;
     }
 }
@@ -159,7 +169,7 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="BG Green"
+        Caption="BG Blue"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="255"
@@ -216,7 +226,7 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="Text Green"
+        Caption="Text Blue"
         OnCreateComponent=TextRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="255"

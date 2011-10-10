@@ -5,9 +5,9 @@ struct oldNewZombiePair {
     var string newClass;
 };
 
-var() config int bgR, bgG, bgB;
-var() config int txtR, txtG, txtB;
-var() config int alpha;
+var int bgR, bgG, bgB;
+var int txtR, txtG, txtB;
+var int alpha;
 
 var array<oldNewZombiePair> replacementArray;
 
