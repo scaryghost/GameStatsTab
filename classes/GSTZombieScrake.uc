@@ -1,15 +1,14 @@
 class GSTZombieScrake extends ZombieScrake;
 
-var GSTStats gs;
 var bool isRaging;
-var KFPlayerController lastHurtBy;
+var GSTPlayerController gsPC;
 
 function RemoveHead() {
 
     super.RemoveHead();
-    if (lastHurtBy != none) {
-        gs= class'GameStatsTabMut'.static.findStats(lastHurtBy.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.NUM_DECAPS].statValue+= 1;
+    gsPC= GSTPlayerController(lastHitBy);
+    if (gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
     }
 }
 
@@ -29,16 +28,13 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
             (class<DamTypeCrossbow>(damageType) != none || class<DamTypeCrossbowHeadShot>(damageType) != none)) {
 		Damage *= 0.5;
 	}
-    if (KFHumanPawn(instigatedBy) != none) {
-        lastHurtBy= KFHumanPawn(instigatedBy).KFPC;
-    }
 
 	Super(KFMonster).takeDamage(Damage, instigatedBy, hitLocation, momentum, damageType, HitIndex);
 
     hpRatio= float(Health)/HealthMax;
+    gsPC= GSTPlayerController(lastHitBy);
     if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
-        gs= class'GameStatsTabMut'.static.findStats(kfhp.KFPC.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.SCRAKES_RAGED].statValue+= 1;
+        gsPC.statArray[gsPC.EStatKeys.SCRAKES_RAGED]+= 1;
         isRaging= true;
     }
 	if ( Level.Game.GameDifficulty >= 5.0 && !IsInState('SawingLoop') && 
@@ -47,12 +43,9 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 }
 
 function bool FlipOver() {
-    local KFPlayerController kfpc;
-    
-    kfpc= KFPlayerController(lastHitBy);
-    if (kfpc != none) {
-        gs= class'GameStatsTabMut'.static.findStats(kfpc.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.SCRAKES_STUNNED].statValue+= 1;
+    gsPC= GSTPlayerController(lastHitBy);
+    if (gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.SCRAKES_STUNNED]+= 1;
     }
 
     return super.FlipOver();

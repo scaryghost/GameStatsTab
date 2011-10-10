@@ -1,12 +1,13 @@
 class GSTHumanPawn extends KFHumanPawn;
 
-var GSTStats gs;
+var GSTPlayerController gsPC;
 
 function timer() {
     super.Timer();
-    if (Health > 0) {
-        gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.TIME_ALIVE].statValue+= 1.5;
+    gsPC= GSTPlayerController(Controller);
+
+    if (gsPC != none && Health > 0) {
+        gsPC.statArray[gsPC.EStatKeys.TIME_ALIVE]+= 1.5;
     }
 }
 
@@ -16,7 +17,6 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     local float oldHealth;
     local float oldShield;
     local KFHumanPawn friendPawn;
-    local GSTStats friendStats;
 
     oldHealth= Health;
     oldShield= ShieldStrength;
@@ -25,12 +25,12 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     
     friendPawn= KFHumanPawn(InstigatedBy);
     if (friendPawn != none && friendPawn != Self) {
-        friendStats= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-        friendStats.statArray[gs.EStatKeys.FF_DAMAGE_DEALT].statValue+= (oldHealth - Health);
+        gsPC= GSTPlayerController(friendPawn.Controller);
+        gsPC.statArray[gsPC.EStatKeys.FF_DAMAGE_DEALT]+= (oldHealth - Health);
     }
-    gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-    gs.statArray[gs.EStatKeys.DAMAGE_TAKEN].statValue+= (oldHealth - Health);
-    gs.statArray[gs.EStatKeys.SHIELD_LOST].statValue+= (oldShield - ShieldStrength);
+    gsPC= GSTPlayerController(Controller);
+    gsPC.statArray[gsPC.EStatKeys.DAMAGE_TAKEN]+= (oldHealth - Health);
+    gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= (oldShield - ShieldStrength);
 }
 
 function bool GiveHealth(int HealAmount, int HealMax) {
@@ -53,8 +53,8 @@ function bool GiveHealth(int HealAmount, int HealMax) {
     }
 
     if( Health<HealMax ) {
-        gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-        gs.statArray[gs.EStatKeys.HEALING_RECIEVED].statValue+= HealAmount;
+        gsPC= GSTPlayerController(Controller);
+        gsPC.statArray[gsPC.EStatKeys.HEALING_RECIEVED]+= HealAmount;
         HealthToGive+=HealAmount;
         lastHealTime = level.timeSeconds;
         return true;
@@ -77,8 +77,8 @@ function ThrowGrenade() {
 
             //TODO: cache this without setting SecItem yet
             //SecondaryItem = aFrag;
-            gs= class'GameStatsTabMut'.static.findStats(KFPC.getPlayerIDHash());
-            gs.statArray[gs.EStatKeys.FRAGS_TOSSED].statValue+= 1 ;
+            gsPC= GSTPlayerController(Controller);
+            gsPC.statArray[gsPC.EStatKeys.FRAGS_TOSSED]+= 1 ;
             KFWeapon(Weapon).ClientGrenadeState = GN_TempDown;
             Weapon.PutDown();
             break;

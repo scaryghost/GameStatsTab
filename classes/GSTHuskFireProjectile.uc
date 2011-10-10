@@ -17,7 +17,7 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
 	local bool bAlreadyChecked;
 
     local KFHumanPawn humanVictim;
-    local GSTStats gs;
+    local GSTPlayerController gsPC;
 
     if ( bHurtEntry )
         return;
@@ -69,8 +69,8 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
 				    damageScale *= KFP.GetExposureTo(HitLocation);
                 }
                 if (humanVictim != none) {
-                    gs= class'GameStatsTabMut'.static.findStats(humanVictim.KFPC.getPlayerIDHash());
-                    gs.statArray[gs.EStatKeys.SHOT_BY_HUSK].statValue+= 1;
+                    gsPC= GSTPlayerController(humanVictim.KFPC);
+                    gsPC.statArray[gsPC.EStatKeys.SHOT_BY_HUSK]+= 1;
                 }
 
 				CheckedPawns[CheckedPawns.Length] = P;

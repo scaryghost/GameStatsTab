@@ -5,22 +5,10 @@ struct oldNewZombiePair {
     var string newClass;
 };
 
-struct propertyDescTuple {
-    var string property;
-    var string longDescription;
-    var string shortDescription;
-};
-
-struct PlayerStats {
-    var string idHash;
-    var GSTStats stats;
-};
-
 var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
 var() config int alpha;
 
-var array<PlayerStats> playerArray;
 var array<oldNewZombiePair> replacementArray;
 
 function PostBeginPlay() {
@@ -80,40 +68,8 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
     }
 }
 
-static function int findIndex(string hash) {
-    local int i;
-    for (i= 0; i < default.playerArray.Length; i++) {
-        if (default.playerArray[i].idHash == hash) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-static function GSTStats findStats(string hash) {
-    local int i;
-    local GSTStats gs;
-
-    i= findIndex(hash);
-    if (i != -1) {
-        return default.playerArray[i].stats;
-    }
-    gs= new class'GSTStats';
-    update(hash, gs);
-    return gs;
-}
-
-static function update(string hash, GSTStats newStats) {
-    local int i;
-    i= findIndex(hash);
-
-    if (i == -1) {
-        default.playerArray.insert(default.playerArray.Length, 1);
-        default.playerArray[default.playerArray.Length-1].idHash= hash;
-        default.playerArray[default.playerArray.Length-1].stats= newStats;
-    } else {
-        default.playerArray[i].stats= newStats;
-    }
+simulated function PostNetReceive() {
+    log("GameStatsTabMut- update!");
 }
 
 defaultproperties {
@@ -130,6 +86,4 @@ defaultproperties {
     replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab.GSTZombieCrawler")
     replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab.GSTZombieBloat")
     replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab.GSTZombieClot")
-
-    LifeSpan=0.1
 }

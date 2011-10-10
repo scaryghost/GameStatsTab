@@ -8,13 +8,13 @@ var() noexport bool bTeamGame;
 var() noexport transient int bgR, bgG, bgB, txtR, txtG, txtB, alpha;
 
 function ShowPanel(bool bShow) {
-    local GSTStats statsObj;
+    local GSTPlayerController gsPC;
 
     super.ShowPanel(bShow);
 
     if ( bShow ) {
-        statsObj= Class'GameStatsTab.GameStatsTabMut'.Static.findStats(PlayerOwner().getPlayerIDHash());
-        lb_StatSelect.statList.InitList(statsObj);
+        gsPC= GSTPlayerController(PlayerOwner());
+        lb_StatSelect.statList.InitList(gsPC.descripArray, gsPC.statArray);
     }
 
     EnableComponent(sl_bgR);

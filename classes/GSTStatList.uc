@@ -11,16 +11,16 @@ function bool PreDraw(Canvas Canvas) {
     return false;
 }
 
-function InitList( GSTStats statsObject ) {
+function InitList(array<string> descrip[21], array<float> stats[21]) {
     local int i;
     // Update the ItemCount and select the first item
-    itemCount= statsObject.EStatKeys.EnumCount;
+    itemCount= 21;
     SetIndex(0);
 
     statValue.Length= itemCount;
-    for(i= 0; i < statsObject.statArray.Length; i++) {
-        statName[i]= statsObject.statArray[i].descrip;
-        statValue[i]= statsObject.statArray[i].statValue;
+    for(i= 0; i < 21; i++) {
+        statName[i]= descrip[i];
+        statValue[i]= stats[i];
     }
 
     if ( bNotify ) {
