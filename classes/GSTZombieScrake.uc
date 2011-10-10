@@ -2,6 +2,17 @@ class GSTZombieScrake extends ZombieScrake;
 
 var GSTStats gs;
 var bool isRaging;
+var KFPlayerController lastHurtBy;
+
+function RemoveHead() {
+
+    super.RemoveHead();
+    if (lastHurtBy != none) {
+        gs= class'GameStatsTabMut'.static.findStats(lastHurtBy.getPlayerIDHash());
+        gs.statArray[gs.EStatKeys.NUM_DECAPS].statValue+= 1;
+    }
+}
+
 /**
  * Copied from ZombieScrake.TakeDamage
  */
@@ -18,6 +29,9 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
             (class<DamTypeCrossbow>(damageType) != none || class<DamTypeCrossbowHeadShot>(damageType) != none)) {
 		Damage *= 0.5;
 	}
+    if (KFHumanPawn(instigatedBy) != none) {
+        lastHurtBy= KFHumanPawn(instigatedBy).KFPC;
+    }
 
 	Super(KFMonster).takeDamage(Damage, instigatedBy, hitLocation, momentum, damageType, HitIndex);
 
