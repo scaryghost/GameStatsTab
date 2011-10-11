@@ -28,6 +28,8 @@ var array<float> statArray[21];
 var array<string> descripArray[ArrayCount(statArray)];
 var array<string> monsterIndexArray;
 
+var float prevHealth, prevShield;
+
 replication {
     reliable if (bNetOwner && Role == ROLE_Authority)
         statArray;
@@ -49,6 +51,13 @@ function SetPawnClass(string inClass, string inCharacter) {
     inCharacter = Class'KFGameType'.Static.GetValidCharacter(inCharacter);
     PawnSetupRecord = class'xUtil'.static.FindPlayerRecord(inCharacter);
     PlayerReplicationInfo.SetCharacterName(inCharacter);
+}
+
+function PawnDied(Pawn P) {
+    super.PawnDied(P);
+
+    statArray[EStatKeys.DAMAGE_TAKEN]+= prevHealth;
+    statArray[EStatKeys.SHIELD_LOST]+= prevShield;
 }
 
 defaultproperties {
