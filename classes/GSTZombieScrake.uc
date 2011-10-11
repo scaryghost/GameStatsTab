@@ -42,7 +42,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 
 function bool FlipOver() {
     gsPC= GSTPlayerController(lastHitBy);
-    if (gsPC != none) {
+    if (Health > 0 && gsPC != none) {
         gsPC.statArray[gsPC.EStatKeys.SCRAKES_STUNNED]+= 1;
     }
 
