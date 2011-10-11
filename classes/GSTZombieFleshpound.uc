@@ -18,31 +18,10 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 /**
  * Copied from ZombieFleshPound
  */
-state BeginRaging {
-    Ignores StartCharging;
-
-    function BeginState() {
-
-        gsPC= GSTPlayerController(lastHitBy);
-        if (gsPC != none) {
-            gsPC.statArray[gsPC.EStatKeys.FLESHPOUNDS_RAGED]+= 1;
-        }
-        
+function StartCharging() {
+    super.StartCharging();
+    gsPC= GSTPlayerController(lastHitBy);
+    if (Health > 0 && gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.FLESHPOUNDS_RAGED]+= 1;
     }
-
-    function bool CanGetOutOfWay() {
-        return super.CanGetOutOfWay();
-    }
-
-    simulated function bool HitCanInterruptAction() {
-        return super.HitCanInterruptAction();
-    }
-
-	function Tick( float Delta ) {
-        super.tick(Delta);
-	}
-
-Begin:
-    Sleep(GetAnimDuration('PoundRage'));
-    GotoState('RageCharging');
 }
