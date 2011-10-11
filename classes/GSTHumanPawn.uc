@@ -33,6 +33,36 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= (oldShield - ShieldStrength);
 }
 
+/**
+ * Copied from KFHumanPawn
+ */
+function bool GiveHealth(int HealAmount, int HealMax) {
+    if( BurnDown > 0 ) {
+        if( BurnDown > 1 ) {
+            BurnDown *= 0.5;
+        }
+
+        LastBurnDamage *= 0.5;
+    }
+
+    if( (healAmount + HealthToGive + Health) > HealthMax) {
+        healAmount = HealthMax - (Health + HealthToGive);
+
+        if( healAmount == 0 ) {
+            return false;
+        }
+    }
+
+    if( Health<HealMax ) {
+        gsPC= GSTPlayerController(Controller);
+        gsPC.statArray[gsPC.EStatKeys.HEALING_RECIEVED]+= HealAmount;
+        HealthToGive+=HealAmount;
+        lastHealTime = level.timeSeconds;
+        return true;
+    }
+    Return False;
+}
+
 simulated function ThrowGrenadeFinished() {
     super.ThrowGrenadeFinished();
     gsPC= GSTPlayerController(Controller);
