@@ -7,6 +7,8 @@ var automated moSlider sl_bgR, sl_bgG, sl_bgB, sl_txtR, sl_txtG, sl_txtB, sl_alp
 var() noexport bool bTeamGame;
 var() noexport transient int bgR, bgG, bgB, txtR, txtG, txtB, alpha;
 
+var string setProp, getProp;
+
 function ShowPanel(bool bShow) {
     local GSTPlayerController gsPC;
 
@@ -32,31 +34,31 @@ function InternalOnLoadINI(GUIComponent Sender, string s) {
     PC= PlayerOwner();
     switch (Sender) {
         case sl_bgR:
-            bgR= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut bgR "));
+            bgR= int(PC.ConsoleCommand(getProp$" bgR "));
             sl_bgR.SetComponentValue(bgR, true);
             break;
         case sl_bgG:
-            bgG= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut bgG "));
+            bgG= int(PC.ConsoleCommand(getProp$" bgG "));
             sl_bgG.SetComponentValue(bgG, true);
             break;
         case sl_bgB:
-            bgB= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut bgB "));
+            bgB= int(PC.ConsoleCommand(getProp$" bgB "));
             sl_bgB.SetComponentValue(bgB, true);
             break;
         case sl_txtR:
-            txtR= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut txtR "));
+            txtR= int(PC.ConsoleCommand(getProp$" txtR "));
             sl_txtR.SetComponentValue(txtR, true);
             break;
         case sl_txtG:
-            txtG= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut txtG "));
+            txtG= int(PC.ConsoleCommand(getProp$" txtG "));
             sl_txtG.SetComponentValue(txtG, true);
             break;
         case sl_txtB:
-            txtB= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut txtB "));
+            txtB= int(PC.ConsoleCommand(getProp$" txtB "));
             sl_txtB.SetComponentValue(txtB, true);
             break;
         case sl_alpha:
-            alpha= int(PC.ConsoleCommand("get GameStatsTab.GameStatsTabMut alpha "));
+            alpha= int(PC.ConsoleCommand(getProp$" alpha "));
             sl_alpha.SetComponentValue(alpha, true);
             break;
     }
@@ -69,43 +71,38 @@ function InternalOnChange(GUIComponent Sender) {
     switch (Sender) {
         case sl_bgR:
             bgR= sl_bgR.GetValue();
-            class'GameStatsTabMut'.default.bgR= bgR;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut bgR "$bgR);
+            PC.ConsoleCommand(setProp$" bgR "$bgR);
             break;
         case sl_bgG:
             bgG= sl_bgG.GetValue();
-            class'GameStatsTabMut'.default.bgG= bgG;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut bgG "$bgG);
+            PC.ConsoleCommand(setProp$" bgG "$bgG);
             break;
         case sl_bgB:
             bgB= sl_bgB.GetValue();
-            class'GameStatsTabMut'.default.bgB= bgB;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut bgB "$bgB);
+            PC.ConsoleCommand(setProp$" bgB "$bgB);
             break;
         case sl_txtR:
             txtR= sl_txtR.GetValue();
-            class'GameStatsTabMut'.default.txtR= txtR;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut txtR "$txtR);
+            PC.ConsoleCommand(setProp$" txtR "$txtR);
             break;
         case sl_txtG:
             txtG= sl_txtG.GetValue();
-            class'GameStatsTabMut'.default.txtG= txtG;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut txtG "$txtG);
+            PC.ConsoleCommand(setProp$" txtG "$txtG);
             break;
         case sl_txtB:
             txtB= sl_txtB.GetValue();
-            class'GameStatsTabMut'.default.txtB= txtB;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut txtB "$txtB);
+            PC.ConsoleCommand(setProp$" txtB "$txtB);
             break;
         case sl_alpha:
             alpha= sl_alpha.GetValue();
-            class'GameStatsTabMut'.default.alpha= alpha;
-            PC.ConsoleCommand("set GameStatsTab.GameStatsTabMut alpha "$alpha);
+            PC.ConsoleCommand(setProp$" alpha "$alpha);
             break;
     }
 }
 
 defaultproperties {
+    setProp= "set GameStatsTab.GSTStatList"
+    getProp= "get GameStatsTab.GSTStatList"
     Begin Object Class=GUISectionBackground Name=BGPerks
         bFillClient=True
         Caption="Stats"

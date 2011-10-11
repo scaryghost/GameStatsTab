@@ -5,10 +5,6 @@ struct oldNewZombiePair {
     var string newClass;
 };
 
-var int bgR, bgG, bgB;
-var int txtR, txtG, txtB;
-var int alpha;
-
 var array<oldNewZombiePair> replacementArray;
 
 function PostBeginPlay() {

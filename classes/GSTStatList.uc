@@ -1,4 +1,5 @@
-class GSTStatList extends GUIVertList;
+class GSTStatList extends GUIVertList
+    config;
 
 // Display
 var texture InfoBackground;
@@ -6,6 +7,10 @@ var texture InfoBackground;
 // State
 var localized array<string> statName;
 var array<int>  statValue;
+
+var() config int bgR, bgG, bgB;
+var() config int txtR, txtG, txtB;
+var() config int alpha;
 
 function bool PreDraw(Canvas Canvas) {
     return false;
@@ -68,18 +73,14 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
     // Initialize the Canvas
     Canvas.Style = 1;
     Canvas.Font = class'ROHUD'.Static.GetSmallerMenuFont(Canvas);
-    Canvas.SetDrawColor(class'GameStatsTabMut'.default.bgR, 
-            class'GameStatsTabMut'.default.bgG, class'GameStatsTabMut'.default.bgB, 
-            class'GameStatsTabMut'.default.alpha);
+    Canvas.SetDrawColor(bgR, bgG, bgB, alpha);
 
     // Draw Item Background
     Canvas.SetPos(TempX, TempY);
     Canvas.DrawTileStretched(InfoBackground, Width, Height);
 
     // Select Text Color
-    Canvas.SetDrawColor(class'GameStatsTabMut'.default.txtR, 
-            class'GameStatsTabMut'.default.txtG, class'GameStatsTabMut'.default.txtB, 
-            class'GameStatsTabMut'.default.alpha);
+    Canvas.SetDrawColor(txtR, txtG, txtB, alpha);
 
     // Draw the Perk's Level Name
     Canvas.TextSize(statName[CurIndex],TempWidth,TempHeight);
