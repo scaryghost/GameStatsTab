@@ -67,6 +67,63 @@ function bool GiveHealth(int HealAmount, int HealMax) {
     Return False;
 }
 
+/**
+ * Copied from KFPawn
+ */
+simulated function StartFiringX(bool bAltFire, bool bRapid) {
+    local name FireAnim;
+    local int AnimIndex;
+
+    if ( HasUDamage() && (Level.TimeSeconds - LastUDamageSoundTime > 0.25) ) {
+        LastUDamageSoundTime = Level.TimeSeconds;
+        PlaySound(UDamageSound, SLOT_None, 1.5*TransientSoundVolume,,700);
+    }
+
+    if (Physics == PHYS_Swimming)
+        return;
+
+    AnimIndex = Rand(4);
+
+    if (bAltFire) {
+        if( bIsCrouched ) {
+            FireAnim = FireCrouchAltAnims[AnimIndex];
+        }
+        else {
+            FireAnim = FireAltAnims[AnimIndex];
+        }
+    }
+    else {
+        if( bIsCrouched ) {
+            FireAnim = FireCrouchAnims[AnimIndex];
+        }
+        else {
+            FireAnim = FireAnims[AnimIndex];
+        }
+    }
+
+    AnimBlendParams(1, 1.0, 0.0, 0.2, FireRootBone);
+
+    if (bRapid) {
+        if (FireState != FS_Looping) {
+            LoopAnim(FireAnim,, 0.0, 1);
+            FireState = FS_Looping;
+        }
+    }
+    else {
+        PlayAnim(FireAnim,, 0.0, 1);
+        FireState = FS_PlayOnce;
+    }
+    gsPC= GSTPlayerController(Controller);
+    if (gsPC != none) {
+        if (KFMeleeGun(Weapon) != none) {
+            gsPC.statArray[gsPC.EStatKeys.MELEE_SWINGS]+= 1;
+        } else {
+            gsPC.statArray[gsPC.EStatKeys.ROUNDS_FIRED]+= 1;
+        }
+    }
+    IdleTime = Level.TimeSeconds;
+}
+
 simulated function ThrowGrenadeFinished() {
     super.ThrowGrenadeFinished();
     gsPC= GSTPlayerController(Controller);
