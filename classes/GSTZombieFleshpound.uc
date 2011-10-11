@@ -20,8 +20,17 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
  */
 function StartCharging() {
     super.StartCharging();
-    gsPC= GSTPlayerController(lastHitBy);
+
+    if(bFrustrated) {
+        gsPC= GSTFleshpoundZombieController(Controller).lastSeenPC;
+    } else {
+        gsPC= GSTPlayerController(lastHitBy);
+    }
     if (Health > 0 && gsPC != none) {
         gsPC.statArray[gsPC.EStatKeys.FLESHPOUNDS_RAGED]+= 1;
     }
+}
+
+defaultproperties {
+    ControllerClass=class'GameStatsTab.GSTFleshpoundZombieController'
 }
