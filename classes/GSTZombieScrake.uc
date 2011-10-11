@@ -3,15 +3,6 @@ class GSTZombieScrake extends ZombieScrake;
 var bool isRaging;
 var GSTPlayerController gsPC;
 
-function RemoveHead() {
-
-    super.RemoveHead();
-    gsPC= GSTPlayerController(lastHitBy);
-    if (gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
-    }
-}
-
 /**
  * Copied from ZombieScrake.TakeDamage
  */
@@ -36,6 +27,13 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
         gsPC.statArray[gsPC.EStatKeys.SCRAKES_RAGED]+= 1;
         isRaging= true;
+    }
+    if (bDecapitated) {
+        gsPC= GSTPlayerController(InstigatedBy.Controller);
+        if (gsPC != none) {
+            //RemoveHead makes another call to TakeDamage
+            gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 0.5;
+        }
     }
 	if ( Level.Game.GameDifficulty >= 5.0 && !IsInState('SawingLoop') && 
             !IsInState('RunningState') && float(Health) / HealthMax < 0.75 )

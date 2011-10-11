@@ -2,11 +2,15 @@ class GSTZombieGorefast extends ZombieGorefast;
 
 var GSTPlayerController gsPC;
 
-function RemoveHead() {
-    super.RemoveHead();
+function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
+        class<DamageType> damageType, optional int HitIndex) {
+    super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
 
-    gsPC= GSTPlayerController(lastHitBy);
-    if (gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+    if (bDecapitated) {
+        gsPC= GSTPlayerController(InstigatedBy.Controller);
+        if (gsPC != none) {
+            //RemoveHead makes another call to TakeDamage
+            gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 0.5;
+        }
     }
 }

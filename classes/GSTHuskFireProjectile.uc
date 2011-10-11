@@ -69,7 +69,7 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
 				    damageScale *= KFP.GetExposureTo(HitLocation);
                 }
                 if (humanVictim != none) {
-                    gsPC= GSTPlayerController(humanVictim.KFPC);
+                    gsPC= GSTPlayerController(humanVictim.Controller);
                     gsPC.statArray[gsPC.EStatKeys.SHOT_BY_HUSK]+= 1;
                 }
 
