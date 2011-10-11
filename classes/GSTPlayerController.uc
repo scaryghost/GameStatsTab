@@ -24,8 +24,8 @@ enum EStatKeys {
     SHOT_BY_HUSK
 };
 
-var array<string> descripArray[21];
 var array<float> statArray[21];
+var array<string> descripArray[ArrayCount(statArray)];
 var array<string> monsterIndexArray;
 
 replication {

@@ -12,18 +12,19 @@ var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
 var() config int alpha;
 
+const STAT_ARRAY_LENGTH= ArrayCount(class'GSTPlayerController'.default.statArray);
 function bool PreDraw(Canvas Canvas) {
     return false;
 }
 
-function InitList(array<string> descrip[21], array<float> stats[21]) {
+function InitList(array<string> descrip[STAT_ARRAY_LENGTH], array<float> stats[STAT_ARRAY_LENGTH]) {
     local int i;
     // Update the ItemCount and select the first item
-    itemCount= 21;
+    itemCount= STAT_ARRAY_LENGTH;
     SetIndex(0);
 
     statValue.Length= itemCount;
-    for(i= 0; i < 21; i++) {
+    for(i= 0; i < itemCount; i++) {
         statName[i]= descrip[i];
         statValue[i]= stats[i];
     }
