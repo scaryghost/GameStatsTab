@@ -64,14 +64,10 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
     }
 }
 
-simulated function PostNetReceive() {
-    log("GameStatsTabMut- update!");
-}
-
 defaultproperties {
-    GroupName= "KFGameStatsTab"
-    FriendlyName= "Detailed Stats Tab"
-    Description= "Displays detailed statistics about your current game"
+    GroupName="KFGameStatsTab"
+    FriendlyName="Game Stats Tab"
+    Description="Displays detailed statistics about your current game.  Version 1.0.0"
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab.GSTZombieFleshpound")
     replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab.GSTZombieGorefast")
