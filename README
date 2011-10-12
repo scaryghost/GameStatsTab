@@ -1,0 +1,22 @@
+Author:
+Scary Ghost
+
+Install:
+Copy the contents in the system folder to your Killing Floor system folder.
+
+About:
+The mutator will add a "Game Stats" tab to the mid game menu that will 
+display detailed statistics about your actions in the current game.  There 
+are sliders at the bottom of the table that allow you to configure the 
+background and text colors, the transparency of the panel, and the text 
+size.  Initially, the panel will be all black but the settings you pick 
+will stick.
+
+For more information about the mutator, please visit the mutator wiki given 
+in the below link.
+
+Wiki:
+https://github.com/scaryghost/GameStatsTab/wiki
+
+Download:
+http://dl.dropbox.com/u/16251678/GameStatsTab_v1.0.0.zip
