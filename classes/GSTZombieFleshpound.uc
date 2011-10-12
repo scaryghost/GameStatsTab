@@ -22,7 +22,7 @@ function StartCharging() {
     super.StartCharging();
 
     if(bFrustrated) {
-        gsPC= GSTFleshpoundZombieController(Controller).lastSeenPC;
+        gsPC= GSTPlayerController(GSTHumanPawn(GSTFleshpoundZombieController(Controller).Target).Controller);
     } else {
         gsPC= GSTPlayerController(lastHitBy);
     }

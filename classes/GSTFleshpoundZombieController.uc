@@ -1,28 +1,5 @@
 class GSTFleshpoundZombieController extends FleshpoundZombieController;
 
-var GSTPlayerController lastSeenPC;
-/**
- * Copied from FleshpoundZombieController
- */
-state ZombieHunt {
-    event SeePlayer(Pawn SeenPlayer) {
-        local GSTHumanPawn gstHP;
-        if ( !bDoneSpottedCheck && PlayerController(SeenPlayer.Controller) != none ) {
-            if ( !KFGameType(Level.Game).bDidSpottedFleshpoundMessage && FRand() < 0.25 ) {
-                PlayerController(SeenPlayer.Controller).Speech('AUTO', 12, "");
-                KFGameType(Level.Game).bDidSpottedFleshpoundMessage = true;
-            }
-
-            bDoneSpottedCheck = true;
-            gstHP= GSTHumanPawn(SeenPlayer);
-            if (gstHp != none && GSTPlayerController(gstHP.Controller) != none) {
-                lastSeenPC= GSTPlayerController(gstHP.Controller);
-            }
-        }
-        super(KFMonsterController).SeePlayer(SeenPlayer);
-    }
-}
-
 /**
  * Copied from FleshpoundZombieController but 
  * reorder how some code is executed in Tick
