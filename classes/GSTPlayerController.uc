@@ -15,6 +15,7 @@ enum EStatKeys {
     ROUNDS_FIRED,
     MELEE_SWINGS,
     FRAGS_TOSSED,
+    PIPES_SET,
     NUM_DECAPS,
     HEALING_RECIEVED,
     DAMAGE_TAKEN,
@@ -26,7 +27,7 @@ enum EStatKeys {
     SHOT_BY_HUSK
 };
 
-var array<float> statArray[23];
+var array<float> statArray[24];
 var array<string> descripArray[ArrayCount(statArray)];
 var array<string> monsterIndexArray;
 
@@ -88,13 +89,14 @@ defaultproperties {
     descripArray(11)="Rounds fired"
     descripArray(12)="Melee swings"
     descripArray(13)="Frags tossed"
-    descripArray(14)="Decapitations"
-    descripArray(15)="Total healing recieved"
-    descripArray(16)="Total damage taken"
-    descripArray(17)="Total shield lost"
-    descripArray(18)="Friendly fire damage"
-    descripArray(19)="Fleshpounds raged"
-    descripArray(20)="Scrakes raged"
-    descripArray(21)="Scrakes stunned"
-    descripArray(22)="Shot by husk"
+    descripArray(14)="Pipes set"
+    descripArray(15)="Decapitations"
+    descripArray(16)="Total healing recieved"
+    descripArray(17)="Total damage taken"
+    descripArray(18)="Total shield lost"
+    descripArray(19)="Friendly fire damage"
+    descripArray(20)="Fleshpounds raged"
+    descripArray(21)="Scrakes raged"
+    descripArray(22)="Scrakes stunned"
+    descripArray(23)="Shot by husk"
 }

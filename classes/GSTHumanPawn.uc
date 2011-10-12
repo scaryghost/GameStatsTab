@@ -117,6 +117,8 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
     if (gsPC != none) {
         if (KFMeleeGun(Weapon) != none) {
             gsPC.statArray[gsPC.EStatKeys.MELEE_SWINGS]+= 1;
+        } else if (PipeBombExplosive(Weapon) != none) {
+            gsPC.statArray[gsPC.EStatKeys.PIPES_SET]+= 1;
         } else {
             gsPC.statArray[gsPC.EStatKeys.ROUNDS_FIRED]+= 1;
         }
