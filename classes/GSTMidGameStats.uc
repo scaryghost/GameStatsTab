@@ -2,10 +2,12 @@ class GSTMidGameStats extends MidGamePanel;
 
 var automated GUISectionBackground i_BGPerks;
 var automated GSTStatListBox    lb_StatSelect;
-var automated moSlider sl_bgR, sl_bgG, sl_bgB, sl_txtR, sl_txtG, sl_txtB, sl_alpha;
+var automated moSlider sl_bgR, sl_bgG, sl_bgB, 
+        sl_txtR, sl_txtG, sl_txtB, sl_alpha, sl_txtScale;
 
 var() noexport bool bTeamGame;
 var() noexport transient int bgR, bgG, bgB, txtR, txtG, txtB, alpha;
+var() noexport float txtScale;
 
 var string setProp, getProp;
 
@@ -26,6 +28,7 @@ function ShowPanel(bool bShow) {
     EnableComponent(sl_txtG);
     EnableComponent(sl_txtB);
     EnableComponent(sl_alpha);
+    EnableComponent(sl_txtScale);
 }
 
 function InternalOnLoadINI(GUIComponent Sender, string s) {
@@ -60,6 +63,10 @@ function InternalOnLoadINI(GUIComponent Sender, string s) {
         case sl_alpha:
             alpha= int(PC.ConsoleCommand(getProp$" alpha "));
             sl_alpha.SetComponentValue(alpha, true);
+            break;
+        case sl_txtScale:
+            txtScale= float(PC.ConsoleCommand(getProp$" txtScale "));
+            sl_txtScale.SetComponentValue(txtScale, true);
             break;
     }
 }
@@ -97,6 +104,10 @@ function InternalOnChange(GUIComponent Sender) {
             alpha= sl_alpha.GetValue();
             PC.ConsoleCommand(setProp$" alpha "$alpha);
             break;
+        case sl_txtScale:
+            txtScale= sl_txtScale.GetValue();
+            PC.ConsoleCommand(setProp$" txtScale "$txtScale);
+            break;
     }
 }
 
@@ -131,7 +142,7 @@ defaultproperties {
         Caption="BG Red"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
-        IniDefault="255"
+        IniDefault="0"
         Hint="Adjust the red value of the stat background color"
         WinTop=0.85
         WinLeft=0.012188
@@ -150,7 +161,7 @@ defaultproperties {
         Caption="BG Green"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
-        IniDefault="255"
+        IniDefault="0"
         Hint="Adjust the green value of the stat background color"
         WinTop=0.875
         WinLeft=0.012188
@@ -169,7 +180,7 @@ defaultproperties {
         Caption="BG Blue"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
-        IniDefault="255"
+        IniDefault="0"
         Hint="Adjust the blue value of the stat background color"
         WinTop=0.90
         WinLeft=0.012188
@@ -247,12 +258,31 @@ defaultproperties {
         IniOption="@Internal"
         IniDefault="255"
         Hint="Adjust alpha of the stat panel"
-        WinTop=0.95
-        WinLeft=0.25
+        WinTop=0.925
+        WinLeft=0.012188
         WinWidth=0.461445
         TabOrder=2
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
     sl_alpha=moSlider'GameStatsTab.GSTMidGameStats.AlphaSlider'
+
+    Begin Object Class=moSlider Name=TextScale
+        MaxValue=1
+        MinValue=0
+        SliderCaptionStyleName=""
+        CaptionWidth=0.550000
+        Caption="Text Scale"
+        OnCreateComponent=TextRedSlider.InternalOnCreateComponent
+        IniOption="@Internal"
+        IniDefault="1"
+        Hint="Adjust text size of the stat panel"
+        WinTop=0.925
+        WinLeft=0.5
+        WinWidth=0.461445
+        TabOrder=2
+        OnChange=GSTMidGameStats.InternalOnChange
+        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+    End Object
+    sl_txtScale=moSlider'GameStatsTab.GSTMidGameStats.TextScale'
 }

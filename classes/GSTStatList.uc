@@ -11,8 +11,10 @@ var array<int>  statValue;
 var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
 var() config int alpha;
+var() config float txtScale;
 
 const STAT_ARRAY_LENGTH= ArrayCount(class'GSTPlayerController'.default.statArray);
+
 function bool PreDraw(Canvas Canvas) {
     return false;
 }
@@ -73,7 +75,9 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
     // Initialize the Canvas
     Canvas.Style = 1;
-    Canvas.Font = class'ROHUD'.Static.GetSmallerMenuFont(Canvas);
+    Canvas.Font = class'ROHUD'.Static.GetSmallMenuFont(Canvas);
+    Canvas.FontScaleX= Canvas.default.FontScaleX * txtScale;
+    Canvas.FontScaleY= Canvas.default.FontScaleY * txtScale;
     Canvas.SetDrawColor(bgR, bgG, bgB, alpha);
 
     // Draw Item Background
@@ -102,13 +106,13 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 }
 
 function float PerkHeight(Canvas c) {
-    return (MenuOwner.ActualHeight() / 14.0) - 1.0;
+    return ((MenuOwner.ActualHeight() / 14.0) - 1.0) * txtScale;
 }
 
 defaultproperties {
-     InfoBackground=Texture'KF_InterfaceArt_tex.Menu.Item_box_bar'
-     GetItemHeight=GSTStatList.PerkHeight
-     OnDrawItem=GSTStatList.DrawStat
-     FontScale=FNS_Medium
-     OnPreDraw=GSTStatList.PreDraw
+    InfoBackground=Texture'KF_InterfaceArt_tex.Menu.Item_box_bar'
+    GetItemHeight=GSTStatList.PerkHeight
+    OnDrawItem=GSTStatList.DrawStat
+    FontScale=FNS_Medium
+    OnPreDraw=GSTStatList.PreDraw
 }
