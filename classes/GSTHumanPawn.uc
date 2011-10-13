@@ -12,13 +12,13 @@ simulated function PostBeginPlay() {
 function timer() {
     local int currTimeStamp;
     super.Timer();
-    gsPC= GSTPlayerController(Controller);
 
+    gsPC= GSTPlayerController(Controller);
+    currTimeStamp= Level.GRI.ElapsedTime;
     if (gsPC != none && Health > 0) {
-        currTimeStamp= Level.GRI.ElapsedTime;
         gsPC.statArray[gsPC.EStatKeys.TIME_ALIVE]+= (currTimeStamp - prevTimeStamp);
-        prevTimeStamp= currTimeStamp;
     }
+    prevTimeStamp= currTimeStamp;
 }
 
 simulated function TakeDamage( int Damage, Pawn InstigatedBy, 
