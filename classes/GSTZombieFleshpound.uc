@@ -1,17 +1,15 @@
 class GSTZombieFleshPound extends ZombieFleshPound;
 
 var GSTPlayerController gsPC;
+var bool decapCounted;
 
 function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
         class<DamageType> damageType, optional int HitIndex) {
     super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
 
-    if (bDecapitated) {
-        gsPC= GSTPlayerController(InstigatedBy.Controller);
-        if (gsPC != none) {
-            //RemoveHead makes another call to TakeDamage
-            gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 0.5;
-        }
+    if (!decapCounted && bDecapitated && gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+        decapCounted= true;
     }
 }
 

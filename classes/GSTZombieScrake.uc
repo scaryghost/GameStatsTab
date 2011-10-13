@@ -2,6 +2,7 @@ class GSTZombieScrake extends ZombieScrake;
 
 var bool isRaging;
 var GSTPlayerController gsPC;
+var bool decapCounted;
 
 /**
  * Copied from ZombieScrake.TakeDamage
@@ -16,7 +17,8 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     kfhp= KFHumanPawn(InstigatedBy);
 
 	if ( Level.Game.GameDifficulty >= 5.0 && bIsHeadshot && 
-            (class<DamTypeCrossbow>(damageType) != none || class<DamTypeCrossbowHeadShot>(damageType) != none)) {
+            (class<DamTypeCrossbow>(damageType) != none || 
+            class<DamTypeCrossbowHeadShot>(damageType) != none)) {
 		Damage *= 0.5;
 	}
 
@@ -24,16 +26,15 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 
     hpRatio= float(Health)/HealthMax;
     gsPC= GSTPlayerController(lastHitBy);
-    if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
+    if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || 
+            Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
         gsPC.statArray[gsPC.EStatKeys.SCRAKES_RAGED]+= 1;
         isRaging= true;
     }
-    if (bDecapitated) {
-        gsPC= GSTPlayerController(InstigatedBy.Controller);
-        if (gsPC != none) {
-            //RemoveHead makes another call to TakeDamage
-            gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 0.5;
-        }
+    gsPC= GSTPlayerController(InstigatedBy.Controller);
+    if (!decapCounted && bDecapitated && gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+        decapCounted= true;
     }
 	if ( Level.Game.GameDifficulty >= 5.0 && !IsInState('SawingLoop') && 
             !IsInState('RunningState') && float(Health) / HealthMax < 0.75 )
