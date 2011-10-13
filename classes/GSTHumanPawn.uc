@@ -1,5 +1,6 @@
 class GSTHumanPawn extends KFHumanPawn;
 
+var int oldMagAmmo;
 var GSTPlayerController gsPC;
 
 function timer() {
@@ -67,63 +68,28 @@ function bool GiveHealth(int HealAmount, int HealMax) {
     Return False;
 }
 
-/**
- * Copied from KFPawn
- */
 simulated function StartFiringX(bool bAltFire, bool bRapid) {
-    local name FireAnim;
-    local int AnimIndex;
+    local int statArrayIndex;
+    local int bulletCount;
 
-    if ( HasUDamage() && (Level.TimeSeconds - LastUDamageSoundTime > 0.25) ) {
-        LastUDamageSoundTime = Level.TimeSeconds;
-        PlaySound(UDamageSound, SLOT_None, 1.5*TransientSoundVolume,,700);
-    }
+    super.StartFiringX(bAltFire, bRapid);    
 
-    if (Physics == PHYS_Swimming)
-        return;
-
-    AnimIndex = Rand(4);
-
-    if (bAltFire) {
-        if( bIsCrouched ) {
-            FireAnim = FireCrouchAltAnims[AnimIndex];
-        }
-        else {
-            FireAnim = FireAltAnims[AnimIndex];
-        }
-    }
-    else {
-        if( bIsCrouched ) {
-            FireAnim = FireCrouchAnims[AnimIndex];
-        }
-        else {
-            FireAnim = FireAnims[AnimIndex];
-        }
-    }
-
-    AnimBlendParams(1, 1.0, 0.0, 0.2, FireRootBone);
-
-    if (bRapid) {
-        if (FireState != FS_Looping) {
-            LoopAnim(FireAnim,, 0.0, 1);
-            FireState = FS_Looping;
-        }
-    }
-    else {
-        PlayAnim(FireAnim,, 0.0, 1);
-        FireState = FS_PlayOnce;
-    }
     gsPC= GSTPlayerController(Controller);
+    bulletCount= 1;
     if (gsPC != none) {
         if (KFMeleeGun(Weapon) != none) {
-            gsPC.statArray[gsPC.EStatKeys.MELEE_SWINGS]+= 1;
+            statArrayIndex= gsPC.EStatKeys.MELEE_SWINGS;
         } else if (PipeBombExplosive(Weapon) != none) {
-            gsPC.statArray[gsPC.EStatKeys.PIPES_SET]+= 1;
+            statArrayIndex= gsPC.EStatKeys.PIPES_SET;
         } else {
-            gsPC.statArray[gsPC.EStatKeys.ROUNDS_FIRED]+= 1;
+            if (BoomStick(Weapon) != none && bAltFire) {
+                bulletCount= (BoomStick(Weapon).MagAmmoRemaining+1) % 2 + 1;
+            }
+            statArrayIndex= gsPC.EStatKeys.ROUNDS_FIRED;
         }
+        gsPC.statArray[statArrayIndex]+= bulletCount;
     }
-    IdleTime = Level.TimeSeconds;
+
 }
 
 simulated function ThrowGrenadeFinished() {
