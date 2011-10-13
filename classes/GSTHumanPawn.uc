@@ -2,13 +2,22 @@ class GSTHumanPawn extends KFHumanPawn;
 
 var int oldMagAmmo;
 var GSTPlayerController gsPC;
+var int prevTimeStamp;
+
+simulated function PostBeginPlay() {
+    super.PostBeginPlay();
+    prevTimeStamp= Level.GRI.ElapsedTime;
+}
 
 function timer() {
+    local int currTimeStamp;
     super.Timer();
     gsPC= GSTPlayerController(Controller);
 
     if (gsPC != none && Health > 0) {
-        gsPC.statArray[gsPC.EStatKeys.TIME_ALIVE]+= 1.5;
+        currTimeStamp= Level.GRI.ElapsedTime;
+        gsPC.statArray[gsPC.EStatKeys.TIME_ALIVE]+= (currTimeStamp - prevTimeStamp);
+        prevTimeStamp= currTimeStamp;
     }
 }
 
