@@ -38,12 +38,12 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     friendPawn= KFHumanPawn(InstigatedBy);
     if (friendPawn != none && friendPawn != Self) {
         gsPC= GSTPlayerController(friendPawn.Controller);
-        gsPC.statArray[gsPC.EStatKeys.FF_DAMAGE_DEALT]+= fmin(oldHealth - Health, 100.0);
+        gsPC.statArray[gsPC.EStatKeys.FF_DAMAGE_DEALT]+= oldHealth - fmax(Health, 0.0);
     }
     gsPC= GSTPlayerController(Controller);
     if(gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.DAMAGE_TAKEN]+= (oldHealth - Health);
-        gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= (oldShield - ShieldStrength);
+        gsPC.statArray[gsPC.EStatKeys.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
+        gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
     }
 }
 
