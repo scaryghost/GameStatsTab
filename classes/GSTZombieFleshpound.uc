@@ -30,5 +30,5 @@ function StartCharging() {
 }
 
 defaultproperties {
-    ControllerClass=class'GameStatsTab.GSTFleshpoundZombieController'
+    ControllerClass=class'GameStatsTab_ServerPerks.GSTFleshpoundZombieController'
 }

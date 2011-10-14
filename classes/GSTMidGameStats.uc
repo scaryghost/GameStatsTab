@@ -112,8 +112,8 @@ function InternalOnChange(GUIComponent Sender) {
 }
 
 defaultproperties {
-    setProp= "set GameStatsTab.GSTStatList"
-    getProp= "get GameStatsTab.GSTStatList"
+    setProp= "set GameStatsTab_ServerPerks.GSTStatList"
+    getProp= "get GameStatsTab_ServerPerks.GSTStatList"
     Begin Object Class=GUISectionBackground Name=BGPerks
         bFillClient=True
         Caption="Stats"
@@ -123,7 +123,7 @@ defaultproperties {
         WinHeight=0.796032
         OnPreDraw=BGPerks.InternalPreDraw
     End Object
-    i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGameStats.BGPerks'
+    i_BGPerks=GUISectionBackground'GameStatsTab_ServerPerks.GSTMidGameStats.BGPerks'
 
     Begin Object Class=GSTStatListBox Name=StatSelectList
         OnCreateComponent=StatSelectList.InternalOnCreateComponent
@@ -132,7 +132,7 @@ defaultproperties {
         WinWidth=0.941520
         WinHeight=0.742836
     End Object
-    lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGameStats.StatSelectList'
+    lb_StatSelect=GSTStatListBox'GameStatsTab_ServerPerks.GSTMidGameStats.StatSelectList'
 
     Begin Object Class=moSlider Name=BackgroundRedSlider
         MaxValue=255
@@ -151,7 +151,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_bgR=moSlider'GameStatsTab.GSTMidGameStats.BackgroundRedSlider'
+    sl_bgR=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.BackgroundRedSlider'
 
     Begin Object Class=moSlider Name=BackgroundGreenSlider
         MaxValue=255
@@ -170,7 +170,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_bgG=moSlider'GameStatsTab.GSTMidGameStats.BackgroundGreenSlider'
+    sl_bgG=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.BackgroundGreenSlider'
 
     Begin Object Class=moSlider Name=BackgroundBlueSlider
         MaxValue=255
@@ -189,7 +189,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_bgB=moSlider'GameStatsTab.GSTMidGameStats.BackgroundBlueSlider'
+    sl_bgB=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.BackgroundBlueSlider'
 
     Begin Object Class=moSlider Name=TextRedSlider
         MaxValue=255
@@ -208,7 +208,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_txtR=moSlider'GameStatsTab.GSTMidGameStats.TextRedSlider'
+    sl_txtR=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.TextRedSlider'
 
     Begin Object Class=moSlider Name=TextGreenSlider
         MaxValue=255
@@ -227,7 +227,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_txtG=moSlider'GameStatsTab.GSTMidGameStats.TextGreenSlider'
+    sl_txtG=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.TextGreenSlider'
 
     Begin Object Class=moSlider Name=TextBlueSlider
         MaxValue=255
@@ -246,7 +246,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_txtB=moSlider'GameStatsTab.GSTMidGameStats.TextBlueSlider'
+    sl_txtB=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.TextBlueSlider'
 
     Begin Object Class=moSlider Name=AlphaSlider
         MaxValue=255
@@ -265,7 +265,7 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_alpha=moSlider'GameStatsTab.GSTMidGameStats.AlphaSlider'
+    sl_alpha=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.AlphaSlider'
 
     Begin Object Class=moSlider Name=TextScale
         MaxValue=1
@@ -284,5 +284,5 @@ defaultproperties {
         OnChange=GSTMidGameStats.InternalOnChange
         OnLoadINI=GSTMidGameStats.InternalOnLoadINI
     End Object
-    sl_txtScale=moSlider'GameStatsTab.GSTMidGameStats.TextScale'
+    sl_txtScale=moSlider'GameStatsTab_ServerPerks.GSTMidGameStats.TextScale'
 }

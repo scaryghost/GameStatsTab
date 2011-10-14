@@ -1,4 +1,4 @@
-class GSTPlayerController extends KFPlayerController;
+class GSTPlayerController extends KFPCServ;
 
 enum EStatKeys {
     TIME_ALIVE,
@@ -50,7 +50,7 @@ function addKill(KFMonster victim) {
 }
 
 function SetPawnClass(string inClass, string inCharacter) {
-    PawnClass = Class'GameStatsTab.GSTHumanPawn';
+    PawnClass = Class'GameStatsTab_ServerPerks.GSTHumanPawn';
     inCharacter = Class'KFGameType'.Static.GetValidCharacter(inCharacter);
     PawnSetupRecord = class'xUtil'.static.FindPlayerRecord(inCharacter);
     PlayerReplicationInfo.SetCharacterName(inCharacter);

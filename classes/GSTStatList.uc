@@ -13,7 +13,7 @@ var() config int txtR, txtG, txtB;
 var() config int alpha;
 var() config float txtScale;
 
-const STAT_ARRAY_LENGTH= ArrayCount(class'GameStatsTab.GSTPlayerController'.default.statArray);
+const STAT_ARRAY_LENGTH= ArrayCount(class'GameStatsTab_ServerPerks.GSTPlayerController'.default.statArray);
 
 function bool PreDraw(Canvas Canvas) {
     return false;
@@ -24,7 +24,7 @@ function InitList(array<string> descrip[STAT_ARRAY_LENGTH], array<float> stats[S
     // Update the ItemCount and select the first item
     itemCount= STAT_ARRAY_LENGTH;
     SetIndex(0);
-
+    log("GSTStatList-"$STAT_ARRAY_LENGTH);
     statValue.Length= itemCount;
     for(i= 0; i < itemCount; i++) {
         statName[i]= descrip[i];

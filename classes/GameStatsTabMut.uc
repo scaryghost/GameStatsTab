@@ -18,13 +18,13 @@ function PostBeginPlay() {
         return;
     }
 
-    Spawn(class'GameStatsTab.GSTGameRules');
-    AddToPackageMap("GameStatsTab");
+    Spawn(class'GameStatsTab_ServerPerks.GSTGameRules');
+    AddToPackageMap("GameStatsTab_ServerPerks");
     DeathMatch(Level.Game).LoginMenuClass = 
-            string(Class'GameStatsTab.GSTInvasionLoginMenu');
+            string(Class'GameStatsTab_ServerPerks.GSTInvasionLoginMenu');
 
-    gameType.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
-    gameType.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
+    gameType.PlayerControllerClass= class'GameStatsTab_ServerPerks.GSTPlayerController';
+    gameType.PlayerControllerClassName= "GameStatsTab_ServerPerks.GSTPlayerController";
 
     //Replace all instances of the old specimens with the new ones 
     for( i=0; i<gameType.StandardMonsterClasses.Length; i++) {
@@ -43,7 +43,7 @@ function PostBeginPlay() {
     replaceSpecialSquad(gameType.LongSpecialSquads);
     replaceSpecialSquad(gameType.FinalSquads);
 
-    gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
+    gameType.FallbackMonsterClass= "GameStatsTab_ServerPerks.GSTZombieStalker";
 }
 
 /**
@@ -66,16 +66,16 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 
 defaultproperties {
     GroupName="KFGameStatsTab"
-    FriendlyName="Game Stats Tab"
-    Description="Displays detailed statistics about your game.  Version 1.0.0"
+    FriendlyName="SR.Game Stats Tab"
+    Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.0.0"
 
-    replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab.GSTZombieFleshpound")
-    replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab.GSTZombieGorefast")
-    replacementArray(2)=(oldClass="KFChar.ZombieStalker",newClass="GameStatsTab.GSTZombieStalker")
-    replacementArray(3)=(oldClass="KFChar.ZombieSiren",newClass="GameStatsTab.GSTZombieSiren")
-    replacementArray(4)=(oldClass="KFChar.ZombieScrake",newClass="GameStatsTab.GSTZombieScrake")
-    replacementArray(5)=(oldClass="KFChar.ZombieHusk",newClass="GameStatsTab.GSTZombieHusk")
-    replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab.GSTZombieCrawler")
-    replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab.GSTZombieBloat")
-    replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab.GSTZombieClot")
+    replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab_ServerPerks.GSTZombieFleshpound")
+    replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab_ServerPerks.GSTZombieGorefast")
+    replacementArray(2)=(oldClass="KFChar.ZombieStalker",newClass="GameStatsTab_ServerPerks.GSTZombieStalker")
+    replacementArray(3)=(oldClass="KFChar.ZombieSiren",newClass="GameStatsTab_ServerPerks.GSTZombieSiren")
+    replacementArray(4)=(oldClass="KFChar.ZombieScrake",newClass="GameStatsTab_ServerPerks.GSTZombieScrake")
+    replacementArray(5)=(oldClass="KFChar.ZombieHusk",newClass="GameStatsTab_ServerPerks.GSTZombieHusk")
+    replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab_ServerPerks.GSTZombieCrawler")
+    replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab_ServerPerks.GSTZombieBloat")
+    replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab_ServerPerks.GSTZombieClot")
 }

@@ -31,7 +31,7 @@ function SpawnTwoShots() {
 	FireStart = GetBoneCoords('Barrel').Origin;
 	if ( !SavedFireProperties.bInitialized ) {
 		SavedFireProperties.AmmoClass = Class'SkaarjAmmo';
-		SavedFireProperties.ProjectileClass = Class'GameStatsTab.GSTHuskFireProjectile';
+		SavedFireProperties.ProjectileClass = Class'GameStatsTab_ServerPerks.GSTHuskFireProjectile';
 		SavedFireProperties.WarnTargetPct = 1;
 		SavedFireProperties.MaxRange = 65535;
 		SavedFireProperties.bTossed = False;
@@ -54,7 +54,7 @@ function SpawnTwoShots() {
         }
 	}
 
-    Spawn(Class'GameStatsTab.GSTHuskFireProjectile',,,FireStart,FireRotation);
+    Spawn(Class'GameStatsTab_ServerPerks.GSTHuskFireProjectile',,,FireStart,FireRotation);
 
 	// Turn extra collision back on
 	ToggleAuxCollision(true);

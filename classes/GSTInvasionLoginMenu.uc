@@ -1,4 +1,4 @@
-class GSTInvasionLoginMenu extends KFInvasionLoginMenu;
+class GSTInvasionLoginMenu extends SRInvasionLoginMenu;
 
 // We want to get ride of this menu!
 function bool NotifyLevelChange() { 
@@ -13,5 +13,5 @@ function InitComponent(GUIController MyController, GUIComponent MyComponent) {
 }
 
 defaultproperties {
-    Panels(4)=(ClassName="GameStatsTab.GSTMidGameStats",Caption="Game Stats",Hint="View stats about your current game")
+    Panels(5)=(ClassName="GameStatsTab_ServerPerks.GSTMidGameStats",Caption="Game Stats",Hint="View stats about your current game")
 }
