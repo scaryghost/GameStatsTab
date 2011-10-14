@@ -48,33 +48,40 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
 }
 
 /**
- * Copied from KFHumanPawn
+ * Copied from KFPawn.TakeBileDamage()
+ * Had to inject stats tracking code here because the original
+ * function uses xPawn.TakeDamage to prevent resetting the bile timer
  */
-function bool GiveHealth(int HealAmount, int HealMax) {
-    if( BurnDown > 0 ) {
-        if( BurnDown > 1 ) {
-            BurnDown *= 0.5;
-        }
+function TakeBileDamage() {
+    local float oldHealth;
+    local float oldShield;
 
-        LastBurnDamage *= 0.5;
+    gsPC= GSTPlayerController(Controller);
+
+    oldHealth= Health;
+    gsPC.prevHealth= oldHealth;
+    oldShield= ShieldStrength;
+    gsPC.prevShield= oldShield;
+
+    Super(xPawn).TakeDamage(2+Rand(3), BileInstigator, Location, vect(0,0,0), class'DamTypeVomit');
+	healthtoGive-=5;
+
+    if(gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
+        gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
     }
+}
 
-    if( (healAmount + HealthToGive + Health) > HealthMax) {
-        healAmount = HealthMax - (Health + HealthToGive);
+simulated function addHealth() {
+    local float oldHealth;
+    
+    oldHealth= Health;
+    super.addHealth();
 
-        if( healAmount == 0 ) {
-            return false;
-        }
+    gsPC= GSTPlayerController(Controller);
+    if (gsPC != none) {
+        gsPC.statArray[gsPC.EStatKeys.HEALING_RECIEVED]+= (Health - OldHealth);
     }
-
-    if( Health<HealMax ) {
-        gsPC= GSTPlayerController(Controller);
-        gsPC.statArray[gsPC.EStatKeys.HEALING_RECIEVED]+= HealAmount;
-        HealthToGive+=HealAmount;
-        lastHealTime = level.timeSeconds;
-        return true;
-    }
-    Return False;
 }
 
 simulated function StartFiringX(bool bAltFire, bool bRapid) {
