@@ -13,7 +13,7 @@ var() config int txtR, txtG, txtB;
 var() config int alpha;
 var() config float txtScale;
 
-const STAT_ARRAY_LENGTH= ArrayCount(class'GSTPlayerController'.default.statArray);
+const STAT_ARRAY_LENGTH= ArrayCount(class'GameStatsTab.GSTPlayerController'.default.statArray);
 
 function bool PreDraw(Canvas Canvas) {
     return false;

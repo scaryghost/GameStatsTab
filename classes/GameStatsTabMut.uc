@@ -18,10 +18,10 @@ function PostBeginPlay() {
         return;
     }
 
-    Spawn(class'GSTGameRules');
+    Spawn(class'GameStatsTab.GSTGameRules');
     AddToPackageMap("GameStatsTab");
     DeathMatch(Level.Game).LoginMenuClass = 
-            string(Class'GSTInvasionLoginMenu');
+            string(Class'GameStatsTab.GSTInvasionLoginMenu');
 
     gameType.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
     gameType.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
