@@ -15,6 +15,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 
 	bIsHeadShot = IsHeadShot(Hitlocation, normal(Momentum), 1.0);
     kfhp= KFHumanPawn(InstigatedBy);
+    gsPC= GSTPlayerController(InstigatedBy.Controller);
 
 	if ( Level.Game.GameDifficulty >= 5.0 && bIsHeadshot && 
             (class<DamTypeCrossbow>(damageType) != none || 
@@ -25,13 +26,11 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 	Super(KFMonster).takeDamage(Damage, instigatedBy, hitLocation, momentum, damageType, HitIndex);
 
     hpRatio= float(Health)/HealthMax;
-    gsPC= GSTPlayerController(lastHitBy);
     if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || 
             Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
         gsPC.statArray[gsPC.EStatKeys.SCRAKES_RAGED]+= 1;
         isRaging= true;
     }
-    gsPC= GSTPlayerController(InstigatedBy.Controller);
     if (!decapCounted && bDecapitated && gsPC != none) {
         gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
         decapCounted= true;
@@ -42,7 +41,6 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 }
 
 function bool FlipOver() {
-    gsPC= GSTPlayerController(lastHitBy);
     if (Health > 0 && gsPC != none) {
         gsPC.statArray[gsPC.EStatKeys.SCRAKES_STUNNED]+= 1;
     }
