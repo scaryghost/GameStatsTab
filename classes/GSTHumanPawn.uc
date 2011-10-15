@@ -1,6 +1,5 @@
 class GSTHumanPawn extends KFHumanPawn;
 
-var int oldMagAmmo;
 var GSTPlayerController gsPC;
 var int prevTimeStamp;
 
@@ -108,9 +107,12 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
 
 }
 
-simulated function ThrowGrenadeFinished() {
-    super.ThrowGrenadeFinished();
+
+function addFragToss() {
     gsPC= GSTPlayerController(Controller);
-    gsPC.statArray[gsPC.EStatKeys.FRAGS_TOSSED]+= 1 ;
+    gsPC.statArray[gsPC.EStatKeys.FRAGS_TOSSED]+= 1;
 }
 
+defaultproperties {
+    RequiredEquipment(2)= "GameStatsTab.GSTFrag"
+}
