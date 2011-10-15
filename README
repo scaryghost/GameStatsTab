@@ -4,13 +4,22 @@ Scary Ghost
 Install:
 Copy the contents in the system folder to your Killing Floor system folder.
 
+Usage:
+It is important that this mutator is execute after ServerPerks.  If you 
+are loading the mutator through WebAdmin or from the KF Main menu, you 
+should be ok.  If you are booting the server through a script, make sure 
+the mutator parameters puts ServerPerksV4 first!!!!
+
+mutator=ServerPerksV4.ServerPerksMut,GameStatsTab_ServerPerks.GameStatsTabMut
+
+
 About:
 The mutator will add a "Game Stats" tab to the mid game menu that will 
 display detailed statistics about your actions in the current game.  There 
 are sliders at the bottom of the table that allow you to configure the 
 background and text colors, the transparency of the panel, and the text 
 size.  Initially, the panel will be all black but the settings you pick 
-will stick.
+will stick.  This version of the mutator is compatible with ServerPerks.
 
 For more information about the mutator, please visit the mutator wiki given 
 in the below link.
@@ -19,4 +28,4 @@ Wiki:
 https://github.com/scaryghost/GameStatsTab/wiki
 
 Download:
-http://dl.dropbox.com/u/16251678/GameStatsTab_v1.0.0.zip
+http://dl.dropbox.com/u/16251678/GameStatsTab_v1.0.0sr.zip
