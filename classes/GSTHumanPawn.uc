@@ -114,5 +114,5 @@ function addFragToss() {
 }
 
 defaultproperties {
-    RequiredEquipment(2)= "GameStatsTab.GSTFrag"
+    RequiredEquipment(2)= "GameStatsTab_ServerPerks.GSTFrag"
 }
