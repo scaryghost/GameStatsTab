@@ -38,6 +38,39 @@ replication {
         statArray;
 }
 
+simulated function PostBeginPlay() {
+    super.PostBeginPlay();
+
+    /**
+     * Should be handled in the defaultproperties but the compiler
+     * thinks all enum values are 0 at compile time and flags an error
+     */
+    descripArray[EStatKeys.TIME_ALIVE]="Time alive";
+    descripArray[EStatKeys.CRAWLER_KILLS]="Crawler kills";
+    descripArray[EStatKeys.STALKER_KILLS]="Stalker kills";
+    descripArray[EStatKeys.CLOT_KILLS]="Clot kills";
+    descripArray[EStatKeys.GOREFAST_KILLS]="Gorefast kills";
+    descripArray[EStatKeys.BLOAT_KILLS]="Bloat kills";
+    descripArray[EStatKeys.SIREN_KILLS]="Siren kills";
+    descripArray[EStatKeys.HUSK_KILLS]="Husk kills";
+    descripArray[EStatKeys.SCRAKE_KILLS]="Scrake kills";
+    descripArray[EStatKeys.FLESHPOUND_KILLS]="Fleshpound kills";
+    descripArray[EStatKeys.PATRIARCH_KILLS]="Patriarch kills";
+    descripArray[EStatKeys.ROUNDS_FIRED]="Rounds fired";
+    descripArray[EStatKeys.MELEE_SWINGS]="Melee swings";
+    descripArray[EStatKeys.FRAGS_TOSSED]="Frags tossed";
+    descripArray[EStatKeys.PIPES_SET]="Pipes set";
+    descripArray[EStatKeys.NUM_DECAPS]="Decapitations";
+    descripArray[EStatKeys.HEALING_RECIEVED]="Total healing received";
+    descripArray[EStatKeys.DAMAGE_TAKEN]="Total damage taken";
+    descripArray[EStatKeys.SHIELD_LOST]="Total shield lost";
+    descripArray[EStatKeys.FF_DAMAGE_DEALT]="Friendly fire damage";
+    descripArray[EStatKeys.FLESHPOUNDS_RAGED]="Enraged a fleshpound";
+    descripArray[EStatKeys.SCRAKES_RAGED]="Enraged a scrake";
+    descripArray[EStatKeys.SCRAKES_STUNNED]="Stunned a scrake";
+    descripArray[EStatKeys.SHOT_BY_HUSK]="Shot by husk";
+}
+
 function addKill(KFMonster victim) {
     local int i;
    
@@ -75,28 +108,4 @@ defaultproperties {
     monsterIndexArray(8)="ZombieFleshpound"
     monsterIndexArray(9)="ZombieBoss"
 
-    descripArray(0)="Time alive"
-    descripArray(1)="Crawler kills"
-    descripArray(2)="Stalker kills"
-    descripArray(3)="Clot kills"
-    descripArray(4)="Gorefast kills"
-    descripArray(5)="Bloat kills"
-    descripArray(6)="Siren kills"
-    descripArray(7)="Husk kills"
-    descripArray(8)="Scrake kills"
-    descripArray(9)="Fleshpound kills"
-    descripArray(10)="Patriarch kills"
-    descripArray(11)="Rounds fired"
-    descripArray(12)="Melee swings"
-    descripArray(13)="Frags tossed"
-    descripArray(14)="Pipes set"
-    descripArray(15)="Decapitations"
-    descripArray(16)="Total healing received"
-    descripArray(17)="Total damage taken"
-    descripArray(18)="Total shield lost"
-    descripArray(19)="Friendly fire damage"
-    descripArray(20)="Enraged a fleshpound"
-    descripArray(21)="Enraged a scrake"
-    descripArray(22)="Stunned a scrake"
-    descripArray(23)="Shot by husk"
 }
