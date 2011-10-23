@@ -28,11 +28,11 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     hpRatio= float(Health)/HealthMax;
     if (!isRaging && kfhp != none && (Level.Game.GameDifficulty >= 5.0 && hpRatio < 0.75 || 
             Level.Game.GameDifficulty < 5.0 && hpRatio < 0.5)) {
-        gsPC.statArray[gsPC.EStatKeys.SCRAKES_RAGED]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.SCRAKES_RAGED,1);
         isRaging= true;
     }
     if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS,1);
         decapCounted= true;
     }
 	if ( Level.Game.GameDifficulty >= 5.0 && !IsInState('SawingLoop') && 
@@ -42,7 +42,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 
 function bool FlipOver() {
     if (Health > 0 && gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.SCRAKES_STUNNED]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.SCRAKES_STUNNED,1);
     }
 
     return super.FlipOver();

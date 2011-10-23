@@ -9,7 +9,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 
     gsPC= GSTPlayerController(InstigatedBy.Controller);
     if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS,1);
         decapCounted= true;
     }
 }
@@ -26,7 +26,7 @@ function StartCharging() {
         gsPC= GSTPlayerController(lastHitBy);
     }
     if (Health > 0 && gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.FLESHPOUNDS_RAGED]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.FLESHPOUNDS_RAGED,1);
     }
 }
 

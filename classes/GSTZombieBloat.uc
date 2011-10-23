@@ -9,7 +9,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 
     gsPC= GSTPlayerController(InstigatedBy.Controller);
     if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS,1);
         decapCounted= true;
     }
 }

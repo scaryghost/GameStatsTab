@@ -15,7 +15,7 @@ function timer() {
     gsPC= GSTPlayerController(Controller);
     currTimeStamp= Level.GRI.ElapsedTime;
     if (gsPC != none && Health > 0) {
-        gsPC.statArray[gsPC.EStatKeys.TIME_ALIVE]+= (currTimeStamp - prevTimeStamp);
+        gsPC.incrementStat(gsPC.EStatKeys.TIME_ALIVE, currTimeStamp - prevTimeStamp);
     }
     prevTimeStamp= currTimeStamp;
 }
@@ -37,12 +37,12 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     friendPawn= KFHumanPawn(InstigatedBy);
     if (friendPawn != none && friendPawn != Self) {
         gsPC= GSTPlayerController(friendPawn.Controller);
-        gsPC.statArray[gsPC.EStatKeys.FF_DAMAGE_DEALT]+= oldHealth - fmax(Health, 0.0);
+        gsPC.incrementStat(gsPC.EStatKeys.FF_DAMAGE_DEALT, oldHealth - fmax(Health, 0.0));
     }
     gsPC= GSTPlayerController(Controller);
     if(gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
-        gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
+        gsPC.incrementStat(gsPC.EStatKeys.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
+        gsPC.incrementStat(gsPC.EStatKeys.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
     }
 }
 
@@ -66,8 +66,8 @@ function TakeBileDamage() {
 	healthtoGive-=5;
 
     if(gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
-        gsPC.statArray[gsPC.EStatKeys.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
+        gsPC.incrementStat(gsPC.EStatKeys.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
+        gsPC.incrementStat(gsPC.EStatKeys.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
     }
 }
 
@@ -79,7 +79,7 @@ simulated function addHealth() {
 
     gsPC= GSTPlayerController(Controller);
     if (gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.HEALING_RECIEVED]+= (Health - OldHealth);
+        gsPC.incrementStat(gsPC.EStatKeys.HEALING_RECIEVED, Health - OldHealth);
     }
 }
 
@@ -102,7 +102,7 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
             }
             statArrayIndex= gsPC.EStatKeys.ROUNDS_FIRED;
         }
-        gsPC.statArray[statArrayIndex]+= bulletCount;
+        gsPC.incrementStat(statArrayIndex, bulletCount);
     }
 
 }
@@ -110,7 +110,7 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
 
 function addFragToss() {
     gsPC= GSTPlayerController(Controller);
-    gsPC.statArray[gsPC.EStatKeys.FRAGS_TOSSED]+= 1;
+    gsPC.incrementStat(gsPC.EStatKeys.FRAGS_TOSSED, 1);
 }
 
 defaultproperties {

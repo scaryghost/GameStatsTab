@@ -27,7 +27,7 @@ enum EStatKeys {
     SHOT_BY_HUSK
 };
 
-var array<float> statArray[24];
+var protected array<float> statArray[24];
 var array<string> descripArray[ArrayCount(statArray)];
 var array<string> monsterIndexArray;
 
@@ -71,7 +71,11 @@ simulated function PostBeginPlay() {
     descripArray[EStatKeys.SHOT_BY_HUSK]="Shot by husk";
 }
 
-function addKill(KFMonster victim) {
+function incrementStat(byte statKey, float value) {
+    statArray[statKey]+= value;
+}
+
+function addKillCount(KFMonster victim) {
     local int i;
    
     for(i= 0; i < monsterIndexArray.Length; i++) {
@@ -80,6 +84,10 @@ function addKill(KFMonster victim) {
             break;
         }
     }
+}
+
+function float getStatValue(byte statKey) {
+    return statArray[statKey];
 }
 
 function SetPawnClass(string inClass, string inCharacter) {
@@ -107,5 +115,4 @@ defaultproperties {
     monsterIndexArray(7)="ZombieScrake"
     monsterIndexArray(8)="ZombieFleshpound"
     monsterIndexArray(9)="ZombieBoss"
-
 }

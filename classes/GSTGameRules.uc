@@ -12,7 +12,7 @@ function ScoreKill(Controller Killer, Controller Killed) {
     
     gameStatsTabPC= GSTPlayerController(killer);
     if(gameStatsTabPC != none) {
-        gameStatsTabPC.addKill(KFMonster(Killed.pawn));
+        gameStatsTabPC.addKillCount(KFMonster(Killed.pawn));
     }
 
 }
