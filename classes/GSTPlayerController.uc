@@ -13,6 +13,10 @@ enum EStatKeys {
     FLESHPOUND_KILLS,
     PATRIARCH_KILLS,
     ROUNDS_FIRED,
+    GRENADES_LAUNCHED,
+    ROCKETS_LAUNCHED,
+    SHELLS_FIRED,
+    UNITS_FUEL,
     MELEE_SWINGS,
     FRAGS_TOSSED,
     PIPES_SET,
@@ -69,6 +73,10 @@ simulated function PostBeginPlay() {
     descripArray[EStatKeys.SCRAKES_RAGED]="Enraged a scrake";
     descripArray[EStatKeys.SCRAKES_STUNNED]="Stunned a scrake";
     descripArray[EStatKeys.SHOT_BY_HUSK]="Shot by husk";
+    descripArray[EStatKeys.UNITS_FUEL]="Units of fuel consumed";
+    descripArray[EStatKeys.SHELLS_FIRED]="Shells fired";
+    descripArray[EStatKeys.GRENADES_LAUNCHED]="Grenades launched";
+    descripArray[EStatKeys.ROCKETS_LAUNCHED]="Rockets launched";
 }
 
 function incrementStat(byte statKey, float value) {

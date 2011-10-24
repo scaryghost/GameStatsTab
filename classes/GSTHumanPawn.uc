@@ -96,10 +96,18 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
             statArrayIndex= gsPC.EStatKeys.MELEE_SWINGS;
         } else if (PipeBombExplosive(Weapon) != none) {
             statArrayIndex= gsPC.EStatKeys.PIPES_SET;
-        } else {
+        } else if (FlameThrower(Weapon) != none) {
+            statArrayIndex= gsPC.EStatKeys.UNITS_FUEL;
+        } else if (AA12AutoShotgun(Weapon) != none || BoomStick(Weapon) != none || Shotgun(Weapon) != none) {
+            statArrayIndex= gsPC.EStatKeys.SHELLS_FIRED;
             if (BoomStick(Weapon) != none && bAltFire) {
                 bulletCount= (BoomStick(Weapon).MagAmmoRemaining+1) % 2 + 1;
             }
+        } else if (M32GrenadeLauncher(Weapon) != none || M79GrenadeLauncher(Weapon) != none) {
+            statArrayIndex= gsPC.EStatKeys.GRENADES_LAUNCHED;
+        } else if (LAW(Weapon) != none) {
+            statArrayIndex= gsPC.EStatKeys.ROCKETS_LAUNCHED;
+        } else {
             statArrayIndex= gsPC.EStatKeys.ROUNDS_FIRED;
         }
         gsPC.incrementStat(statArrayIndex, bulletCount);
