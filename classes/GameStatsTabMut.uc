@@ -43,6 +43,7 @@ function PostBeginPlay() {
     replaceSpecialSquad(gameType.LongSpecialSquads);
     replaceSpecialSquad(gameType.FinalSquads);
 
+    gameType.EndGameBossClass= "GameStatsTab.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
 }
 

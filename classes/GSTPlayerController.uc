@@ -18,6 +18,7 @@ enum EStatKeys {
     SHELLS_FIRED,
     UNITS_FUEL,
     MELEE_SWINGS,
+    BACKSTABS,
     FRAGS_TOSSED,
     PIPES_SET,
     NUM_DECAPS,
@@ -77,6 +78,7 @@ simulated function PostBeginPlay() {
     descripArray[EStatKeys.SHELLS_FIRED]="Shells fired";
     descripArray[EStatKeys.GRENADES_LAUNCHED]="Grenades launched";
     descripArray[EStatKeys.ROCKETS_LAUNCHED]="Rockets launched";
+    descripArray[EStatKeys.BACKSTABS]="Backstabs hit";
 }
 
 function incrementStat(byte statKey, float value) {

@@ -22,6 +22,9 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
             class<DamTypeCrossbowHeadShot>(damageType) != none)) {
 		Damage *= 0.5;
 	}
+    if (bBackstabbed) {
+        gsPC.incrementStat(gsPC.EStatKeys.BACKSTABS, 1);
+    }
 
 	Super(KFMonster).takeDamage(Damage, instigatedBy, hitLocation, momentum, damageType, HitIndex);
 

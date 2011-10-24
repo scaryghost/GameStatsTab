@@ -1,7 +1,4 @@
-class GSTZombieClot extends ZombieClot;
-
-var GSTPlayerController gsPC;
-var bool decapCounted;
+class GSTZombieBoss extends ZombieBoss;
 
 function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
         class<DamageType> damageType, optional int HitIndex) {
@@ -11,9 +8,4 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     }
 
     super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
-
-    if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS,1);
-        decapCounted= true;
-    }
 }
