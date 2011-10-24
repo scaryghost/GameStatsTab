@@ -47,6 +47,35 @@ function PostBeginPlay() {
     gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
 }
 
+/*
+function timer() {
+    local Controller C;
+
+    for (C = Level.ControllerList; C != None; C = C.NextController) {
+        if (PlayerController(C) != None) {
+            PlayerController(C).ClientMessage(msg);
+        }
+    }
+}
+*/
+function Mutate(string command, PlayerController sender) {
+    local Controller C;
+    local PlayerController pc;
+    local int index;
+
+    switch(command) {
+        case "list":
+            index= 0;
+            for (C = Level.ControllerList; C != None; C = C.NextController) {
+                pc= PlayerController(C);
+                if (pc != None) {
+                    pc.ClientMessage("["$index$"] "$pc.PlayerReplicationInfo.PlayerName);
+                }
+            }
+            break;
+    }
+}
+
 /**
  *  Replaces the zombies in the given squadArray
  */
