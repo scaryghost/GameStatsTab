@@ -32,7 +32,7 @@ enum EStatKeys {
     SHOT_BY_HUSK
 };
 
-var protected array<float> statArray[24];
+var protected array<float> statArray[29];
 var array<string> descripArray[ArrayCount(statArray)];
 var array<string> monsterIndexArray;
 
