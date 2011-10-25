@@ -62,16 +62,15 @@ function Mutate(string command, PlayerController sender) {
     local Controller C;
     local PlayerController pc;
     local int index;
+    local array<string> params;
+    local string func;
 
-    switch(command) {
+    Split(command, " ", params);
+    func= params[0];
+    params.Remove(0,1);
+    switch(func) {
         case "list":
-            index= 0;
-            for (C = Level.ControllerList; C != None; C = C.NextController) {
-                pc= PlayerController(C);
-                if (pc != None) {
-                    sender.Player.Console.Message("["$index$"] "$pc.PlayerReplicationInfo.PlayerName, 6.0);
-                }
-            }
+            class'GameStatsTab.GSTConsoleCommands'.static.listInfo(params, Level.ControllerList, sender);
             break;
         default:
             super.Mutate(command, sender);
