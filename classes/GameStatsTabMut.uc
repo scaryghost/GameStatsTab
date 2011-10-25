@@ -69,7 +69,7 @@ function Mutate(string command, PlayerController sender) {
             for (C = Level.ControllerList; C != None; C = C.NextController) {
                 pc= PlayerController(C);
                 if (pc != None) {
-                    sender.ClientMessage("["$index$"] "$pc.PlayerReplicationInfo.PlayerName);
+                    sender.Player.Console.Message("["$index$"] "$pc.PlayerReplicationInfo.PlayerName, 6.0);
                 }
             }
             break;
