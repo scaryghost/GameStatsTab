@@ -59,26 +59,27 @@ function timer() {
 }
 */
 function Mutate(string command, PlayerController sender) {
-    local Controller C;
-    local PlayerController pc;
-    local int index;
     local array<string> params;
     local string func;
+    local class<GSTConsoleCommands> classRef;
 
+    classRef= class'GameStatsTab.GSTConsoleCommands';
     Split(command, " ", params);
     func= params[0];
     params.Remove(0,1);
     switch(func) {
-        case "list":
-            class'GameStatsTab.GSTConsoleCommands'.static.listInfo(params, Level.ControllerList, sender);
+        case classRef.default.commandNameList[0]:
+            classRef.static.help(sender);
             break;
-        case "getstat":
-            class'GameStatsTab.GSTConsoleCommands'.static.getInfo(params, Level.ControllerList, sender);
+        case classRef.default.commandNameList[1]:
+            classRef.static.listInfo(params, Level.ControllerList, sender);
             break;
-        case "help":
-            class'GameStatsTab.GSTConsoleCommands'.static.help(sender);
+        case classRef.default.commandNameList[2]:
+            classRef.static.getInfo(params, Level.ControllerList, sender);
+            break;
         default:
             super.Mutate(command, sender);
+            break;
     }
 }
 

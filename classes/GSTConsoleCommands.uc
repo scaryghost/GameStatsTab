@@ -1,11 +1,16 @@
-class GSTConsoleCommands extends Object;
+class GSTConsoleCommands extends Object
+    abstract;
+
+var array<string> commandNameList;
 
 static function help(PlayerController sender) {
+    local int i;
     sender.player.console.message("GameStatsTab commands: mutate [command] [parameters]", 5.0);
     sender.Player.Console.Message("commands:", 5.0);
-    sender.Player.Console.Message("list", 5.0);
-    sender.Player.Console.Message("getstat", 5.0);
-    sender.Player.Console.Message("help", 5.0);
+
+    for(i= 0; i < default.commandNameList.Length; i++) {
+        sender.Player.Console.Message(default.commandNameList[i], 5.0);
+    }
 }
 
 static function listInfo(array<string> params, Controller cList, PlayerController sender) {
@@ -77,4 +82,10 @@ static function getInfo(array<string> params, Controller cList, PlayerController
     }
     gsPC= GSTPlayerController(C);
     sender.Player.Console.Message(gsPC.descripArray[statIndex]$": "$gsPC.getStatValue(statIndex), 5.0);
+}
+
+defaultproperties {
+    commandNameList(0)="help"
+    commandNameList(1)="list"
+    commandNameList(2)="getstat"
 }
