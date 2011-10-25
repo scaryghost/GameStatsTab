@@ -9,7 +9,7 @@ static function listInfo(array<string> params, Controller cList, PlayerControlle
     index= 0;
     switch (params[0]) {
         case  "help":
-            sender.Player.Console.Message("Usage: mutator list [players|stats|help]", 5.0);
+            sender.Player.Console.Message("Usage: mutator list [players|stats]", 5.0);
             sender.Player.Console.Message("Displays the indices for the corresponding player names or stats", 5.0);
             break;
         case "players":
@@ -28,4 +28,21 @@ static function listInfo(array<string> params, Controller cList, PlayerControlle
             }
             break;
     }
+}
+
+static function getInfo(array<string> params, Controller cList, PlayerController sender) {
+    local int playerIndex, statIndex;
+    local int i;
+    
+    if (params[0] == "help") {
+        sender.Player.Console.Message("Usage: mutator getstat player={index} stat={index}", 5.0);
+        sender.Player.Console.Message("Retreives the requested stat for the desired player.", 5.0);
+        return;
+    }
+
+    for(i= 0; i < params.Length; i++) {
+        
+    }
+    
+        
 }
