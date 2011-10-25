@@ -72,6 +72,11 @@ function Mutate(string command, PlayerController sender) {
         case "list":
             class'GameStatsTab.GSTConsoleCommands'.static.listInfo(params, Level.ControllerList, sender);
             break;
+        case "getstat":
+            class'GameStatsTab.GSTConsoleCommands'.static.getInfo(params, Level.ControllerList, sender);
+            break;
+        case "help":
+            class'GameStatsTab.GSTConsoleCommands'.static.help(sender);
         default:
             super.Mutate(command, sender);
     }
