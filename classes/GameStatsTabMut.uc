@@ -6,6 +6,7 @@ struct oldNewZombiePair {
 };
 
 var array<oldNewZombiePair> replacementArray;
+var class<GSTConsoleCommands> ccClassRef;
 
 function PostBeginPlay() {
     local KFGameType gameType;
@@ -45,6 +46,9 @@ function PostBeginPlay() {
 
     gameType.EndGameBossClass= "GameStatsTab.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
+
+    ccClassRef= class'GameStatsTab.GSTConsoleCommands';
+    ccClassRef.static.init();
 }
 
 /*
@@ -61,21 +65,19 @@ function timer() {
 function Mutate(string command, PlayerController sender) {
     local array<string> params;
     local string func;
-    local class<GSTConsoleCommands> classRef;
 
-    classRef= class'GameStatsTab.GSTConsoleCommands';
     Split(command, " ", params);
     func= params[0];
     params.Remove(0,1);
     switch(func) {
-        case classRef.default.commandNameList[0]:
-            classRef.static.help(sender);
+        case ccClassRef.default.commandNameList[0]:
+            ccClassRef.static.help(sender);
             break;
-        case classRef.default.commandNameList[1]:
-            classRef.static.listInfo(params, Level.ControllerList, sender);
+        case ccClassRef.default.commandNameList[1]:
+            ccClassRef.static.listInfo(params, Level.ControllerList, sender);
             break;
-        case classRef.default.commandNameList[2]:
-            classRef.static.getInfo(params, Level.ControllerList, sender);
+        case ccClassRef.default.commandNameList[2]:
+            ccClassRef.static.getInfo(params, Level.ControllerList, sender);
             break;
         default:
             super.Mutate(command, sender);

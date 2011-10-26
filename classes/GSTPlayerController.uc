@@ -78,7 +78,7 @@ simulated function PostBeginPlay() {
     descripArray[EStatKeys.SHELLS_FIRED]="Shells fired";
     descripArray[EStatKeys.GRENADES_LAUNCHED]="Grenades launched";
     descripArray[EStatKeys.ROCKETS_LAUNCHED]="Rockets launched";
-    descripArray[EStatKeys.BACKSTABS]="Backstabs hit";
+    descripArray[EStatKeys.BACKSTABS]="Backstabs";
 }
 
 function incrementStat(byte statKey, float value) {
