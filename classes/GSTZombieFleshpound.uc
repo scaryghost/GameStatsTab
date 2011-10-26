@@ -6,7 +6,7 @@ var bool decapCounted;
 function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
         class<DamageType> damageType, optional int HitIndex) {
     gsPC= GSTPlayerController(InstigatedBy.Controller);
-    if (bBackstabbed) {
+    if (!bDecapitated && bBackstabbed) {
         gsPC.incrementStat(gsPC.EStatKeys.BACKSTABS, 1);
     }
 
