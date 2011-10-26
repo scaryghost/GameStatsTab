@@ -15,6 +15,7 @@ enum EStatKeys {
     ROUNDS_FIRED,
     GRENADES_LAUNCHED,
     ROCKETS_LAUNCHED,
+    BOLTS_FIRED,
     SHELLS_FIRED,
     UNITS_FUEL,
     MELEE_SWINGS,
@@ -78,6 +79,7 @@ simulated function PostBeginPlay() {
     descripArray[EStatKeys.GRENADES_LAUNCHED]="Grenades launched";
     descripArray[EStatKeys.ROCKETS_LAUNCHED]="Rockets launched";
     descripArray[EStatKeys.BACKSTABS]="Backstabs";
+    descripArray[EStatKeys.BOLTS_FIRED]="Bolts fired";
 }
 
 function incrementStat(byte statKey, float value) {

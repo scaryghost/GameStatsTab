@@ -85,12 +85,12 @@ simulated function addHealth() {
 
 simulated function StartFiringX(bool bAltFire, bool bRapid) {
     local int statArrayIndex;
-    local int bulletCount;
+    local int ammoCount;
 
     super.StartFiringX(bAltFire, bRapid);    
 
     gsPC= GSTPlayerController(Controller);
-    bulletCount= 1;
+    ammoCount= 1;
     if (gsPC != none) {
         if (KFMeleeGun(Weapon) != none) {
             statArrayIndex= gsPC.EStatKeys.MELEE_SWINGS;
@@ -101,16 +101,18 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
         } else if (AA12AutoShotgun(Weapon) != none || BoomStick(Weapon) != none || Shotgun(Weapon) != none) {
             statArrayIndex= gsPC.EStatKeys.SHELLS_FIRED;
             if (BoomStick(Weapon) != none && bAltFire) {
-                bulletCount= (BoomStick(Weapon).MagAmmoRemaining+1) % 2 + 1;
+                ammoCount= (BoomStick(Weapon).MagAmmoRemaining+1) % 2 + 1;
             }
         } else if (M32GrenadeLauncher(Weapon) != none || M79GrenadeLauncher(Weapon) != none) {
             statArrayIndex= gsPC.EStatKeys.GRENADES_LAUNCHED;
         } else if (LAW(Weapon) != none) {
             statArrayIndex= gsPC.EStatKeys.ROCKETS_LAUNCHED;
+        } else if (Crossbow(Weapon) != none) {
+            statArrayIndex= gsPC.EStatKeys.BOLTS_FIRED;
         } else {
             statArrayIndex= gsPC.EStatKeys.ROUNDS_FIRED;
         }
-        gsPC.incrementStat(statArrayIndex, bulletCount);
+        gsPC.incrementStat(statArrayIndex, ammoCount);
     }
 
 }
