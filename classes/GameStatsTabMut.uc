@@ -106,7 +106,7 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 defaultproperties {
     GroupName="KFGameStatsTab"
     FriendlyName="Game Stats Tab"
-    Description="Displays detailed statistics about your game.  Version 1.0.0"
+    Description="Displays detailed statistics about your game.  Version 1.1.0"
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab.GSTZombieFleshpound")
     replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab.GSTZombieGorefast")
