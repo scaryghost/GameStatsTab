@@ -34,7 +34,6 @@ enum EStatKeys {
 
 var protected array<float> statArray[29];
 var array<string> descripArray[ArrayCount(statArray)];
-var array<string> monsterIndexArray;
 
 var float prevHealth, prevShield;
 
@@ -85,17 +84,6 @@ function incrementStat(byte statKey, float value) {
     statArray[statKey]+= value;
 }
 
-function addKillCount(KFMonster victim) {
-    local int i;
-   
-    for(i= 0; i < monsterIndexArray.Length; i++) {
-        if (InStr(string(victim),monsterIndexArray[i]) != -1) {
-            statArray[i+1]+= 1;
-            break;
-        }
-    }
-}
-
 function float getStatValue(byte statKey) {
     return statArray[statKey];
 }
@@ -112,17 +100,4 @@ function PawnDied(Pawn P) {
 
     statArray[EStatKeys.DAMAGE_TAKEN]+= prevHealth;
     statArray[EStatKeys.SHIELD_LOST]+= prevShield;
-}
-
-defaultproperties {
-    monsterIndexArray(0)="ZombieCrawler"
-    monsterIndexArray(1)="ZombieStalker"
-    monsterIndexArray(2)="ZombieClot"
-    monsterIndexArray(3)="ZombieGorefast"
-    monsterIndexArray(4)="ZombieBloat"
-    monsterIndexArray(5)="ZombieSiren"
-    monsterIndexArray(6)="ZombieHusk"
-    monsterIndexArray(7)="ZombieScrake"
-    monsterIndexArray(8)="ZombieFleshpound"
-    monsterIndexArray(9)="ZombieBoss"
 }
