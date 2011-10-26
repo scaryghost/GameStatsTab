@@ -33,7 +33,7 @@ enum EStatKeys {
     SHOT_BY_HUSK
 };
 
-var protected array<float> statArray[29];
+var protected array<float> statArray[30];
 var array<string> descripArray[ArrayCount(statArray)];
 
 var float prevHealth, prevShield;
