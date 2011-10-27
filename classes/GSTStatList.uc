@@ -7,6 +7,7 @@ var texture InfoBackground;
 // State
 var localized array<string> statName;
 var array<int>  statValue;
+var int timeIndex;
 
 var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
@@ -28,6 +29,7 @@ function InitList(GSTPlayerController gsPC) {
         statName[i]= gsPC.descripArray[i];
         statValue[i]= gsPC.getStatValue(i);
     }
+    timeIndex= gsPC.EStatKeys.TIME_ALIVE;
 
     if ( bNotify ) {
         CheckLinkedObjects(Self);
@@ -70,7 +72,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
     Canvas.DrawText(statName[CurIndex]);
 
     // Draw the Perk's Level
-    if (curIndex == 0) {
+    if (curIndex == timeIndex) {
         S= class'GameStatsTab.GSTConsoleCommands'.static.formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
