@@ -2,19 +2,44 @@ class GSTConsoleCommands extends Object
     abstract;
 
 var array<string> commandNameList;
-var string consoleTextColor;
+var string consoleTextColor, statTextColor;
 var bool isInitialized;
 
 static function init() {
     if (!default.isInitialized) {
         default.consoleTextColor= chr(27)$chr(1)$chr(255)$chr(1);
+        default.statTextColor= chr(27)$chr(255)$chr(255)$chr(1);
         default.isInitialized= true;
     }
 }
 
+static function string formatTime(int seconds) {
+    local string timeStr;
+    local int i;
+    local array<int> timeValues;
+    
+    timeValues.Length= 3;
+    timeValues[0]= seconds / 3660;
+    timeValues[1]= seconds / 60;
+    timeValues[2]= seconds % 60;
+    for(i= 0; i < timeValues.Length; i++) {
+        if (timeValues[i] < 10) {
+            timeStr= timeStr$"0"$timeValues[i];
+        } else {
+            timeStr= timeStr$timeValues[i];
+        }
+        if (i < timeValues.Length-1) {
+            timeStr= timeStr$":";
+        }
+    }
+
+    return timeStr;
+}
+
+
 static function help(PlayerController sender) {
     local int i;
-    sender.player.console.message(default.consoleTextColor$"GameStatsTab commands: mutate [command] [parameters]", 5.0);
+    sender.player.console.message(default.consoleTextColor$"GameStatsTab commands: mutate GameStatsTab [command] [parameters]", 5.0);
     sender.Player.Console.Message(default.consoleTextColor$"commands:", 5.0);
 
     for(i= 0; i < default.commandNameList.Length; i++) {
@@ -32,10 +57,6 @@ static function listInfo(array<string> params, Controller cList, PlayerControlle
 
     index= 0;
     switch (params[0]) {
-        case "help":
-            messageLines[messageLines.Length]= "Usage: mutate list [players|stats|help]";
-            messageLines[messageLines.Length]= "Displays the indices for the corresponding player names or stats";
-            break;
         case "players":
             messageLines[messageLines.Length]= "Index       Player Name";
             messageLines[messageLines.Length]= "-----------------------";
@@ -65,6 +86,12 @@ static function listInfo(array<string> params, Controller cList, PlayerControlle
                 messageLines[messageLines.Length]= msgBase$gsPC.descripArray[index];
             }
             break;
+        
+        case "help":
+        default:
+            messageLines[messageLines.Length]= "Usage: mutate GameStatsTab list [players|stats|help]";
+            messageLines[messageLines.Length]= "Displays the indices for the corresponding player names or stats";
+            break;
     }
 
     for(index= 0; index < messageLines.Length; index++) {
@@ -72,16 +99,16 @@ static function listInfo(array<string> params, Controller cList, PlayerControlle
     }
 }
 
-static function getInfo(array<string> params, Controller cList, PlayerController sender) {
+static function getStat(array<string> params, Controller cList, PlayerController sender) {
     local Controller c;
     local GSTPlayerController gsPC;
     local int playerIndex, statIndex;
     local int i,index;
     local array<string> strSplit;
-    local string playerName;
+    local string playerName, statMsg;
     
     if (params[0] == "help") {
-        sender.Player.Console.Message(default.consoleTextColor$"Usage: mutate getstat player={index} stat={index}", 5.0);
+        sender.Player.Console.Message(default.consoleTextColor$"Usage: mutate GameStatsTab getstat player={index} stat={index}", 5.0);
         sender.Player.Console.Message(default.consoleTextColor$"Retrieves the requested stat for the desired player.", 5.0);
         return;
     }
@@ -101,7 +128,7 @@ static function getInfo(array<string> params, Controller cList, PlayerController
     }
 
     if (playerIndex == -1 || statIndex == -1) {
-        sender.Player.Console.Message(default.consoleTextColor$"Usage: mutate getstat player={index} stat={index}", 5.0);
+        sender.Player.Console.Message(default.consoleTextColor$"Usage: mutate GameStatsTab getstat player={index} stat={index}", 5.0);
         return;
     }
     
@@ -112,7 +139,13 @@ static function getInfo(array<string> params, Controller cList, PlayerController
     }
     playerName= PlayerController(c).PlayerReplicationInfo.PlayerName;
     gsPC= GSTPlayerController(C);
-    sender.Player.Console.Message(default.consoleTextColor$playerName$" - "$gsPC.descripArray[statIndex]$": "$int(gsPC.getStatValue(statIndex)), 5.0);
+    statMsg= default.statTextColor$playerName$" - "$gsPC.descripArray[statIndex]$": ";
+    if (statIndex == gsPC.EStatKeys.TIME_ALIVE) {
+        statMsg= statMsg$formatTime(gsPC.getStatValue(statIndex));
+    } else {
+        statMsg= statMsg$int(gsPC.getStatValue(statIndex));
+    }
+    sender.Player.Console.Message(statMsg, 5.0);
 }
 
 defaultproperties {

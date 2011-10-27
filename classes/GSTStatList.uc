@@ -38,29 +38,6 @@ function InitList(GSTPlayerController gsPC) {
     }
 }
 
-function string formatTime(int seconds) {
-    local string timeStr;
-    local int i;
-    local array<int> timeValues;
-    
-    timeValues.Length= 3;
-    timeValues[0]= seconds / 3660;
-    timeValues[1]= seconds / 60;
-    timeValues[2]= seconds % 60;
-    for(i= 0; i < timeValues.Length; i++) {
-        if (timeValues[i] < 10) {
-            timeStr= timeStr$"0"$timeValues[i];
-        } else {
-            timeStr= timeStr$timeValues[i];
-        }
-        if (i < timeValues.Length-1) {
-            timeStr= timeStr$":";
-        }
-    }
-
-    return timeStr;
-}
-
 function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, 
         float Width, float Height, bool bSelected, bool bPending) {
     local float TempX, TempY;
@@ -94,7 +71,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
     // Draw the Perk's Level
     if (curIndex == 0) {
-        S= formatTime(statValue[CurIndex]);
+        S= class'GameStatsTab.GSTConsoleCommands'.static.formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
     }

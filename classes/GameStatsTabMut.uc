@@ -51,37 +51,29 @@ function PostBeginPlay() {
     ccClassRef.static.init();
 }
 
-/*
-function timer() {
-    local Controller C;
-
-    for (C = Level.ControllerList; C != None; C = C.NextController) {
-        if (PlayerController(C) != None) {
-            PlayerController(C).ClientMessage(msg);
-        }
-    }
-}
-*/
 function Mutate(string command, PlayerController sender) {
     local array<string> params;
-    local string func;
+    local string func, mutateClass;
 
     Split(command, " ", params);
-    func= params[0];
-    params.Remove(0,1);
-    switch(func) {
-        case ccClassRef.default.commandNameList[0]:
-            ccClassRef.static.help(sender);
-            break;
-        case ccClassRef.default.commandNameList[1]:
-            ccClassRef.static.listInfo(params, Level.ControllerList, sender);
-            break;
-        case ccClassRef.default.commandNameList[2]:
-            ccClassRef.static.getInfo(params, Level.ControllerList, sender);
-            break;
-        default:
-            super.Mutate(command, sender);
-            break;
+    mutateClass= params[0];
+    func= params[1];
+    params.Remove(0,2);
+    if (mutateClass == "GameStatsTab") {
+        switch(func) {
+            case ccClassRef.default.commandNameList[1]:
+                ccClassRef.static.listInfo(params, Level.ControllerList, sender);
+                break;
+            case ccClassRef.default.commandNameList[2]:
+                ccClassRef.static.getStat(params, Level.ControllerList, sender);
+                break;
+            case ccClassRef.default.commandNameList[0]:
+            default:
+                ccClassRef.static.help(sender);
+                break;
+        }
+    } else {
+        super.Mutate(command, sender);
     }
 }
 
