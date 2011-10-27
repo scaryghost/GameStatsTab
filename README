@@ -4,15 +4,6 @@ Scary Ghost
 Install:
 Copy the contents in the system folder to your Killing Floor system folder.
 
-Usage:
-It is important that this mutator is execute after ServerPerks.  If you 
-are loading the mutator through WebAdmin or from the KF Main menu, you 
-should be ok.  If you are booting the server through a script, make sure 
-the mutator parameters puts ServerPerksV4 first!!!!
-
-mutator=ServerPerksV4.ServerPerksMut,GameStatsTab_ServerPerks.GameStatsTabMut
-
-
 About:
 The mutator will add a "Game Stats" tab to the mid game menu that will 
 display detailed statistics about your actions in the current game.  There 

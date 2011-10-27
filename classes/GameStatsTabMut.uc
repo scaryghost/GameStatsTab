@@ -20,8 +20,6 @@ function PostBeginPlay() {
 
     Spawn(class'GameStatsTab_ServerPerks.GSTGameRules');
     AddToPackageMap("GameStatsTab_ServerPerks");
-    DeathMatch(Level.Game).LoginMenuClass = 
-            string(Class'GameStatsTab_ServerPerks.GSTInvasionLoginMenu');
 
     gameType.PlayerControllerClass= class'GameStatsTab_ServerPerks.GSTPlayerController';
     gameType.PlayerControllerClassName= "GameStatsTab_ServerPerks.GSTPlayerController";
@@ -44,6 +42,32 @@ function PostBeginPlay() {
     replaceSpecialSquad(gameType.FinalSquads);
 
     gameType.FallbackMonsterClass= "GameStatsTab_ServerPerks.GSTZombieStalker";
+
+    setTimer(0.1, false);
+}
+
+/**
+ * Need the timer to overwrite ServerPerk's login menu.
+ * ServerPerks is loaded after GameStatsTab since it 
+ * alphabetically is after GameStatsTab
+ */
+function Timer() {
+    local UnrealPlayer up;
+    local Controller c;
+    local string loginMenuClass;
+
+    loginMenuClass= string(class'GameStatsTab_ServerPerks.GSTInvasionLoginMenu');
+    DeathMatch(Level.Game).LoginMenuClass= loginMenuClass;
+
+    /**
+     * Need this part for local hosts
+     */            
+    for(c= Level.ControllerList; c != none; c= c.NextController) {
+        up= UnrealPlayer(c);
+        if (up != none) {
+            up.ClientReceiveLoginMenu(loginMenuClass, DeathMatch(Level.Game).bAlwaysShowLoginMenu);
+        }
+    }
 }
 
 /**
@@ -65,8 +89,8 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 }
 
 defaultproperties {
-    GroupName="KFSRGameStats"
-    FriendlyName="ServerPerks.GameStatsTab"
+    GroupName="KFGameStatsTab"
+    FriendlyName="GameStatsTab - ServerPerks"
     Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.0.0"
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab_ServerPerks.GSTZombieFleshpound")
