@@ -122,7 +122,7 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 
 defaultproperties {
     GroupName="KFGameStatsTab"
-    FriendlyName="GameStatsTab - ServerPerks"
+    FriendlyName="Game Stats Tab - ServerPerks"
     Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.1.0"
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab_ServerPerks.GSTZombieFleshpound")
