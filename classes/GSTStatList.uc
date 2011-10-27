@@ -7,29 +7,29 @@ var texture InfoBackground;
 // State
 var localized array<string> statName;
 var array<int>  statValue;
+var int timeIndex;
 
 var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
 var() config int alpha;
 var() config float txtScale;
 
-const STAT_ARRAY_LENGTH= ArrayCount(class'GameStatsTab_ServerPerks.GSTPlayerController'.default.statArray);
-
 function bool PreDraw(Canvas Canvas) {
     return false;
 }
 
-function InitList(array<string> descrip[STAT_ARRAY_LENGTH], array<float> stats[STAT_ARRAY_LENGTH]) {
+function InitList(GSTPlayerController gsPC) {
     local int i;
     // Update the ItemCount and select the first item
-    itemCount= STAT_ARRAY_LENGTH;
+    itemCount= gsPC.EStatKeys.EnumCount;
     SetIndex(0);
     log("GSTStatList-"$STAT_ARRAY_LENGTH);
     statValue.Length= itemCount;
     for(i= 0; i < itemCount; i++) {
-        statName[i]= descrip[i];
-        statValue[i]= stats[i];
+        statName[i]= gsPC.descripArray[i];
+        statValue[i]= gsPC.getStatValue(i);
     }
+    timeIndex= gsPC.EStatKeys.TIME_ALIVE;
 
     if ( bNotify ) {
         CheckLinkedObjects(Self);
@@ -38,29 +38,6 @@ function InitList(array<string> descrip[STAT_ARRAY_LENGTH], array<float> stats[S
     if ( MyScrollBar != none ) {
         MyScrollBar.AlignThumb();
     }
-}
-
-function string formatTime(int seconds) {
-    local string timeStr;
-    local int i;
-    local array<int> timeValues;
-    
-    timeValues.Length= 3;
-    timeValues[0]= seconds / 3660;
-    timeValues[1]= seconds / 60;
-    timeValues[2]= seconds % 60;
-    for(i= 0; i < timeValues.Length; i++) {
-        if (timeValues[i] < 10) {
-            timeStr= timeStr$"0"$timeValues[i];
-        } else {
-            timeStr= timeStr$timeValues[i];
-        }
-        if (i < timeValues.Length-1) {
-            timeStr= timeStr$":";
-        }
-    }
-
-    return timeStr;
 }
 
 function DrawStat(Canvas Canvas, int CurIndex, float X, float Y, 
@@ -95,8 +72,8 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
     Canvas.DrawText(statName[CurIndex]);
 
     // Draw the Perk's Level
-    if (curIndex == 0) {
-        S= formatTime(statValue[CurIndex]);
+    if (curIndex == timeIndex) {
+        S= class'GameStatsTab.GSTConsoleCommands'.static.formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
     }

@@ -18,7 +18,7 @@ function ShowPanel(bool bShow) {
 
     if ( bShow ) {
         gsPC= GSTPlayerController(PlayerOwner());
-        lb_StatSelect.statList.InitList(gsPC.descripArray, gsPC.statArray);
+        lb_StatSelect.statList.InitList(gsPC);
     }
 
     EnableComponent(sl_bgR);

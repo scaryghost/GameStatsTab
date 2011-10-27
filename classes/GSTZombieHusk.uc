@@ -5,11 +5,15 @@ var bool decapCounted;
 
 function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
         class<DamageType> damageType, optional int HitIndex) {
+    gsPC= GSTPlayerController(InstigatedBy.Controller);
+    if (!bDecapitated && bBackstabbed) {
+        gsPC.incrementStat(gsPC.EStatKeys.BACKSTABS, 1);
+    }
+
     super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
 
-    gsPC= GSTPlayerController(InstigatedBy.Controller);
     if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.statArray[gsPC.EStatKeys.NUM_DECAPS]+= 1;
+        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS, 1);
         decapCounted= true;
     }
 }

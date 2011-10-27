@@ -6,6 +6,7 @@ struct oldNewZombiePair {
 };
 
 var array<oldNewZombiePair> replacementArray;
+var class<GSTConsoleCommands> ccClassRef;
 
 function PostBeginPlay() {
     local KFGameType gameType;
@@ -41,7 +42,12 @@ function PostBeginPlay() {
     replaceSpecialSquad(gameType.LongSpecialSquads);
     replaceSpecialSquad(gameType.FinalSquads);
 
+    gameType.EndGameBossClass= "GameStatsTab_ServerPerks.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab_ServerPerks.GSTZombieStalker";
+
+    ccClassRef= class'GameStatsTab_ServerPerks.GSTConsoleCommands';
+    ccClassRef.static.init();
+
 
     setTimer(0.1, false);
 }
@@ -70,6 +76,32 @@ function Timer() {
     }
 }
 
+function Mutate(string command, PlayerController sender) {
+    local array<string> params;
+    local string func, mutateClass;
+
+    Split(command, " ", params);
+    mutateClass= params[0];
+    func= params[1];
+    params.Remove(0,2);
+    if (mutateClass == "GameStatsTab") {
+        switch(func) {
+            case ccClassRef.default.commandNameList[1]:
+                ccClassRef.static.listInfo(params, Level.ControllerList, sender);
+                break;
+            case ccClassRef.default.commandNameList[2]:
+                ccClassRef.static.getStat(params, Level.ControllerList, sender);
+                break;
+            case ccClassRef.default.commandNameList[0]:
+            default:
+                ccClassRef.static.help(sender);
+                break;
+        }
+    } else {
+        super.Mutate(command, sender);
+    }
+}
+
 /**
  *  Replaces the zombies in the given squadArray
  */
@@ -91,7 +123,7 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 defaultproperties {
     GroupName="KFGameStatsTab"
     FriendlyName="GameStatsTab - ServerPerks"
-    Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.0.0"
+    Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.1.0"
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab_ServerPerks.GSTZombieFleshpound")
     replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab_ServerPerks.GSTZombieGorefast")
