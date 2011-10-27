@@ -23,7 +23,7 @@ function InitList(GSTPlayerController gsPC) {
     // Update the ItemCount and select the first item
     itemCount= gsPC.EStatKeys.EnumCount;
     SetIndex(0);
-    log("GSTStatList-"$STAT_ARRAY_LENGTH);
+
     statValue.Length= itemCount;
     for(i= 0; i < itemCount; i++) {
         statName[i]= gsPC.descripArray[i];
@@ -73,7 +73,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
     // Draw the Perk's Level
     if (curIndex == timeIndex) {
-        S= class'GameStatsTab.GSTConsoleCommands'.static.formatTime(statValue[CurIndex]);
+        S= class'GameStatsTab_ServerPerks.GSTConsoleCommands'.static.formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
     }
