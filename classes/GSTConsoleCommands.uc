@@ -103,7 +103,7 @@ static function getStat(array<string> params, Controller cList, PlayerController
     local Controller c;
     local GSTPlayerController gsPC;
     local int playerIndex, statIndex;
-    local int i,index;
+    local int index;
     local array<string> strSplit;
     local string playerName, statMsg;
     
@@ -115,8 +115,8 @@ static function getStat(array<string> params, Controller cList, PlayerController
 
     playerIndex= -1;
     statIndex= -1;
-    for(i= 0; i < params.Length; i++) {
-        Split(params[i],"=",strSplit);
+    for(index= 0; index < params.Length; index++) {
+        Split(params[index],"=",strSplit);
         switch(strSplit[0]) {
             case "player":
                 playerIndex= int(strSplit[1]);
@@ -131,14 +131,16 @@ static function getStat(array<string> params, Controller cList, PlayerController
         sender.Player.Console.Message(default.consoleTextColor$"Usage: mutate GameStatsTab getstat player={index} stat={index}", 5.0);
         return;
     }
-    
-    for (c= cList; c != None && index != playerIndex; c= c.NextController) {
+
+    //Added this to search for the first PlayerController in the list
+    for (c= cList; c != None && PlayerController(c) == None; c= c.NextController);
+    for (c= c; c != None && index != playerIndex; c= c.NextController) {
         if (PlayerController(c) != None) {
             index++;
         }
     }
     playerName= PlayerController(c).PlayerReplicationInfo.PlayerName;
-    gsPC= GSTPlayerController(C);
+    gsPC= GSTPlayerController(c);
     statMsg= default.statTextColor$playerName$" - "$gsPC.descripArray[statIndex]$": ";
     if (statIndex == gsPC.EStatKeys.TIME_ALIVE) {
         statMsg= statMsg$formatTime(gsPC.getStatValue(statIndex));
