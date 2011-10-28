@@ -133,6 +133,7 @@ static function getStat(array<string> params, Controller cList, PlayerController
     }
 
     //Added this to search for the first PlayerController in the list
+    index= 0;
     for (c= cList; c != None && PlayerController(c) == None; c= c.NextController);
     for (c= c; c != None && index != playerIndex; c= c.NextController) {
         if (PlayerController(c) != None) {
