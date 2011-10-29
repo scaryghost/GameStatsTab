@@ -6,7 +6,6 @@ struct oldNewZombiePair {
 };
 
 var array<oldNewZombiePair> replacementArray;
-var class<GSTConsoleCommands> ccClassRef;
 
 function PostBeginPlay() {
     local KFGameType gameType;
@@ -47,8 +46,6 @@ function PostBeginPlay() {
     gameType.EndGameBossClass= "GameStatsTab.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
 
-    ccClassRef= class'GameStatsTab.GSTConsoleCommands';
-    ccClassRef.static.init();
 }
 
 /**

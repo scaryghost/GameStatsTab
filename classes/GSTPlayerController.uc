@@ -169,7 +169,7 @@ exec function gstlist(string key) {
 
 }
 
-function string formatTime(int seconds) {
+static function string formatTime(int seconds) {
     local string timeStr;
     local int i;
     local array<int> timeValues;
