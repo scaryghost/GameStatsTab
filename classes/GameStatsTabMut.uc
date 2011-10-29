@@ -51,32 +51,6 @@ function PostBeginPlay() {
     ccClassRef.static.init();
 }
 
-function Mutate(string command, PlayerController sender) {
-    local array<string> params;
-    local string func, mutateClass;
-
-    Split(command, " ", params);
-    mutateClass= params[0];
-    func= params[1];
-    params.Remove(0,2);
-    if (mutateClass == "GameStatsTab") {
-        switch(func) {
-            case ccClassRef.default.commandNameList[1]:
-                ccClassRef.static.listInfo(params, Level.ControllerList, sender);
-                break;
-            case ccClassRef.default.commandNameList[2]:
-                ccClassRef.static.getStat(params, Level.ControllerList, sender);
-                break;
-            case ccClassRef.default.commandNameList[0]:
-            default:
-                ccClassRef.static.help(sender);
-                break;
-        }
-    } else {
-        super.Mutate(command, sender);
-    }
-}
-
 /**
  *  Replaces the zombies in the given squadArray
  */
