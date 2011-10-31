@@ -175,7 +175,7 @@ static function string formatTime(int seconds) {
     local array<int> timeValues;
     
     timeValues.Length= 3;
-    timeValues[0]= seconds / 3660;
+    timeValues[0]= seconds / 3600;
     timeValues[1]= seconds / 60;
     timeValues[2]= seconds % 60;
     for(i= 0; i < timeValues.Length; i++) {
