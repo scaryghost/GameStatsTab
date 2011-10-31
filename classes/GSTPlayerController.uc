@@ -120,8 +120,7 @@ exec function gsthelp() {
 
 exec function gstlist(string key) {
     local int index;
-    local Controller c;
-    local PlayerController pc;
+    local GSTPlayerController gsPC;
     local string msgBase;
     local array<string> messageLines;
 
@@ -130,17 +129,14 @@ exec function gstlist(string key) {
         case "players":
             messageLines[messageLines.Length]= "Index       Player Name";
             messageLines[messageLines.Length]= "-----------------------";
-            for (c= Level.ControllerList; c != None; c= c.NextController) {
-                pc= PlayerController(c);
-                if (pc != None) {
-                    if (index < 10) {
-                        msgBase= "["$index$"]          ";
-                    } else {
-                        msgBase= "["$index$"]         ";
-                    }
-                    messageLines[messageLines.Length]= msgBase$pc.PlayerReplicationInfo.PlayerName;
-                    index++;
+            foreach AllActors(class'GSTPlayerController', gsPC) {
+                if (index < 10) {
+                    msgBase= "["$index$"]          ";
+                } else {
+                    msgBase= "["$index$"]         ";
                 }
+                messageLines[messageLines.Length]= msgBase$gsPC.PlayerReplicationInfo.PlayerName;
+                index++;
             }
             break;
         case "stats":
@@ -193,10 +189,8 @@ static function string formatTime(int seconds) {
 }
 
 exec function gstgetstat(string playerStr, string statStr) {
-    local Controller c;
     local GSTPlayerController gsPC;
-    local int playerIndex, statIndex;
-    local int index;
+    local int playerIndex, statIndex, index;
     local array<string> strSplit;
     local string playerName, statMsg;
     
@@ -220,14 +214,11 @@ exec function gstgetstat(string playerStr, string statStr) {
 
     //Added this to search for the first PlayerController in the list
     index= 0;
-    for (c= Level.ControllerList; c != None && PlayerController(c) == None; c= c.NextController);
-    for (c= c; c != None && index != playerIndex; c= c.NextController) {
-        if (PlayerController(c) != None) {
-            index++;
-        }
+    foreach AllActors(class'GSTPlayerController', gsPC) {
+        if (index == playerIndex)
+            break;
     }
-    playerName= PlayerController(c).PlayerReplicationInfo.PlayerName;
-    gsPC= GSTPlayerController(c);
+    playerName= gsPC.PlayerReplicationInfo.PlayerName;
     statMsg= statTextColor$playerName$" - "$gsPC.descripArray[statIndex]$": ";
     if (statIndex == gsPC.EStatKeys.TIME_ALIVE) {
         statMsg= statMsg$formatTime(gsPC.getStatValue(statIndex));
