@@ -8,6 +8,7 @@ struct oldNewZombiePair {
 var() config bool bDispStat;
 var() config int dispInterval;
 var string statTextColor;
+var byte currentStat;
 var array<oldNewZombiePair> replacementArray;
 
 function PostBeginPlay() {
@@ -85,20 +86,27 @@ function Timer() {
         }
     }
 
-    //randomly select a stat
-    randIndex= Rand(ArrayCount(gsPC.descripArray));
     for(C= Level.ControllerList; C != none; C= C.NextController) {
         if (GSTPlayerController(C) != none) {
             playerName= gsPC.PlayerReplicationInfo.PlayerName;
-            descrip= gsPC.descripArray[randIndex];
-            if (randIndex == gsPC.EStatKeys.TIME_ALIVE) {
-                value= formatTime(gsPC.getStatValue(randIndex));
+            descrip= gsPC.descripArray[currentStat];
+            if (currentStat == gsPC.EStatKeys.TIME_ALIVE) {
+                value= formatTime(gsPC.getStatValue(currentStat));
             } else {
-                value= string(int(gsPC.getStatValue(randIndex)));
+                value= string(int(gsPC.getStatValue(currentStat)));
             }
             GSTPlayerController(C).ClientMessage(statTextColor$playerName$" - "$descrip$": "$value);
         }
     }
+    //Get next stat
+    do {
+        currentStat= (currentStat+1) % ArrayCount(gsPC.descripArray);
+
+    } until (currentStat != gsPC.EStatKeys.ROUNDS_FIRED && 
+        currentStat != gsPC.EStatKeys.GRENADES_LAUNCHED && currentStat != gsPC.EStatKeys.ROCKETS_LAUNCHED &&
+        currentStat != gsPC.EStatKeys.BOLTS_FIRED &&  currentStat != gsPC.EStatKeys.SHELLS_FIRED && 
+        currentStat != gsPC.EStatKeys.UNITS_FUEL && currentStat != gsPC.EStatKeys.MELEE_SWINGS);
+
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
@@ -163,6 +171,8 @@ defaultproperties {
     GroupName="KFGameStatsTab"
     FriendlyName="Game Stats Tab"
     Description="Displays detailed statistics about your game.  Version 1.1.0"
+
+    currentStat= 0
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab.GSTZombieFleshpound")
     replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab.GSTZombieGorefast")
