@@ -37,9 +37,6 @@ var protected array<float> statArray[30];
 var array<string> descripArray[ArrayCount(statArray)];
 var float prevHealth, prevShield;
 
-var array<string> consolecommands;
-var string consoleTextColor, statTextColor;
-
 replication {
     reliable if (bNetOwner && Role == ROLE_Authority)
         statArray;
@@ -82,9 +79,6 @@ simulated function PostBeginPlay() {
     descripArray[EStatKeys.ROCKETS_LAUNCHED]="Rockets launched";
     descripArray[EStatKeys.BACKSTABS]="Backstabs";
     descripArray[EStatKeys.BOLTS_FIRED]="Bolts fired";
-
-    consoleTextColor= chr(27)$chr(1)$chr(255)$chr(1);
-    statTextColor= chr(27)$chr(255)$chr(255)$chr(1);
 }
 
 function incrementStat(byte statKey, float value) {
@@ -107,156 +101,4 @@ function PawnDied(Pawn P) {
 
     statArray[EStatKeys.DAMAGE_TAKEN]+= prevHealth;
     statArray[EStatKeys.SHIELD_LOST]+= prevShield;
-}
-
-exec function gamestatstab(string params) {
-    local array<string> paramArray;
-    local string func;
-
-    Split(params, " ", paramArray);
-    func= paramArray[0];
-    paramArray.Remove(0,1);
-    switch(func) {
-        case consolecommands[1]:
-            listInfo(paramArray);
-            break;
-        case consolecommands[2]:
-            getStat(paramArray);
-            break;
-        case consolecommands[0]:
-        default:
-            gsthelp();
-            break;
-    }
-}
-
-function gsthelp() {
-    local int i;
-
-    Player.console.message(consoleTextColor$"GameStatsTab console commands:", 5.0);
-    Player.console.message(consoleTextColor$"Format: gamestatstab [command] [parameters]", 5.0);
-    for(i= 0; i < consolecommands.Length; i++) {
-        Player.Console.Message(consoleTextColor$consolecommands[i], 5.0);
-    }
-}
-
-function listInfo(array<string> paramArray) {
-    local int index;
-    local GSTPlayerController gsPC;
-    local string msgBase;
-    local array<string> messageLines;
-
-    index= 0;
-    switch (paramArray[0]) {
-        case "player":
-            messageLines[messageLines.Length]= "Index       Player Name";
-            messageLines[messageLines.Length]= "-----------------------";
-            foreach AllActors(class'GSTPlayerController', gsPC) {
-                if (index < 10) {
-                    msgBase= "["$index$"]          ";
-                } else {
-                    msgBase= "["$index$"]         ";
-                }
-                messageLines[messageLines.Length]= msgBase$gsPC.PlayerReplicationInfo.PlayerName;
-                index++;
-            }
-            break;
-        case "stat":
-            messageLines[messageLines.Length]= "Index       Stat Name";
-            messageLines[messageLines.Length]= "-----------------------";
-            for(index= 0; index < ArrayCount(descripArray); index++) {
-                if (index < 10) {
-                    msgBase= "["$index$"]          ";
-                } else {
-                    msgBase= "["$index$"]        ";
-                }
-                messageLines[messageLines.Length]= msgBase$descripArray[index];
-            }
-            break;
-        
-        case "help":
-        default:
-            messageLines[messageLines.Length]= "Usage: gamestatstab list [player|stat|help]";
-            messageLines[messageLines.Length]= "Displays the indices for the corresponding player names or stats";
-            break;
-    }
-
-    for(index= 0; index < messageLines.Length; index++) {
-        Player.Console.Message(consoleTextColor$messageLines[index], 5.0);
-    }
-
-}
-
-static function string formatTime(int seconds) {
-    local string timeStr;
-    local int i;
-    local array<int> timeValues;
-    
-    timeValues.Length= 3;
-    timeValues[0]= seconds / 3600;
-    timeValues[1]= seconds / 60;
-    timeValues[2]= seconds % 60;
-    for(i= 0; i < timeValues.Length; i++) {
-        if (timeValues[i] < 10) {
-            timeStr= timeStr$"0"$timeValues[i];
-        } else {
-            timeStr= timeStr$timeValues[i];
-        }
-        if (i < timeValues.Length-1) {
-            timeStr= timeStr$":";
-        }
-    }
-
-    return timeStr;
-}
-
-function getstat(array<string> paramArray) {
-    local GSTPlayerController gsPC;
-    local int playerIndex, statIndex, index;
-    local array<string> strSplit;
-    local string playerName, statMsg;
-    
-    playerIndex= -1;
-    statIndex= -1;
-    for(index= 0; index < paramArray.Length; index++) {
-        Split(paramArray[index],"=",strSplit);
-        switch(strSplit[0]) {
-            case "player":
-                playerIndex= int(strSplit[1]);
-                break;
-            case "stat":
-                statIndex= int(strSplit[1]);
-                break;
-            case "help":
-                Player.Console.Message(consoleTextColor$"Usage: gstgetstat player={index} stat={index}", 5.0);
-                Player.Console.Message(consoleTextColor$"Retrieves the requested stat for the desired player.", 5.0);
-                return;
-        }
-    }
-
-    if (playerIndex == -1 || statIndex == -1) {
-        Player.Console.Message(consoleTextColor$"Usage: gstgetstat player={index} stat={index}", 5.0);
-        return;
-    }
-
-    index= 0;
-    foreach AllActors(class'GSTPlayerController', gsPC) {
-        if (index == playerIndex)
-            break;
-        index++;
-    }
-    playerName= gsPC.PlayerReplicationInfo.PlayerName;
-    statMsg= statTextColor$playerName$" - "$gsPC.descripArray[statIndex]$": ";
-    if (statIndex == gsPC.EStatKeys.TIME_ALIVE) {
-        statMsg= statMsg$formatTime(gsPC.getStatValue(statIndex));
-    } else {
-        statMsg= statMsg$int(gsPC.getStatValue(statIndex));
-    }
-    Player.Console.Message(statMsg, 5.0);
-}
-
-defaultproperties {
-    consolecommands(0)="help"
-    consolecommands(1)="list"
-    consolecommands(2)="getstat"
 }

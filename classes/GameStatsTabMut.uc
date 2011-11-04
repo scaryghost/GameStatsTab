@@ -5,6 +5,9 @@ struct oldNewZombiePair {
     var string newClass;
 };
 
+var() config bool bDispStat;
+var() config int dispInterval;
+var string statTextColor;
 var array<oldNewZombiePair> replacementArray;
 
 function PostBeginPlay() {
@@ -46,6 +49,96 @@ function PostBeginPlay() {
     gameType.EndGameBossClass= "GameStatsTab.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
 
+    statTextColor= chr(27)$chr(255)$chr(255)$chr(1);
+
+    if (bDispStat) {
+        setTimer(dispInterval, true);
+    }
+
+}
+
+function Timer() {
+    local Controller C;
+    local GSTPlayerController gsPC;
+    local int numPlayers, randIndex, index;
+    local string playerName, descrip, value;
+   
+    //Find out number of players 
+    numPlayers= 0;
+    for(C= Level.ControllerList; C != none; C= C.NextController) {
+        if (GSTPlayerController(C) != none) {
+            numPlayers++;
+        }
+    }
+    
+    //randomly select a player
+    randIndex= Rand(numPlayers);
+    index= 0;
+    for(C= Level.ControllerList; C != none; C= C.NextController) {
+        if (GSTPlayerController(C) != none) {
+            if (randIndex == index) {
+                gsPC= GSTPlayerController(C);
+                break;
+            } else {
+                index++;
+            }
+        }
+    }
+
+    //randomly select a stat
+    randIndex= Rand(ArrayCount(gsPC.descripArray));
+    for(C= Level.ControllerList; C != none; C= C.NextController) {
+        if (GSTPlayerController(C) != none) {
+            playerName= gsPC.PlayerReplicationInfo.PlayerName;
+            descrip= gsPC.descripArray[randIndex];
+            if (randIndex == gsPC.EStatKeys.TIME_ALIVE) {
+                value= formatTime(gsPC.getStatValue(randIndex));
+            } else {
+                value= string(int(gsPC.getStatValue(randIndex)));
+            }
+            GSTPlayerController(C).ClientMessage(statTextColor$playerName$" - "$descrip$": "$value);
+        }
+    }
+}
+
+static function FillPlayInfo(PlayInfo PlayInfo) {
+    Super.FillPlayInfo(PlayInfo);
+    PlayInfo.AddSetting("GameStatsTab", "bDispStat", "Display Stats", 0, 0, "Check");
+    PlayInfo.AddSetting("GameStatsTab", "dispInterval", "Display Interval", 0, 0, "Text");
+}
+
+static event string GetDescriptionText(string property) {
+    switch(property) {
+        case "bDispStat":
+            return "Display a random stat from a random player";
+        case "dispInterval":
+            return "Interval (sec) between polls";
+        default:
+            return Super.GetDescriptionText(property);
+    }
+}
+
+static function string formatTime(int seconds) {
+    local string timeStr;
+    local int i;
+    local array<int> timeValues;
+    
+    timeValues.Length= 3;
+    timeValues[0]= seconds / 3600;
+    timeValues[1]= seconds / 60;
+    timeValues[2]= seconds % 60;
+    for(i= 0; i < timeValues.Length; i++) {
+        if (timeValues[i] < 10) {
+            timeStr= timeStr$"0"$timeValues[i];
+        } else {
+            timeStr= timeStr$timeValues[i];
+        }
+        if (i < timeValues.Length-1) {
+            timeStr= timeStr$":";
+        }
+    }
+
+    return timeStr;
 }
 
 /**
