@@ -73,7 +73,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
     // Draw the Perk's Level
     if (curIndex == timeIndex) {
-        S= class'GameStatsTab_ServerPerks.GSTConsoleCommands'.static.formatTime(statValue[CurIndex]);
+        S= class'GameStatsTab_ServerPerks.GameStatsTabMut'.static.formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
     }

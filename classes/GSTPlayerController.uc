@@ -35,7 +35,6 @@ enum EStatKeys {
 
 var protected array<float> statArray[30];
 var array<string> descripArray[ArrayCount(statArray)];
-
 var float prevHealth, prevShield;
 
 replication {
