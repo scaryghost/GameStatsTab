@@ -18,7 +18,7 @@ var array<string> descripArray[ArrayCount(statArray)];
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
-        statArray;
+        statArray, descripArray;
 }
 
 event PostBeginPlay() {
@@ -60,10 +60,10 @@ event PostBeginPlay() {
     descripArray[EStatKeys.BOLTS_FIRED]="Bolts fired";
 }
 
-function incrementStat(byte statKey, float value) {
+simulated function incrementStat(byte statKey, float value) {
     statArray[statKey]+= value;
 }
 
-function float getStatValue(byte statKey) {
+simulated function float getStatValue(byte statKey) {
     return statArray[statKey];
 }
