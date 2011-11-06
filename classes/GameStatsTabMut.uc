@@ -61,6 +61,7 @@ function PostBeginPlay() {
 function Timer() {
     local Controller C;
     local GSTPlayerController gsPC;
+    local GSTPlayerReplicationInfo pri;
     local int numPlayers, randIndex, index;
     local string playerName, descrip, value;
    
@@ -79,6 +80,7 @@ function Timer() {
         if (GSTPlayerController(C) != none) {
             if (randIndex == index) {
                 gsPC= GSTPlayerController(C);
+                pri= GSTPlayerReplicationInfo(gsPC.PlayerReplicationInfo);
                 break;
             } else {
                 index++;
@@ -88,24 +90,24 @@ function Timer() {
 
     for(C= Level.ControllerList; C != none; C= C.NextController) {
         if (GSTPlayerController(C) != none) {
-            playerName= gsPC.PlayerReplicationInfo.PlayerName;
-            descrip= gsPC.descripArray[currentStat];
-            if (currentStat == gsPC.EStatKeys.TIME_ALIVE) {
-                value= formatTime(gsPC.getStatValue(currentStat));
+            playerName= pri.PlayerName;
+            descrip= pri.descripArray[currentStat];
+            if (currentStat == pri.EStatKeys.TIME_ALIVE) {
+                value= formatTime(pri.getStatValue(currentStat));
             } else {
-                value= string(int(gsPC.getStatValue(currentStat)));
+                value= string(int(pri.getStatValue(currentStat)));
             }
             GSTPlayerController(C).ClientMessage(statTextColor$playerName$" - "$descrip$": "$value);
         }
     }
     //Get next stat
     do {
-        currentStat= (currentStat+1) % ArrayCount(gsPC.descripArray);
+        currentStat= (currentStat+1) % ArrayCount(pri.descripArray);
 
-    } until (currentStat != gsPC.EStatKeys.ROUNDS_FIRED && 
-        currentStat != gsPC.EStatKeys.GRENADES_LAUNCHED && currentStat != gsPC.EStatKeys.ROCKETS_LAUNCHED &&
-        currentStat != gsPC.EStatKeys.BOLTS_FIRED &&  currentStat != gsPC.EStatKeys.SHELLS_FIRED && 
-        currentStat != gsPC.EStatKeys.UNITS_FUEL && currentStat != gsPC.EStatKeys.MELEE_SWINGS);
+    } until (currentStat != pri.EStatKeys.ROUNDS_FIRED && 
+        currentStat != pri.EStatKeys.GRENADES_LAUNCHED && currentStat != pri.EStatKeys.ROCKETS_LAUNCHED &&
+        currentStat != pri.EStatKeys.BOLTS_FIRED &&  currentStat != pri.EStatKeys.SHELLS_FIRED && 
+        currentStat != pri.EStatKeys.UNITS_FUEL && currentStat != pri.EStatKeys.MELEE_SWINGS);
 
 }
 

@@ -12,13 +12,13 @@ var() noexport float txtScale;
 var string setProp, getProp;
 
 function ShowPanel(bool bShow) {
-    local GSTPlayerController gsPC;
+    local GSTPlayerReplicationInfo pri;
 
     super.ShowPanel(bShow);
 
     if ( bShow ) {
-        gsPC= GSTPlayerController(PlayerOwner());
-        lb_StatSelect.statList.InitList(gsPC);
+        pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
+        lb_StatSelect.statList.InitList(pri);
     }
 
     EnableComponent(sl_bgR);

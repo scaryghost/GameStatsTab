@@ -1,20 +1,19 @@
 class GSTZombieScrake extends ZombieScrake;
 
-var GSTPlayerController gsPC;
+var GSTPlayerReplicationInfo pri;
 var bool decapCounted, rageCounted;
 
 function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
         class<DamageType> damageType, optional int HitIndex) {
-
-    gsPC= GSTPlayerController(InstigatedBy.Controller);
+    pri= GSTPlayerReplicationInfo(GSTPlayerController(InstigatedBy.Controller).PlayerReplicationInfo);
     if (!bDecapitated && bBackstabbed) {
-        gsPC.incrementStat(gsPC.EStatKeys.BACKSTABS, 1);
+        pri.incrementStat(pri.EStatKeys.BACKSTABS, 1);
     }
 
-    Super.takeDamage(Damage, instigatedBy, hitLocation, momentum, damageType, HitIndex);
+    super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
 
-    if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS,1);
+    if (!decapCounted && bDecapitated && pri != none) {
+        pri.incrementStat(pri.EStatKeys.NUM_DECAPS, 1);
         decapCounted= true;
     }
 }
@@ -28,7 +27,7 @@ state RunningState {
     function BeginState() {
         super.BeginState();
         if (!rageCounted) {
-            gsPC.incrementStat(gsPC.EStatKeys.SCRAKES_RAGED,1);
+            pri.incrementStat(pri.EStatKeys.SCRAKES_RAGED,1);
             rageCounted= true;
         }
     }
@@ -47,8 +46,8 @@ state RunningState {
 }
 
 function bool FlipOver() {
-    if (Health > 0 && gsPC != none) {
-        gsPC.incrementStat(gsPC.EStatKeys.SCRAKES_STUNNED,1);
+    if (Health > 0 && pri != none) {
+        pri.incrementStat(pri.EStatKeys.SCRAKES_STUNNED,1);
     }
 
     return super.FlipOver();

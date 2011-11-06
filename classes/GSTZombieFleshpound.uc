@@ -1,19 +1,19 @@
 class GSTZombieFleshPound extends ZombieFleshPound;
 
-var GSTPlayerController gsPC;
+var GSTPlayerReplicationInfo pri;
 var bool decapCounted;
 
 function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector Momentum, 
         class<DamageType> damageType, optional int HitIndex) {
-    gsPC= GSTPlayerController(InstigatedBy.Controller);
+    pri= GSTPlayerReplicationInfo(GSTPlayerController(InstigatedBy.Controller).PlayerReplicationInfo);
     if (!bDecapitated && bBackstabbed) {
-        gsPC.incrementStat(gsPC.EStatKeys.BACKSTABS, 1);
+        pri.incrementStat(pri.EStatKeys.BACKSTABS, 1);
     }
 
     super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
 
-    if (!decapCounted && bDecapitated && gsPC != none) {
-        gsPC.incrementStat(gsPC.EStatKeys.NUM_DECAPS,1);
+    if (!decapCounted && bDecapitated && pri != none) {
+        pri.incrementStat(pri.EStatKeys.NUM_DECAPS, 1);
         decapCounted= true;
     }
 }
@@ -25,12 +25,12 @@ function StartCharging() {
     super.StartCharging();
 
     if(bFrustrated) {
-        gsPC= GSTPlayerController(GSTHumanPawn(GSTFleshpoundZombieController(Controller).Target).Controller);
+        pri= GSTPlayerReplicationInfo(GSTHumanPawn(GSTFleshpoundZombieController(Controller).Target).Controller.PlayerReplicationInfo);
     } else {
-        gsPC= GSTPlayerController(lastHitBy);
+        pri= GSTPlayerReplicationInfo(lastHitBy.PlayerReplicationInfo);
     }
-    if (Health > 0 && gsPC != none) {
-        gsPC.incrementStat(gsPC.EStatKeys.FLESHPOUNDS_RAGED,1);
+    if (Health > 0 && pri != none) {
+        pri.incrementStat(pri.EStatKeys.FLESHPOUNDS_RAGED,1);
     }
 }
 
