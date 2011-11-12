@@ -5,11 +5,17 @@ struct oldNewZombiePair {
     var string newClass;
 };
 
+struct replacementPair {
+    var class<Object> oldClass;
+    var class<Object> newClass;
+};
+
 var() config bool bDispStat;
 var() config int dispInterval;
 var string statTextColor;
 var byte currentStat;
 var array<oldNewZombiePair> replacementArray;
+var array<replacementPair> fireModeReplacement;
 
 function PostBeginPlay() {
     local KFGameType gameType;
@@ -114,18 +120,30 @@ function Timer() {
 }
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
-    if (M32GrenadeLauncher(Other) != none) {
-        M32GrenadeLauncher(Other).FireModeClass[0]= class'GameStatsTab.GSTM32Fire';
-        return true;
-    } else if (LAW(Other) != none) {
-        LAW(Other).FireModeClass[0]= class'GameStatsTab.GSTLAWFire';
-        return true;
-    } else if (Crossbow(Other) != none) {
-        Crossbow(Other).FireModeClass[0]= class'GameStatsTab.GSTCrossbowFire';
-        return true;
+    local int index;
+
+    if (KFWeapon(Other) != none) {
+        index= replaceClass(string(KFWeapon(Other).FireModeClass[0]),fireModeReplacement);
+        if (index != -1) {
+            KFWeapon(Other).FireModeClass[0]= class<WeaponFire>(fireModeReplacement[index].newClass);
+            return true;
+        }
     }
 
     return super.CheckReplacement(Other, bSuperRelevant);
+}
+
+static function int replaceClass(string objectName, array<replacementPair> replacementArray) {
+    local int i, replaceIndex;
+
+    replaceIndex= -1;
+    for(i=0; replaceIndex == -1 && i < replacementArray.length; i++) {
+        if (objectName ~= String(replacementArray[i].oldClass)) {
+            replaceIndex = i;
+        }
+    }
+    
+    return replaceIndex;
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
@@ -202,4 +220,8 @@ defaultproperties {
     replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab.GSTZombieCrawler")
     replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab.GSTZombieBloat")
     replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab.GSTZombieClot")
+    
+    fireModeReplacement(0)=(oldClass=class'KFMod.M32Fire',newClass=class'GameStatsTab.GSTM32Fire')
+    fireModeReplacement(1)=(oldClass=class'KFMod.LAWFire',newClass=class'GameStatsTab.GSTLAWFire')
+    fireModeReplacement(2)=(oldClass=class'KFMod.CrossbowFire',newClass=class'GameStatsTab.GSTCrossbowFire')
 }
