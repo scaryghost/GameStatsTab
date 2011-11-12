@@ -91,7 +91,8 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     ammoCount= 1;
-    if (pri != none) {
+    if (pri != none && M32GrenadeLauncher(Weapon) == none && 
+            LAW(Weapon) == none && Crossbow(Weapon) == none) {
         if (KFMeleeGun(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.MELEE_SWINGS;
         } else if (PipeBombExplosive(Weapon) != none) {
@@ -103,12 +104,8 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
             if (BoomStick(Weapon) != none && bAltFire) {
                 ammoCount= (BoomStick(Weapon).MagAmmoRemaining+1) % 2 + 1;
             }
-        } else if (M32GrenadeLauncher(Weapon) != none || M79GrenadeLauncher(Weapon) != none) {
+        } else if (M79GrenadeLauncher(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.GRENADES_LAUNCHED;
-        } else if (LAW(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.ROCKETS_LAUNCHED;
-        } else if (Crossbow(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.BOLTS_FIRED;
         } else {
             statArrayIndex= pri.EStatKeys.ROUNDS_FIRED;
         }

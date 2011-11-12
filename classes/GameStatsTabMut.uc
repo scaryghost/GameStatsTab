@@ -113,6 +113,21 @@ function Timer() {
 
 }
 
+function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
+    if (M32GrenadeLauncher(Other) != none) {
+        M32GrenadeLauncher(Other).FireModeClass[0]= class'GameStatsTab.GSTM32Fire';
+        return true;
+    } else if (LAW(Other) != none) {
+        LAW(Other).FireModeClass[0]= class'GameStatsTab.GSTLAWFire';
+        return true;
+    } else if (Crossbow(Other) != none) {
+        Crossbow(Other).FireModeClass[0]= class'GameStatsTab.GSTCrossbowFire';
+        return true;
+    }
+
+    return super.CheckReplacement(Other, bSuperRelevant);
+}
+
 static function FillPlayInfo(PlayInfo PlayInfo) {
     Super.FillPlayInfo(PlayInfo);
     PlayInfo.AddSetting("GameStatsTab", "bDispStat", "Display Stats", 0, 0, "Check");
