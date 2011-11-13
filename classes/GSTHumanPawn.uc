@@ -94,12 +94,6 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
     if (pri != none && class<BaseProjectileFire>(Weapon.FireModeClass[0]) == none) {
         if (KFMeleeGun(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.MELEE_SWINGS;
-        } else if (PipeBombExplosive(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.PIPES_SET;
-        } else if (FlameThrower(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.UNITS_FUEL;
-        } else if (M79GrenadeLauncher(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.GRENADES_LAUNCHED;
         } else {
             statArrayIndex= pri.EStatKeys.ROUNDS_FIRED;
         }

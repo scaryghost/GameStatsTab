@@ -164,4 +164,7 @@ defaultproperties {
     fireModeReplacement(4)=(oldClass=class'KFMod.AA12Fire',newClass=class'GameStatsTab.GSTAA12Fire')
     fireModeReplacement(5)=(oldClass=class'KFMod.BoomStickFire',newClass=class'GameStatsTab.GSTBoomStickFire')
     fireModeReplacement(6)=(oldClass=class'KFMod.BoomStickAltFire',newClass=class'GameStatsTab.GSTBoomStickAltFire')
+    fireModeReplacement(7)=(oldClass=class'KFMod.FlameBurstFire',newClass=class'GameStatsTab.GSTFlameBurstFire')
+    fireModeReplacement(8)=(oldClass=class'KFMod.M79Fire',newClass=class'GameStatsTab.GSTM79Fire')
+    fireModeReplacement(9)=(oldClass=class'KFMod.PipeBombFire',newClass=class'GameStatsTab.GSTPipeBombFire')
 }
