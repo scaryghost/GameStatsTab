@@ -91,12 +91,7 @@ function Timer() {
             }
         }
         //Get next stat
-        do {
-            currentStat= (currentStat+1) % ArrayCount(pri.descripArray);
-        } until (currentStat != pri.EStatKeys.ROUNDS_FIRED && 
-            currentStat != pri.EStatKeys.GRENADES_LAUNCHED && currentStat != pri.EStatKeys.ROCKETS_LAUNCHED &&
-            currentStat != pri.EStatKeys.BOLTS_FIRED &&  currentStat != pri.EStatKeys.SHELLS_FIRED && 
-            currentStat != pri.EStatKeys.UNITS_FUEL && currentStat != pri.EStatKeys.MELEE_SWINGS);
+        currentStat= (currentStat+1) % ArrayCount(pri.descripArray);
     }
 
 }
