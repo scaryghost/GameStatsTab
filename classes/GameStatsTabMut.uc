@@ -1,26 +1,14 @@
 class GameStatsTabMut extends Mutator;
 
-struct oldNewZombiePair {
-    var string oldClass;
-    var string newClass;
-};
-
-struct replacementPair {
-    var class<Object> oldClass;
-    var class<Object> newClass;
-};
-
 var() config bool bDispStat;
 var() config int dispInterval;
 var string statTextColor;
 var byte currentStat;
-var array<oldNewZombiePair> replacementArray;
-var array<replacementPair> fireModeReplacement;
+var class<GSTAuxiliary> auxRef;
+var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 
 function PostBeginPlay() {
     local KFGameType gameType;
-    local int i,k;
-    local oldNewZombiePair replacementValue;
 
     gameType= KFGameType(Level.Game);
     if (gameType == none) {
@@ -36,22 +24,16 @@ function PostBeginPlay() {
     gameType.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
     gameType.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
 
+    auxRef= class'GameStatsTab.GSTAuxiliary';
     //Replace all instances of the old specimens with the new ones 
-    for( i=0; i<gameType.StandardMonsterClasses.Length; i++) {
-        for(k=0; k<replacementArray.Length; k++) {
-            replacementValue= replacementArray[k];
-            //Use ~= for case insensitive compare
-            if (gameType.StandardMonsterClasses[i].MClassName ~= replacementValue.oldClass) {
-                gameType.StandardMonsterClasses[i].MClassName= replacementValue.newClass;
-            }
-        }
-    }
+    auxRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 
+            monsterReplacement);
 
     //Replace the special squad arrays
-    replaceSpecialSquad(gameType.ShortSpecialSquads);
-    replaceSpecialSquad(gameType.NormalSpecialSquads);
-    replaceSpecialSquad(gameType.LongSpecialSquads);
-    replaceSpecialSquad(gameType.FinalSquads);
+    auxRef.static.replaceSpecialSquad(gameType.ShortSpecialSquads, monsterReplacement);
+    auxRef.static.replaceSpecialSquad(gameType.NormalSpecialSquads, monsterReplacement);
+    auxRef.static.replaceSpecialSquad(gameType.LongSpecialSquads, monsterReplacement);
+    auxRef.static.replaceSpecialSquad(gameType.FinalSquads, monsterReplacement);
 
     gameType.EndGameBossClass= "GameStatsTab.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
@@ -101,7 +83,7 @@ function Timer() {
                 playerName= pri.PlayerName;
                 descrip= pri.descripArray[currentStat];
                 if (currentStat == pri.EStatKeys.TIME_ALIVE) {
-                    value= formatTime(pri.getStatValue(currentStat));
+                    value= auxRef.static.formatTime(pri.getStatValue(currentStat));
                 } else {
                     value= string(int(pri.getStatValue(currentStat)));
                 }
@@ -123,7 +105,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     local int index;
 
     if (KFWeapon(Other) != none) {
-        index= replaceClass(string(KFWeapon(Other).FireModeClass[0]),fireModeReplacement);
+        index= auxRef.static.replaceClass(string(KFWeapon(Other).FireModeClass[0]),fireModeReplacement);
         if (index != -1) {
             KFWeapon(Other).FireModeClass[0]= class<WeaponFire>(fireModeReplacement[index].newClass);
             return true;
@@ -131,19 +113,6 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     }
 
     return super.CheckReplacement(Other, bSuperRelevant);
-}
-
-static function int replaceClass(string objectName, array<replacementPair> replacementArray) {
-    local int i, replaceIndex;
-
-    replaceIndex= -1;
-    for(i=0; replaceIndex == -1 && i < replacementArray.length; i++) {
-        if (objectName ~= String(replacementArray[i].oldClass)) {
-            replaceIndex = i;
-        }
-    }
-    
-    return replaceIndex;
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
@@ -163,47 +132,6 @@ static event string GetDescriptionText(string property) {
     }
 }
 
-static function string formatTime(int seconds) {
-    local string timeStr;
-    local int i;
-    local array<int> timeValues;
-    
-    timeValues.Length= 3;
-    timeValues[0]= seconds / 3600;
-    timeValues[1]= seconds / 60;
-    timeValues[2]= seconds % 60;
-    for(i= 0; i < timeValues.Length; i++) {
-        if (timeValues[i] < 10) {
-            timeStr= timeStr$"0"$timeValues[i];
-        } else {
-            timeStr= timeStr$timeValues[i];
-        }
-        if (i < timeValues.Length-1) {
-            timeStr= timeStr$":";
-        }
-    }
-
-    return timeStr;
-}
-
-/**
- *  Replaces the zombies in the given squadArray
- */
-function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
-    local int i,j,k;
-    local oldNewZombiePair replacementValue;
-    for(j=0; j<squadArray.Length; j++) {
-        for(i=0;i<squadArray[j].ZedClass.Length; i++) {
-            for(k=0; k<replacementArray.Length; k++) {
-                replacementValue= replacementArray[k];
-                if(squadArray[j].ZedClass[i] ~= replacementValue.oldClass) {
-                    squadArray[j].ZedClass[i]=  replacementValue.newClass;
-                }
-            }
-        }
-    }
-}
-
 defaultproperties {
     GroupName="KFGameStatsTab"
     FriendlyName="Game Stats Tab"
@@ -211,15 +139,15 @@ defaultproperties {
 
     currentStat= 0
 
-    replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab.GSTZombieFleshpound")
-    replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab.GSTZombieGorefast")
-    replacementArray(2)=(oldClass="KFChar.ZombieStalker",newClass="GameStatsTab.GSTZombieStalker")
-    replacementArray(3)=(oldClass="KFChar.ZombieSiren",newClass="GameStatsTab.GSTZombieSiren")
-    replacementArray(4)=(oldClass="KFChar.ZombieScrake",newClass="GameStatsTab.GSTZombieScrake")
-    replacementArray(5)=(oldClass="KFChar.ZombieHusk",newClass="GameStatsTab.GSTZombieHusk")
-    replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab.GSTZombieCrawler")
-    replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab.GSTZombieBloat")
-    replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab.GSTZombieClot")
+    monsterReplacement(0)=(oldClass=class'KFChar.ZombieFleshPound',newClass=class'GameStatsTab.GSTZombieFleshpound')
+    monsterReplacement(1)=(oldClass=class'KFChar.ZombieGorefast',newClass=class'GameStatsTab.GSTZombieGorefast')
+    monsterReplacement(2)=(oldClass=class'KFChar.ZombieStalker',newClass=class'GameStatsTab.GSTZombieStalker')
+    monsterReplacement(3)=(oldClass=class'KFChar.ZombieSiren',newClass=class'GameStatsTab.GSTZombieSiren')
+    monsterReplacement(4)=(oldClass=class'KFChar.ZombieScrake',newClass=class'GameStatsTab.GSTZombieScrake')
+    monsterReplacement(5)=(oldClass=class'KFChar.ZombieHusk',newClass=class'GameStatsTab.GSTZombieHusk')
+    monsterReplacement(6)=(oldClass=class'KFChar.ZombieCrawler',newClass=class'GameStatsTab.GSTZombieCrawler')
+    monsterReplacement(7)=(oldClass=class'KFChar.ZombieBloat',newClass=class'GameStatsTab.GSTZombieBloat')
+    monsterReplacement(8)=(oldClass=class'KFChar.ZombieClot',newClass=class'GameStatsTab.GSTZombieClot')
     
     fireModeReplacement(0)=(oldClass=class'KFMod.M32Fire',newClass=class'GameStatsTab.GSTM32Fire')
     fireModeReplacement(1)=(oldClass=class'KFMod.LAWFire',newClass=class'GameStatsTab.GSTLAWFire')
