@@ -1,11 +1,11 @@
 class GSTFrag extends Frag;
 
 function ServerThrow() {
-    local GSTHumanPawn gsHP;
+    local GSTPlayerReplicationInfo pri;
 
     super.ServerThrow();
-    gsHP= GSTHumanPawn(Instigator);
-    if (gsHP != none) {
-        gsHp.addFragToss();
+    pri= GSTPlayerReplicationInfo(Instigator.Controller.PlayerReplicationInfo);
+    if (pri != none) {
+        pri.incrementStat(pri.EStatKeys.FRAGS_TOSSED, 1);
     }
 }

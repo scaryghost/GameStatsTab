@@ -102,12 +102,6 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
 
 }
 
-
-function addFragToss() {
-    pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
-    pri.incrementStat(pri.EStatKeys.FRAGS_TOSSED, 1);
-}
-
 defaultproperties {
     RequiredEquipment(2)= "GameStatsTab.GSTFrag"
 }
