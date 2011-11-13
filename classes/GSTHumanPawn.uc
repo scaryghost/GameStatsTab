@@ -82,13 +82,3 @@ simulated function addHealth() {
         pri.incrementStat(pri.EStatKeys.HEALING_RECIEVED, Health - OldHealth);
     }
 }
-
-simulated function StartFiringX(bool bAltFire, bool bRapid) {
-    super.StartFiringX(bAltFire, bRapid);    
-
-    pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
-    if (pri != none && KFMeleeGun(Weapon) != none) {
-        pri.incrementStat(pri.EStatKeys.MELEE_SWINGS, 1.0);
-    }
-
-}
