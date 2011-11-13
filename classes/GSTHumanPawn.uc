@@ -85,19 +85,23 @@ simulated function addHealth() {
 
 simulated function StartFiringX(bool bAltFire, bool bRapid) {
     local int statArrayIndex;
-    local int ammoCount;
+    local int fireModeIndex;
 
     super.StartFiringX(bAltFire, bRapid);    
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
-    ammoCount= 1;
-    if (pri != none && class<BaseProjectileFire>(Weapon.FireModeClass[0]) == none) {
+    if (bAltFire) {
+        fireModeIndex= 1;
+    } else {
+        fireModeIndex= 0;
+    }
+    if (pri != none && class<BaseProjectileFire>(Weapon.FireModeClass[fireModeIndex]) == none) {
         if (KFMeleeGun(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.MELEE_SWINGS;
         } else {
             statArrayIndex= pri.EStatKeys.ROUNDS_FIRED;
         }
-        pri.incrementStat(statArrayIndex, ammoCount);
+        pri.incrementStat(statArrayIndex, 1.0);
     }
 
 }
