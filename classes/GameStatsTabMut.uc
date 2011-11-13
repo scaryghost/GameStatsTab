@@ -103,11 +103,19 @@ function Timer() {
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     local int index;
+    local int i;
+    local bool fireModeReplaced;
 
     if (KFWeapon(Other) != none) {
-        index= auxRef.static.replaceClass(string(KFWeapon(Other).FireModeClass[0]),fireModeReplacement);
-        if (index != -1) {
-            KFWeapon(Other).FireModeClass[0]= class<WeaponFire>(fireModeReplacement[index].newClass);
+        fireModeReplaced= false;
+        for(i= 0; i < ArrayCount(KFWeapon(Other).FireModeClass); i++) {
+            index= auxRef.static.replaceClass(string(KFWeapon(Other).FireModeClass[i]),fireModeReplacement);
+            if (index != -1) {
+                KFWeapon(Other).FireModeClass[i]= class<WeaponFire>(fireModeReplacement[index].newClass);
+                fireModeReplaced= true;
+            }
+        }
+        if (fireModeReplaced) {
             return true;
         }
     }
@@ -152,4 +160,8 @@ defaultproperties {
     fireModeReplacement(0)=(oldClass=class'KFMod.M32Fire',newClass=class'GameStatsTab.GSTM32Fire')
     fireModeReplacement(1)=(oldClass=class'KFMod.LAWFire',newClass=class'GameStatsTab.GSTLAWFire')
     fireModeReplacement(2)=(oldClass=class'KFMod.CrossbowFire',newClass=class'GameStatsTab.GSTCrossbowFire')
+    fireModeReplacement(3)=(oldClass=class'KFMod.ShotgunFire',newClass=class'GameStatsTab.GSTShotgunFire')
+    fireModeReplacement(4)=(oldClass=class'KFMod.AA12Fire',newClass=class'GameStatsTab.GSTAA12Fire')
+    fireModeReplacement(5)=(oldClass=class'KFMod.BoomStickFire',newClass=class'GameStatsTab.GSTBoomStickFire')
+    fireModeReplacement(6)=(oldClass=class'KFMod.BoomStickAltFire',newClass=class'GameStatsTab.GSTBoomStickAltFire')
 }

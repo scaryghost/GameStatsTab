@@ -91,19 +91,13 @@ simulated function StartFiringX(bool bAltFire, bool bRapid) {
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     ammoCount= 1;
-    if (pri != none && M32GrenadeLauncher(Weapon) == none && 
-            LAW(Weapon) == none && Crossbow(Weapon) == none) {
+    if (pri != none && class<BaseProjectileFire>(Weapon.FireModeClass[0]) == none) {
         if (KFMeleeGun(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.MELEE_SWINGS;
         } else if (PipeBombExplosive(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.PIPES_SET;
         } else if (FlameThrower(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.UNITS_FUEL;
-        } else if (AA12AutoShotgun(Weapon) != none || BoomStick(Weapon) != none || Shotgun(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.SHELLS_FIRED;
-            if (BoomStick(Weapon) != none && bAltFire) {
-                ammoCount= (BoomStick(Weapon).MagAmmoRemaining+1) % 2 + 1;
-            }
         } else if (M79GrenadeLauncher(Weapon) != none) {
             statArrayIndex= pri.EStatKeys.GRENADES_LAUNCHED;
         } else {
