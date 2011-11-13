@@ -60,10 +60,10 @@ function Timer() {
         }
     }
     
-    //randomly select a player
-    pri= GSTPlayerReplicationInfo(players[Rand(players.Length)].PlayerReplicationInfo);
+    if (players.Length > 0) {
+        //randomly select a player
+        pri= GSTPlayerReplicationInfo(players[Rand(players.Length)].PlayerReplicationInfo);
 
-    if (pri != none) {
         //Retrieve and display stat
         msg= pri.PlayerName$" - ";
         msg= msg$pri.descripArray[currentStat]$" - ";
