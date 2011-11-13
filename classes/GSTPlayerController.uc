@@ -2,15 +2,6 @@ class GSTPlayerController extends KFPlayerController;
 
 var float prevHealth, prevShield;
 
-simulated event PostBeginPlay() {
-    /**
-     * Should be a default property but for some reason, 
-     * putting it there won't overwrite KFPlayerReplicationInfo
-     */
-    PlayerReplicationInfoClass=Class'GameStatsTab.GSTPlayerReplicationInfo';
-    Super.PostBeginPlay();
-}
-
 function SetPawnClass(string inClass, string inCharacter) {
     PawnClass = Class'GameStatsTab.GSTHumanPawn';
     inCharacter = Class'KFGameType'.Static.GetValidCharacter(inCharacter);

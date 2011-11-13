@@ -118,6 +118,9 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
         if (fireModeReplaced) {
             return true;
         }
+    } else if (PlayerController(Other) != none) {
+        PlayerController(Other).PlayerReplicationInfoClass=Class'GameStatsTab.GSTPlayerReplicationInfo';
+        return true;
     }
 
     return super.CheckReplacement(Other, bSuperRelevant);
