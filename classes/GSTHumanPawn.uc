@@ -84,28 +84,11 @@ simulated function addHealth() {
 }
 
 simulated function StartFiringX(bool bAltFire, bool bRapid) {
-    local int statArrayIndex;
-    local int fireModeIndex;
-
     super.StartFiringX(bAltFire, bRapid);    
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
-    if (bAltFire) {
-        fireModeIndex= 1;
-    } else {
-        fireModeIndex= 0;
-    }
-    if (pri != none && class<BaseProjectileFire>(Weapon.FireModeClass[fireModeIndex]) == none) {
-        if (KFMeleeGun(Weapon) != none) {
-            statArrayIndex= pri.EStatKeys.MELEE_SWINGS;
-        } else {
-            statArrayIndex= pri.EStatKeys.ROUNDS_FIRED;
-        }
-        pri.incrementStat(statArrayIndex, 1.0);
+    if (pri != none && KFMeleeGun(Weapon) != none) {
+        pri.incrementStat(pri.EStatKeys.MELEE_SWINGS, 1.0);
     }
 
-}
-
-defaultproperties {
-    RequiredEquipment(2)= "GameStatsTab.GSTFrag"
 }

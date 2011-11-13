@@ -9,12 +9,12 @@ struct ReplacementPair {
     var class<Object> newClass;
 };
 
-static function int replaceClass(string objectName, array<ReplacementPair> replacementArray) {
+static function int replaceClass(string className, array<ReplacementPair> replacementArray) {
     local int i, replaceIndex;
 
     replaceIndex= -1;
     for(i=0; replaceIndex == -1 && i < replacementArray.length; i++) {
-        if (objectName ~= String(replacementArray[i].oldClass)) {
+        if (className ~= String(replacementArray[i].oldClass)) {
             replaceIndex = i;
         }
     }
