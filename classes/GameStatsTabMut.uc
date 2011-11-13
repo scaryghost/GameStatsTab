@@ -47,51 +47,36 @@ function PostBeginPlay() {
 }
 
 function Timer() {
+    local array<GSTPlayerController> players;
     local Controller C;
-    local GSTPlayerController gsPC;
     local GSTPlayerReplicationInfo pri;
-    local int numPlayers, randIndex, index;
-    local string playerName, descrip, value;
+    local string msg;
+    local int i;
    
     //Find out number of players 
-    numPlayers= 0;
     for(C= Level.ControllerList; C != none; C= C.NextController) {
         if (GSTPlayerController(C) != none) {
-            numPlayers++;
+            players[players.Length]= GSTPlayerController(C);
         }
     }
     
     //randomly select a player
-    randIndex= Rand(numPlayers);
-    index= 0;
-    for(C= Level.ControllerList; C != none; C= C.NextController) {
-        if (GSTPlayerController(C) != none) {
-            if (randIndex == index) {
-                gsPC= GSTPlayerController(C);
-                pri= GSTPlayerReplicationInfo(gsPC.PlayerReplicationInfo);
-                break;
-            } else {
-                index++;
-            }
-        }
-    }
+    pri= GSTPlayerReplicationInfo(players[Rand(players.Length)].PlayerReplicationInfo);
 
     if (pri != none) {
         //Retrieve and display stat
-        for(C= Level.ControllerList; C != none; C= C.NextController) {
-            if (GSTPlayerController(C) != none) {
-                playerName= pri.PlayerName;
-                descrip= pri.descripArray[currentStat];
-                if (currentStat == pri.EStatKeys.TIME_ALIVE) {
-                    value= auxRef.static.formatTime(pri.getStatValue(currentStat));
-                } else {
-                    value= string(int(pri.getStatValue(currentStat)));
-                }
-                GSTPlayerController(C).ClientMessage(statTextColor$playerName$" - "$descrip$": "$value);
-            }
+        msg= pri.PlayerName$" - ";
+        msg= msg$pri.descripArray[currentStat]$" - ";
+        if (currentStat == pri.EStatKeys.TIME_ALIVE) {
+            msg= msg$auxRef.static.formatTime(pri.getStatValue(currentStat));
+        } else {
+            msg= msg$string(int(pri.getStatValue(currentStat)));
+        }
+        for(i= 0; i < players.Length; i++) {
+            players[i].ClientMessage(statTextColor$msg);
         }
         //Get next stat
-        currentStat= (currentStat+1) % ArrayCount(pri.descripArray);
+        currentStat= (currentStat+1) % pri.EStatKeys.EnumCount;
     }
 
 }
