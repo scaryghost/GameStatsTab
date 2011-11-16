@@ -18,18 +18,18 @@ function bool PreDraw(Canvas Canvas) {
     return false;
 }
 
-function InitList(GSTPlayerController gsPC) {
+function InitList(GSTPlayerReplicationInfo pri) {
     local int i;
     // Update the ItemCount and select the first item
-    itemCount= gsPC.EStatKeys.EnumCount;
+    itemCount= pri.EStatKeys.EnumCount;
     SetIndex(0);
 
     statValue.Length= itemCount;
     for(i= 0; i < itemCount; i++) {
-        statName[i]= gsPC.descripArray[i];
-        statValue[i]= gsPC.getStatValue(i);
+        statName[i]= pri.descripArray[i];
+        statValue[i]= pri.getStatValue(i);
     }
-    timeIndex= gsPC.EStatKeys.TIME_ALIVE;
+    timeIndex= pri.EStatKeys.TIME_ALIVE;
 
     if ( bNotify ) {
         CheckLinkedObjects(Self);
@@ -73,7 +73,7 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
 
     // Draw the Perk's Level
     if (curIndex == timeIndex) {
-        S= class'GameStatsTab_ServerPerks.GameStatsTabMut'.static.formatTime(statValue[CurIndex]);
+        S= class'GameStatsTab_ServerPerks.GSTAuxiliary'.static.formatTime(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
     }

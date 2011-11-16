@@ -1,21 +1,15 @@
 class GameStatsTabMut extends Mutator;
 
-struct oldNewZombiePair {
-    var string oldClass;
-    var string newClass;
-};
-
 var() config bool bDispStat;
 var() config int dispInterval;
 var string statTextColor;
 var byte currentStat;
+var class<GSTAuxiliary> auxRef;
+var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var bool replaceLoginMenu;
-var array<oldNewZombiePair> replacementArray;
 
 function PostBeginPlay() {
     local KFGameType gameType;
-    local int i,k;
-    local oldNewZombiePair replacementValue;
 
     gameType= KFGameType(Level.Game);
     if (gameType == none) {
@@ -29,22 +23,16 @@ function PostBeginPlay() {
     gameType.PlayerControllerClass= class'GameStatsTab_ServerPerks.GSTPlayerController';
     gameType.PlayerControllerClassName= "GameStatsTab_ServerPerks.GSTPlayerController";
 
+    auxRef= class'GameStatsTab_ServerPerks.GSTAuxiliary';
     //Replace all instances of the old specimens with the new ones 
-    for( i=0; i<gameType.StandardMonsterClasses.Length; i++) {
-        for(k=0; k<replacementArray.Length; k++) {
-            replacementValue= replacementArray[k];
-            //Use ~= for case insensitive compare
-            if (gameType.StandardMonsterClasses[i].MClassName ~= replacementValue.oldClass) {
-                gameType.StandardMonsterClasses[i].MClassName= replacementValue.newClass;
-            }
-        }
-    }
+    auxRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 
+            monsterReplacement);
 
     //Replace the special squad arrays
-    replaceSpecialSquad(gameType.ShortSpecialSquads);
-    replaceSpecialSquad(gameType.NormalSpecialSquads);
-    replaceSpecialSquad(gameType.LongSpecialSquads);
-    replaceSpecialSquad(gameType.FinalSquads);
+    auxRef.static.replaceSpecialSquad(gameType.ShortSpecialSquads, monsterReplacement);
+    auxRef.static.replaceSpecialSquad(gameType.NormalSpecialSquads, monsterReplacement);
+    auxRef.static.replaceSpecialSquad(gameType.LongSpecialSquads, monsterReplacement);
+    auxRef.static.replaceSpecialSquad(gameType.FinalSquads, monsterReplacement);
 
     gameType.EndGameBossClass= "GameStatsTab_ServerPerks.GSTZombieBoss";
     gameType.FallbackMonsterClass= "GameStatsTab_ServerPerks.GSTZombieStalker";
@@ -60,12 +48,13 @@ function PostBeginPlay() {
  * alphabetically is after GameStatsTab
  */
 function Timer() {
+    local array<GSTPlayerController> players;
     local Controller C;
-    local GSTPlayerController gsPC;
-    local int numPlayers, randIndex, index;
-    local string playerName, descrip, value;
     local UnrealPlayer up;
     local string loginMenuClass;
+    local GSTPlayerReplicationInfo pri;
+    local string msg;
+    local int i;
 
     if (!replaceLoginMenu) {
         loginMenuClass= string(class'GameStatsTab_ServerPerks.GSTInvasionLoginMenu');
@@ -74,7 +63,7 @@ function Timer() {
         /**
          * Need this part for local hosts
          */            
-        for(c= Level.ControllerList; c != none; c= c.NextController) {
+        for(C= Level.ControllerList; C != none; C= C.NextController) {
             up= UnrealPlayer(c);
             if (up != none) {
                 up.ClientReceiveLoginMenu(loginMenuClass, DeathMatch(Level.Game).bAlwaysShowLoginMenu);
@@ -87,50 +76,58 @@ function Timer() {
         }
         return;
     }
-
+   
     //Find out number of players 
-    numPlayers= 0;
     for(C= Level.ControllerList; C != none; C= C.NextController) {
         if (GSTPlayerController(C) != none) {
-            numPlayers++;
+            players[players.Length]= GSTPlayerController(C);
         }
     }
     
-    //randomly select a player
-    randIndex= Rand(numPlayers);
-    index= 0;
-    for(C= Level.ControllerList; C != none; C= C.NextController) {
-        if (GSTPlayerController(C) != none) {
-            if (randIndex == index) {
-                gsPC= GSTPlayerController(C);
-                break;
-            } else {
-                index++;
-            }
+    if (players.Length > 0) {
+        //randomly select a player
+        pri= GSTPlayerReplicationInfo(players[Rand(players.Length)].PlayerReplicationInfo);
+
+        //Retrieve and display stat
+        msg= pri.PlayerName$" - ";
+        msg= msg$pri.descripArray[currentStat]$" - ";
+        if (currentStat == pri.EStatKeys.TIME_ALIVE) {
+            msg= msg$auxRef.static.formatTime(pri.getStatValue(currentStat));
+        } else {
+            msg= msg$string(int(pri.getStatValue(currentStat)));
         }
+        for(i= 0; i < players.Length; i++) {
+            players[i].ClientMessage(statTextColor$msg);
+        }
+        //Get next stat
+        currentStat= (currentStat+1) % pri.EStatKeys.EnumCount;
     }
 
-    for(C= Level.ControllerList; C != none; C= C.NextController) {
-        if (GSTPlayerController(C) != none) {
-            playerName= gsPC.PlayerReplicationInfo.PlayerName;
-            descrip= gsPC.descripArray[currentStat];
-            if (currentStat == gsPC.EStatKeys.TIME_ALIVE) {
-                value= formatTime(gsPC.getStatValue(currentStat));
-            } else {
-                value= string(int(gsPC.getStatValue(currentStat)));
+}
+
+function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
+    local int index;
+    local int i;
+    local bool fireModeReplaced;
+
+    if (KFWeapon(Other) != none) {
+        fireModeReplaced= false;
+        for(i= 0; i < ArrayCount(KFWeapon(Other).FireModeClass); i++) {
+            index= auxRef.static.replaceClass(string(KFWeapon(Other).FireModeClass[i]),fireModeReplacement);
+            if (index != -1) {
+                KFWeapon(Other).FireModeClass[i]= class<WeaponFire>(fireModeReplacement[index].newClass);
+                fireModeReplaced= true;
             }
-            GSTPlayerController(C).ClientMessage(statTextColor$playerName$" - "$descrip$": "$value);
         }
+        if (fireModeReplaced) {
+            return true;
+        }
+    } else if (PlayerController(Other) != none) {
+        PlayerController(Other).PlayerReplicationInfoClass=Class'GameStatsTab_ServerPerks.GSTPlayerReplicationInfo';
+        return true;
     }
-    //Get next stat
-    do {
-        currentStat= (currentStat+1) % ArrayCount(gsPC.descripArray);
 
-    } until (currentStat != gsPC.EStatKeys.ROUNDS_FIRED && 
-        currentStat != gsPC.EStatKeys.GRENADES_LAUNCHED && currentStat != gsPC.EStatKeys.ROCKETS_LAUNCHED &&
-        currentStat != gsPC.EStatKeys.BOLTS_FIRED &&  currentStat != gsPC.EStatKeys.SHELLS_FIRED && 
-        currentStat != gsPC.EStatKeys.UNITS_FUEL && currentStat != gsPC.EStatKeys.MELEE_SWINGS);
-
+    return super.CheckReplacement(Other, bSuperRelevant);
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
@@ -150,47 +147,6 @@ static event string GetDescriptionText(string property) {
     }
 }
 
-static function string formatTime(int seconds) {
-    local string timeStr;
-    local int i;
-    local array<int> timeValues;
-    
-    timeValues.Length= 3;
-    timeValues[0]= seconds / 3600;
-    timeValues[1]= seconds / 60;
-    timeValues[2]= seconds % 60;
-    for(i= 0; i < timeValues.Length; i++) {
-        if (timeValues[i] < 10) {
-            timeStr= timeStr$"0"$timeValues[i];
-        } else {
-            timeStr= timeStr$timeValues[i];
-        }
-        if (i < timeValues.Length-1) {
-            timeStr= timeStr$":";
-        }
-    }
-
-    return timeStr;
-}
-
-/**
- *  Replaces the zombies in the given squadArray
- */
-function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
-    local int i,j,k;
-    local oldNewZombiePair replacementValue;
-    for(j=0; j<squadArray.Length; j++) {
-        for(i=0;i<squadArray[j].ZedClass.Length; i++) {
-            for(k=0; k<replacementArray.Length; k++) {
-                replacementValue= replacementArray[k];
-                if(squadArray[j].ZedClass[i] ~= replacementValue.oldClass) {
-                    squadArray[j].ZedClass[i]=  replacementValue.newClass;
-                }
-            }
-        }
-    }
-}
-
 defaultproperties {
     GroupName="KFGameStatsTab"
     FriendlyName="Game Stats Tab - ServerPerks"
@@ -198,13 +154,47 @@ defaultproperties {
 
     currentStat= 0
 
-    replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="GameStatsTab_ServerPerks.GSTZombieFleshpound")
-    replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="GameStatsTab_ServerPerks.GSTZombieGorefast")
-    replacementArray(2)=(oldClass="KFChar.ZombieStalker",newClass="GameStatsTab_ServerPerks.GSTZombieStalker")
-    replacementArray(3)=(oldClass="KFChar.ZombieSiren",newClass="GameStatsTab_ServerPerks.GSTZombieSiren")
-    replacementArray(4)=(oldClass="KFChar.ZombieScrake",newClass="GameStatsTab_ServerPerks.GSTZombieScrake")
-    replacementArray(5)=(oldClass="KFChar.ZombieHusk",newClass="GameStatsTab_ServerPerks.GSTZombieHusk")
-    replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="GameStatsTab_ServerPerks.GSTZombieCrawler")
-    replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="GameStatsTab_ServerPerks.GSTZombieBloat")
-    replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="GameStatsTab_ServerPerks.GSTZombieClot")
+    monsterReplacement(0)=(oldClass=class'KFChar.ZombieFleshPound',newClass=class'GameStatsTab_ServerPerks.GSTZombieFleshpound')
+    monsterReplacement(1)=(oldClass=class'KFChar.ZombieGorefast',newClass=class'GameStatsTab_ServerPerks.GSTZombieGorefast')
+    monsterReplacement(2)=(oldClass=class'KFChar.ZombieStalker',newClass=class'GameStatsTab_ServerPerks.GSTZombieStalker')
+    monsterReplacement(3)=(oldClass=class'KFChar.ZombieSiren',newClass=class'GameStatsTab_ServerPerks.GSTZombieSiren')
+    monsterReplacement(4)=(oldClass=class'KFChar.ZombieScrake',newClass=class'GameStatsTab_ServerPerks.GSTZombieScrake')
+    monsterReplacement(5)=(oldClass=class'KFChar.ZombieHusk',newClass=class'GameStatsTab_ServerPerks.GSTZombieHusk')
+    monsterReplacement(6)=(oldClass=class'KFChar.ZombieCrawler',newClass=class'GameStatsTab_ServerPerks.GSTZombieCrawler')
+    monsterReplacement(7)=(oldClass=class'KFChar.ZombieBloat',newClass=class'GameStatsTab_ServerPerks.GSTZombieBloat')
+    monsterReplacement(8)=(oldClass=class'KFChar.ZombieClot',newClass=class'GameStatsTab_ServerPerks.GSTZombieClot')
+    
+    fireModeReplacement(0)=(oldClass=class'KFMod.M32Fire',newClass=class'GameStatsTab_ServerPerks.GSTM32Fire')
+    fireModeReplacement(1)=(oldClass=class'KFMod.LAWFire',newClass=class'GameStatsTab_ServerPerks.GSTLAWFire')
+    fireModeReplacement(2)=(oldClass=class'KFMod.CrossbowFire',newClass=class'GameStatsTab_ServerPerks.GSTCrossbowFire')
+    fireModeReplacement(3)=(oldClass=class'KFMod.ShotgunFire',newClass=class'GameStatsTab_ServerPerks.GSTShotgunFire')
+    fireModeReplacement(4)=(oldClass=class'KFMod.AA12Fire',newClass=class'GameStatsTab_ServerPerks.GSTAA12Fire')
+    fireModeReplacement(5)=(oldClass=class'KFMod.BoomStickFire',newClass=class'GameStatsTab_ServerPerks.GSTBoomStickFire')
+    fireModeReplacement(6)=(oldClass=class'KFMod.BoomStickAltFire',newClass=class'GameStatsTab_ServerPerks.GSTBoomStickAltFire')
+    fireModeReplacement(7)=(oldClass=class'KFMod.FlameBurstFire',newClass=class'GameStatsTab_ServerPerks.GSTFlameBurstFire')
+    fireModeReplacement(8)=(oldClass=class'KFMod.M79Fire',newClass=class'GameStatsTab_ServerPerks.GSTM79Fire')
+    fireModeReplacement(9)=(oldClass=class'KFMod.PipeBombFire',newClass=class'GameStatsTab_ServerPerks.GSTPipeBombFire')
+    fireModeReplacement(10)=(oldClass=class'KFMod.WinchesterFire',newClass=class'GameStatsTab_ServerPerks.GSTWinchesterFire')
+    fireModeReplacement(11)=(oldClass=class'KFMod.DualDeagleFire',newClass=class'GameStatsTab_ServerPerks.GSTDualDeagleFire')
+    fireModeReplacement(12)=(oldClass=class'KFMod.DualiesFire',newClass=class'GameStatsTab_ServerPerks.GSTDualiesFire')
+    fireModeReplacement(13)=(oldClass=class'KFMod.AK47Fire',newClass=class'GameStatsTab_ServerPerks.GSTAK47Fire')
+    fireModeReplacement(14)=(oldClass=class'KFMod.BullpupFire',newClass=class'GameStatsTab_ServerPerks.GSTBullpupFire')
+    fireModeReplacement(15)=(oldClass=class'KFMod.DeagleFire',newClass=class'GameStatsTab_ServerPerks.GSTDeagleFire')
+    fireModeReplacement(16)=(oldClass=class'KFMod.M14EBRFire',newClass=class'GameStatsTab_ServerPerks.GSTM14EBRFire')
+    fireModeReplacement(17)=(oldClass=class'KFMod.MAC10Fire',newClass=class'GameStatsTab_ServerPerks.GSTMAC10Fire')
+    fireModeReplacement(18)=(oldClass=class'KFMod.MP7MFire',newClass=class'GameStatsTab_ServerPerks.GSTMP7MFire')
+    fireModeReplacement(19)=(oldClass=class'KFMod.MachinePFire',newClass=class'GameStatsTab_ServerPerks.GSTMachinePFire')
+    fireModeReplacement(20)=(oldClass=class'KFMod.SCARMK17Fire',newClass=class'GameStatsTab_ServerPerks.GSTSCARMK17Fire')
+    fireModeReplacement(21)=(oldClass=class'KFMod.SingleFire',newClass=class'GameStatsTab_ServerPerks.GSTSingleFire')
+    fireModeReplacement(22)=(oldClass=class'KFMod.FragFire',newClass=class'GameStatsTab_ServerPerks.GSTFragFire')
+    fireModeReplacement(23)=(oldClass=class'KFMod.AxeFire',newClass=class'GameStatsTab_ServerPerks.GSTAxeFire')
+    fireModeReplacement(24)=(oldClass=class'KFMod.AxeFireB',newClass=class'GameStatsTab_ServerPerks.GSTAxeFireB')
+    fireModeReplacement(25)=(oldClass=class'KFMod.KatanaFire',newClass=class'GameStatsTab_ServerPerks.GSTKatanaFire')
+    fireModeReplacement(26)=(oldClass=class'KFMod.KatanaFireB',newClass=class'GameStatsTab_ServerPerks.GSTKatanaFireB')
+    fireModeReplacement(27)=(oldClass=class'KFMod.MacheteFire',newClass=class'GameStatsTab_ServerPerks.GSTMacheteFire')
+    fireModeReplacement(28)=(oldClass=class'KFMod.MacheteFireB',newClass=class'GameStatsTab_ServerPerks.GSTMacheteFireB')
+    fireModeReplacement(29)=(oldClass=class'KFMod.KnifeFire',newClass=class'GameStatsTab_ServerPerks.GSTKnifeFire')
+    fireModeReplacement(30)=(oldClass=class'KFMod.KnifeFireB',newClass=class'GameStatsTab_ServerPerks.GSTKnifeFireB')
+    fireModeReplacement(31)=(oldClass=class'KFMod.ChainsawFire',newClass=class'GameStatsTab_ServerPerks.GSTChainsawFire')
+    fireModeReplacement(32)=(oldClass=class'KFMod.ChainsawAltFire',newClass=class'GameStatsTab_ServerPerks.GSTChainsawAltFire')
 }
