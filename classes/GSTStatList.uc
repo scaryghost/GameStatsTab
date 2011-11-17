@@ -64,14 +64,14 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
     // Select Text Color
     Canvas.SetDrawColor(txtR, txtG, txtB, alpha);
 
-    // Draw the Perk's Level Name
+    // Write stat name
     Canvas.TextSize(statName[CurIndex],TempWidth,TempHeight);
     TempX += Width*0.1f;
     TempY += (Height-TempHeight)*0.5f;
     Canvas.SetPos(TempX, TempY);
     Canvas.DrawText(statName[CurIndex]);
 
-    // Draw the Perk's Level
+    // Write stat value
     if (curIndex == timeIndex) {
         S= class'GameStatsTab.GSTAuxiliary'.static.formatTime(statValue[CurIndex]);
     } else {

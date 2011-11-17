@@ -2,10 +2,14 @@ class GameStatsTabMut extends Mutator;
 
 var() config bool bDispStat;
 var() config int dispInterval;
-var string statTextColor;
+var string statTextColor, gstLoginMenuClass, endGameBossClass, fallbackMonsterClass;
 var byte currentStat;
-var class<GSTAuxiliary> auxRef;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
+var class<GameRules> statsTabRules;
+var class<PlayerController> statsTabController;
+var class<PlayerReplicationInfo> statsTabReplicationInfo;
+
+var class<GSTAuxiliary> auxiliaryRef;
 
 function PostBeginPlay() {
     local KFGameType gameType;
@@ -16,27 +20,25 @@ function PostBeginPlay() {
         return;
     }
 
-    Spawn(class'GameStatsTab.GSTGameRules');
+    Spawn(statsTabRules);
     AddToPackageMap("GameStatsTab");
-    DeathMatch(Level.Game).LoginMenuClass = 
-            string(Class'GameStatsTab.GSTInvasionLoginMenu');
+    DeathMatch(Level.Game).LoginMenuClass= gstLoginMenuClass;
 
-    gameType.PlayerControllerClass= class'GameStatsTab.GSTPlayerController';
-    gameType.PlayerControllerClassName= "GameStatsTab.GSTPlayerController";
+    gameType.PlayerControllerClass= statsTabController;
+    gameType.PlayerControllerClassName= string(statsTabController);
 
-    auxRef= class'GameStatsTab.GSTAuxiliary';
     //Replace all instances of the old specimens with the new ones 
-    auxRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 
+    auxiliaryRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 
             monsterReplacement);
 
     //Replace the special squad arrays
-    auxRef.static.replaceSpecialSquad(gameType.ShortSpecialSquads, monsterReplacement);
-    auxRef.static.replaceSpecialSquad(gameType.NormalSpecialSquads, monsterReplacement);
-    auxRef.static.replaceSpecialSquad(gameType.LongSpecialSquads, monsterReplacement);
-    auxRef.static.replaceSpecialSquad(gameType.FinalSquads, monsterReplacement);
+    auxiliaryRef.static.replaceSpecialSquad(gameType.ShortSpecialSquads, monsterReplacement);
+    auxiliaryRef.static.replaceSpecialSquad(gameType.NormalSpecialSquads, monsterReplacement);
+    auxiliaryRef.static.replaceSpecialSquad(gameType.LongSpecialSquads, monsterReplacement);
+    auxiliaryRef.static.replaceSpecialSquad(gameType.FinalSquads, monsterReplacement);
 
-    gameType.EndGameBossClass= "GameStatsTab.GSTZombieBoss";
-    gameType.FallbackMonsterClass= "GameStatsTab.GSTZombieStalker";
+    gameType.EndGameBossClass= endGameBossClass;
+    gameType.FallbackMonsterClass= fallbackMonsterClass;
 
     statTextColor= chr(27)$chr(255)$chr(255)$chr(1);
 
@@ -68,7 +70,7 @@ function Timer() {
         msg= pri.PlayerName$" - ";
         msg= msg$pri.descripArray[currentStat]$" - ";
         if (currentStat == pri.EStatKeys.TIME_ALIVE) {
-            msg= msg$auxRef.static.formatTime(pri.getStatValue(currentStat));
+            msg= msg$auxiliaryRef.static.formatTime(pri.getStatValue(currentStat));
         } else {
             msg= msg$string(int(pri.getStatValue(currentStat)));
         }
@@ -89,7 +91,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     if (KFWeapon(Other) != none) {
         fireModeReplaced= false;
         for(i= 0; i < ArrayCount(KFWeapon(Other).FireModeClass); i++) {
-            index= auxRef.static.replaceClass(string(KFWeapon(Other).FireModeClass[i]),fireModeReplacement);
+            index= auxiliaryRef.static.replaceClass(string(KFWeapon(Other).FireModeClass[i]),fireModeReplacement);
             if (index != -1) {
                 KFWeapon(Other).FireModeClass[i]= class<WeaponFire>(fireModeReplacement[index].newClass);
                 fireModeReplaced= true;
@@ -99,7 +101,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
             return true;
         }
     } else if (PlayerController(Other) != none) {
-        PlayerController(Other).PlayerReplicationInfoClass=Class'GameStatsTab.GSTPlayerReplicationInfo';
+        PlayerController(Other).PlayerReplicationInfoClass= statsTabReplicationInfo;
         return true;
     }
 
@@ -129,7 +131,15 @@ defaultproperties {
     Description="Displays detailed statistics about your game.  Version 1.1.0"
 
     currentStat= 0
+    auxiliaryRef= class'GameStatsTab.GSTAuxiliary';
+    gstLoginMenuClass="GameStatsTab.GSTInvasionLoginMenu"
+    statsTabRules= class'GameStatsTab.GSTGameRules'
+    statsTabController= class'GameStatsTab.GSTPlayerController'
+    statsTabReplicationInfo= class'GameStatsTab.GSTPlayerReplicationInfo'
 
+    endGameBossClass= "GameStatsTab.GSTZombieBoss"
+    fallbackMonsterClass= "GameStatsTab.GSTZombieStalker"
+    
     monsterReplacement(0)=(oldClass=class'KFChar.ZombieFleshPound',newClass=class'GameStatsTab.GSTZombieFleshpound')
     monsterReplacement(1)=(oldClass=class'KFChar.ZombieGorefast',newClass=class'GameStatsTab.GSTZombieGorefast')
     monsterReplacement(2)=(oldClass=class'KFChar.ZombieStalker',newClass=class'GameStatsTab.GSTZombieStalker')
