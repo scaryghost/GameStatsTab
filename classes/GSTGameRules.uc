@@ -5,7 +5,6 @@ struct monsterIndexPair {
     var byte statIndex;
 };
 
-var GSTPlayerController gsPC;
 var array<monsterIndexPair> monsterIndexArray;
 var bool isArrayFilled;
 
@@ -20,11 +19,10 @@ function ScoreKill(Controller Killer, Controller Killed) {
 
     Super.ScoreKill(Killer,Killed);
     
-    gsPC= GSTPlayerController(killer);
-    pri= GSTPlayerReplicationInfo(gsPC.PlayerReplicationInfo);
-    if(gsPC != none) {
+    pri= GSTPlayerReplicationInfo(killer.PlayerReplicationInfo);
+    if(pri != none) {
         if (!isArrayFilled) {
-            fillMonsterIndexArray();
+            fillMonsterIndexArray(pri);
         }
         for(i= 0; i < monsterIndexArray.Length; i++) {
             if (InStr(string(Killed.pawn),monsterIndexArray[i].monsterName) != -1) {
@@ -36,10 +34,7 @@ function ScoreKill(Controller Killer, Controller Killed) {
 
 }
 
-function fillMonsterIndexArray() {
-    local GSTPlayerReplicationInfo pri;
-
-    pri= GSTPlayerReplicationInfo(gsPC.PlayerReplicationInfo);
+function fillMonsterIndexArray(GSTPlayerReplicationInfo pri) {
     monsterIndexArray.Length= 10;
     monsterIndexArray[0].monsterName="ZombieCrawler";
     monsterIndexArray[0].statIndex=pri.EStatKeys.CRAWLER_KILLS;
