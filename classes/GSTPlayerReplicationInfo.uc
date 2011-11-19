@@ -60,6 +60,17 @@ event PostBeginPlay() {
     descripArray[EStatKeys.BOLTS_FIRED]="Bolts fired";
 }
 
+function Reset() {
+    local int i;
+
+    super.Reset();
+    if (KFGameType(Level.Game) != none) {
+        for(i= 0; i < ArrayCount(statArray); i++) {
+            statArray[i]= 0;
+        }
+    }
+}
+
 simulated function incrementStat(byte statKey, float value) {
     statArray[statKey]+= value;
 }
