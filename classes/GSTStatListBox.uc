@@ -3,7 +3,6 @@ class GSTStatListBox extends GUIListBoxBase;
 var GSTStatList statList;
 
 function InitComponent(GUIController MyController, GUIComponent MyOwner) {
-    DefaultListClass = string(Class'GameStatsTab_ServerPerks.GSTStatList');
     Super.InitComponent(MyController,MyOwner);
     statList = GSTStatList(AddComponent(DefaultListClass));
     if (statList == None) {
@@ -18,4 +17,5 @@ function int GetIndex() {
 }
 
 defaultproperties {
+    DefaultListClass="GameStatsTab_ServerPerks.GSTStatList"
 }
