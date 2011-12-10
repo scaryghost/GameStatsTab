@@ -192,4 +192,5 @@ defaultproperties {
     fireModeReplacement(39)=(oldClass=class'KFMod.M4Fire',newClass=class'GameStatsTab.GSTM4Fire')
     fireModeReplacement(40)=(oldClass=class'KFMod.MP5MFire',newClass=class'GameStatsTab.GSTMP5MFire')
     fireModeReplacement(41)=(oldClass=class'KFMod.Magnum44Fire',newClass=class'GameStatsTab.GSTMagnum44Fire')
+    fireModeReplacement(42)=(oldClass=class'KFMod.Dual44MagnumFire',newClass=class'GameStatsTab.GSTDual44MagnumFire')
 }
