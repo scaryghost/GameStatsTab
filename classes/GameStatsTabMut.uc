@@ -183,4 +183,13 @@ defaultproperties {
     fireModeReplacement(30)=(oldClass=class'KFMod.KnifeFireB',newClass=class'GameStatsTab.GSTKnifeFireB')
     fireModeReplacement(31)=(oldClass=class'KFMod.ChainsawFire',newClass=class'GameStatsTab.GSTChainsawFire')
     fireModeReplacement(32)=(oldClass=class'KFMod.ChainsawAltFire',newClass=class'GameStatsTab.GSTChainsawAltFire')
+    fireModeReplacement(33)=(oldClass=class'KFMod.BenelliFire',newClass=class'GameStatsTab.GSTBenelliFire')
+    fireModeReplacement(34)=(oldClass=class'KFMod.ClaymoreSwordFire',newClass=class'GameStatsTab.GSTClaymoreSwordFire')
+    fireModeReplacement(35)=(oldClass=class'KFMod.ClaymoreSwordFireB',newClass=class'GameStatsTab.GSTClaymoreSwordFireB')
+    fireModeReplacement(36)=(oldClass=class'KFMod.HuskGunFire',newClass=class'GameStatsTab.GSTHuskGunFire')
+    fireModeReplacement(37)=(oldClass=class'KFMod.M203Fire',newClass=class'GameStatsTab.GSTM203Fire')
+    fireModeReplacement(38)=(oldClass=class'KFMod.M4203BulletFire',newClass=class'GameStatsTab.GSTM4203BulletFire')
+    fireModeReplacement(39)=(oldClass=class'KFMod.M4Fire',newClass=class'GameStatsTab.GSTM4Fire')
+    fireModeReplacement(40)=(oldClass=class'KFMod.MP5MFire',newClass=class'GameStatsTab.GSTMP5MFire')
+    fireModeReplacement(41)=(oldClass=class'KFMod.Magnum44Fire',newClass=class'GameStatsTab.GSTMagnum44Fire')
 }
