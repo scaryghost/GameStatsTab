@@ -154,7 +154,7 @@ static event string GetDescriptionText(string property) {
 defaultproperties {
     GroupName="KFGameStatsTab"
     FriendlyName="Game Stats Tab - ServerPerks"
-    Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.1.0"
+    Description="Displays detailed statistics about your game.  This version is compatible with ServerPerks.  Version 1.2.0"
 
     auxiliaryRef= class'GameStatsTab_ServerPerks.GSTAuxiliary';
     gstLoginMenuClass="GameStatsTab_ServerPerks.GSTInvasionLoginMenu"
