@@ -8,13 +8,13 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
     local actor Victims;
     local float damageScale, dist;
     local vector dirs;
-	local int NumKilled;
-	local KFMonster KFMonsterVictim;
-	local Pawn P;
-	local KFPawn KFP;
-	local array<Pawn> CheckedPawns;
-	local int i;
-	local bool bAlreadyChecked;
+    local int NumKilled;
+    local KFMonster KFMonsterVictim;
+    local Pawn P;
+    local KFPawn KFP;
+    local array<Pawn> CheckedPawns;
+    local int i;
+    local bool bAlreadyChecked;
 
     local KFHumanPawn humanVictim;
     local GSTPlayerReplicationInfo pri;
@@ -37,28 +37,28 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
             if ( Victims == LastTouched )
                 LastTouched = None;
 
-			P = Pawn(Victims);
+            P = Pawn(Victims);
 
-			if( P != none )	{
-		        for (i = 0; i < CheckedPawns.Length; i++) {
-		        	if (CheckedPawns[i] == P) {
-						bAlreadyChecked = true;
-						break;
-					}
-				}
+            if( P != none ) {
+                for (i = 0; i < CheckedPawns.Length; i++) {
+                    if (CheckedPawns[i] == P) {
+                        bAlreadyChecked = true;
+                        break;
+                    }
+                }
 
-				if( bAlreadyChecked ) {
-					bAlreadyChecked = false;
-					P = none;
-					continue;
-				}
+                if( bAlreadyChecked ) {
+                    bAlreadyChecked = false;
+                    P = none;
+                    continue;
+                }
 
                 KFMonsterVictim = KFMonster(Victims);
                 humanVictim= KFHumanPawn(Victims);
 
-    			if( KFMonsterVictim != none && KFMonsterVictim.Health <= 0 ) {
+                if( KFMonsterVictim != none && KFMonsterVictim.Health <= 0 ) {
                     KFMonsterVictim = none;
-    			}
+                }
 
                 KFP = KFPawn(Victims);
 
@@ -66,23 +66,23 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
                     damageScale *= KFMonsterVictim.GetExposureTo(HitLocation);
                 }
                 else if( KFP != none ) {
-				    damageScale *= KFP.GetExposureTo(HitLocation);
+                    damageScale *= KFP.GetExposureTo(HitLocation);
                 }
                 if (humanVictim != none) {
                     pri= GSTPlayerReplicationInfo(humanVictim.Controller.PlayerReplicationInfo);
                     pri.incrementStat(pri.EStatKeys.SHOT_BY_HUSK, 1);
                 }
 
-				CheckedPawns[CheckedPawns.Length] = P;
+                CheckedPawns[CheckedPawns.Length] = P;
 
-				if ( damageScale <= 0) {
-					P = none;
-					continue;
-				}
-				else {
-					P = none;
-				}
-			}
+                if ( damageScale <= 0) {
+                    P = none;
+                    continue;
+                }
+                else {
+                    P = none;
+                }
+            }
 
             Victims.TakeDamage
             (
@@ -96,7 +96,7 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
                 Vehicle(Victims).DriverRadiusDamage(DamageAmount, DamageRadius, 
                         InstigatorController, DamageType, Momentum, HitLocation);
 
-			if( Role == ROLE_Authority && KFMonsterVictim != none && KFMonsterVictim.Health <= 0 )
+            if( Role == ROLE_Authority && KFMonsterVictim != none && KFMonsterVictim.Health <= 0 )
             {
                 NumKilled++;
             }
@@ -127,7 +127,7 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
                     InstigatorController, DamageType, Momentum, HitLocation);
     }
 
-	if( Role == ROLE_Authority ) {
+    if( Role == ROLE_Authority ) {
         if( NumKilled >= 4 ) {
             KFGameType(Level.Game).DramaticEvent(0.05);
         }

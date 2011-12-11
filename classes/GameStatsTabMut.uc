@@ -22,7 +22,7 @@ function PostBeginPlay() {
     }
 
     Spawn(statsTabRules);
-    AddToPackageMap("GameStatsTab");
+    AddToPackageMap("GameStatsTab_ServerPerks");
     DeathMatch(Level.Game).LoginMenuClass= gstLoginMenuClass;
 
     gameType.PlayerControllerClass= statsTabController;
@@ -165,7 +165,6 @@ defaultproperties {
     endGameBossClass= "GameStatsTab_ServerPerks.GSTZombieBoss"
     fallbackMonsterClass= "GameStatsTab_ServerPerks.GSTZombieStalker"
     
-
     currentStat= 0
 
     monsterReplacement(0)=(oldClass=class'KFChar.ZombieFleshPound',newClass=class'GameStatsTab_ServerPerks.GSTZombieFleshpound')
@@ -211,4 +210,15 @@ defaultproperties {
     fireModeReplacement(30)=(oldClass=class'KFMod.KnifeFireB',newClass=class'GameStatsTab_ServerPerks.GSTKnifeFireB')
     fireModeReplacement(31)=(oldClass=class'KFMod.ChainsawFire',newClass=class'GameStatsTab_ServerPerks.GSTChainsawFire')
     fireModeReplacement(32)=(oldClass=class'KFMod.ChainsawAltFire',newClass=class'GameStatsTab_ServerPerks.GSTChainsawAltFire')
+    fireModeReplacement(33)=(oldClass=class'KFMod.BenelliFire',newClass=class'GameStatsTab_ServerPerks.GSTBenelliFire')
+    fireModeReplacement(34)=(oldClass=class'KFMod.ClaymoreSwordFire',newClass=class'GameStatsTab_ServerPerks.GSTClaymoreSwordFire')
+    fireModeReplacement(35)=(oldClass=class'KFMod.ClaymoreSwordFireB',newClass=class'GameStatsTab_ServerPerks.GSTClaymoreSwordFireB')
+    fireModeReplacement(36)=(oldClass=class'KFMod.HuskGunFire',newClass=class'GameStatsTab_ServerPerks.GSTHuskGunFire')
+    fireModeReplacement(37)=(oldClass=class'KFMod.M203Fire',newClass=class'GameStatsTab_ServerPerks.GSTM203Fire')
+    fireModeReplacement(38)=(oldClass=class'KFMod.M4203BulletFire',newClass=class'GameStatsTab_ServerPerks.GSTM4203BulletFire')
+    fireModeReplacement(39)=(oldClass=class'KFMod.M4Fire',newClass=class'GameStatsTab_ServerPerks.GSTM4Fire')
+    fireModeReplacement(40)=(oldClass=class'KFMod.MP5MFire',newClass=class'GameStatsTab_ServerPerks.GSTMP5MFire')
+    fireModeReplacement(41)=(oldClass=class'KFMod.Magnum44Fire',newClass=class'GameStatsTab_ServerPerks.GSTMagnum44Fire')
+    fireModeReplacement(42)=(oldClass=class'KFMod.Dual44MagnumFire',newClass=class'GameStatsTab_ServerPerks.GSTDual44MagnumFire')
+>>>>>>> milestone_1_2
 }
