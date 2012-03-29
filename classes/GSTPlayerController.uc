@@ -18,3 +18,7 @@ function PawnDied(Pawn P) {
     pri.incrementStat(pri.EStatKeys.DAMAGE_TAKEN,prevHealth);
     pri.incrementStat(pri.EStatKeys.SHIELD_LOST,prevShield);
 }
+
+exec function InGameStats() {
+    ClientOpenMenu("GameSTatsTab.StatsPanel");
+}
