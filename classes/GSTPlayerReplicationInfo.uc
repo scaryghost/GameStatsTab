@@ -21,9 +21,9 @@ enum ZedStats {
     SCRAKES_RAGED, SCRAKES_STUNNED
 };
 
-var protected array<float> playerStats[6];
-var protected array<float> weaponStats[9];
-var protected array<float> zedStats[15];
+var array<float> playerStats[6];
+var array<float> weaponStats[9];
+var array<float> zedStats[15];
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
