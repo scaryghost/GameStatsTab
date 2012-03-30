@@ -18,18 +18,17 @@ function bool PreDraw(Canvas Canvas) {
     return false;
 }
 
-function InitList(GSTPlayerReplicationInfo pri) {
+function InitList(array<float> stats, array<string> descriptions) {
     local int i;
     // Update the ItemCount and select the first item
-    itemCount= pri.EStatKeys.EnumCount;
+    itemCount= ArrayCount(stats);
     SetIndex(0);
 
     statValue.Length= itemCount;
     for(i= 0; i < itemCount; i++) {
-        statName[i]= pri.descripArray[i];
-        statValue[i]= pri.getStatValue(i);
+        statName[i]= descriptions[i];
+        statValue[i]= stats[i];
     }
-    timeIndex= pri.EStatKeys.TIME_ALIVE;
 
     if ( bNotify ) {
         CheckLinkedObjects(Self);
@@ -92,4 +91,5 @@ defaultproperties {
     OnDrawItem=GSTStatList.DrawStat
     FontScale=FNS_Medium
     OnPreDraw=GSTStatList.PreDraw
+    timeIndex=-1
 }
