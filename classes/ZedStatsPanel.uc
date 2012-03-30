@@ -1,6 +1,6 @@
 class ZedStatsPanel extends GSTMidGameStats;
 
-function ShowPanel(bShow) {
+function ShowPanel(bool bShow) {
     local GSTPlayerReplicationInfo pri;
 
     super.ShowPanel(bShow);
@@ -21,6 +21,7 @@ function ShowPanel(bShow) {
         description[pri.ZedStat.SCRAKES_RAGED]="Enraged a scrake";
         description[pri.ZedStat.SCRAKES_STUNNED]="Stunned a scrake";
         description[pri.ZedStat.BACKSTABS]="Backstabs";
+        description[pri.ZedStat.NUM_DECAPS]="Decapitations";
 
         lb_StatSelect.statList.InitList(pri.zedStats, description);
     }

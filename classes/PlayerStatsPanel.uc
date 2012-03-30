@@ -1,6 +1,6 @@
 class PlayerStatsPanel extends GSTMidGameStats;
 
-function ShowPanel(bShow) {
+function ShowPanel(bool bShow) {
     local GSTPlayerReplicationInfo pri;
 
     super.ShowPanel(bShow);
