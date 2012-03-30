@@ -92,4 +92,13 @@ defaultproperties {
     FontScale=FNS_Medium
     OnPreDraw=GSTStatList.PreDraw
     timeIndex=-1
+
+    bgR=255
+    bgG=255
+    bgB=255
+    txtR=0
+    txtG=0
+    txtB=0
+    alpha=255
+    txtScale=1.000
 }
