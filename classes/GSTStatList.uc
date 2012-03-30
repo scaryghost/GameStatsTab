@@ -9,10 +9,57 @@ var localized array<string> statName;
 var array<int>  statValue;
 var int timeIndex;
 
+var array<string> playerStatDescrip;
+var array<string> weaponStatDescrip;
+var array<string> zedStatDescrip;
+
 var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
 var() config int alpha;
 var() config float txtScale;
+
+simulated function PostBeginPlay() {
+    local class<GSTPlayerReplicationInfo> pri;
+
+    playerStatDescrip.Length= pri.PlayerStats.EnumCount;
+    weaponSTatDescrip.Length= pri.WeaponStats.EnumCount;
+    zedStatDescrip.Length= pri.ZedStats.EnumCount;
+
+    playerStatDescrip[pri.PlayerStats.TIME_ALIVE]="Time alive";
+    playerStatDescrip[pri.PlayerStats.HEALING_RECIEVED]="Total healing received";
+    playerStatDescrip[pri.PlayerStats.DAMAGE_TAKEN]="Total damage taken";
+    playerStatDescrip[pri.PlayerStats.SHIELD_LOST]="Total shield lost";
+    playerStatDescrip[pri.PlayerStats.FF_DAMAGE_DEALT]="Friendly fire damage";
+    playerStatDescrip[pri.PlayerStats.SHOT_BY_HUSK]="Shot by husk";
+
+
+    weaponStatDescrip[pri.WeaponStats.CRAWLER_KILLS]="Crawler kills";
+    weaponStatDescrip[pri.WeaponStats.STALKER_KILLS]="Stalker kills";
+    weaponStatDescrip[pri.WeaponStats.CLOT_KILLS]="Clot kills";
+    weaponStatDescrip[pri.WeaponStats.GOREFAST_KILLS]="Gorefast kills";
+    weaponStatDescrip[pri.WeaponStats.BLOAT_KILLS]="Bloat kills";
+    weaponStatDescrip[pri.WeaponStats.SIREN_KILLS]="Siren kills";
+    weaponStatDescrip[pri.WeaponStats.HUSK_KILLS]="Husk kills";
+    weaponStatDescrip[pri.WeaponStats.SCRAKE_KILLS]="Scrake kills";
+    weaponStatDescrip[pri.WeaponStats.FLESHPOUND_KILLS]="Fleshpound kills";
+    weaponStatDescrip[pri.WeaponStats.PATRIARCH_KILLS]="Patriarch kills";
+    weaponStatDescrip[pri.WeaponStats.FLESHPOUNDS_RAGED]="Enraged a fleshpound";
+    weaponStatDescrip[pri.WeaponStats.SCRAKES_RAGED]="Enraged a scrake";
+    weaponStatDescrip[pri.WeaponStats.SCRAKES_STUNNED]="Stunned a scrake";
+    weaponStatDescrip[pri.WeaponStats.BACKSTABS]="Backstabs";
+
+    zedStatDescrip[pri.ZedStats.ROUNDS_FIRED]="Rounds fired";
+    zedStatDescrip[pri.ZedStats.MELEE_SWINGS]="Melee swings";
+    zedStatDescrip[pri.ZedStats.FRAGS_TOSSED]="Frags tossed";
+    zedStatDescrip[pri.ZedStats.PIPES_SET]="Pipes set";
+    zedStatDescrip[pri.ZedStats.NUM_DECAPS]="Decapitations";
+    zedStatDescrip[pri.ZedStats.UNITS_FUEL]="Units of fuel consumed";
+    zedStatDescrip[pri.ZedStats.SHELLS_FIRED]="Shells fired";
+    zedStatDescrip[pri.ZedStats.GRENADES_LAUNCHED]="Grenades launched";
+    zedStatDescrip[pri.ZedStats.ROCKETS_LAUNCHED]="Rockets launched";
+    zedStatDescrip[pri.ZedStats.BOLTS_FIRED]="Bolts fired";
+
+}
 
 function bool PreDraw(Canvas Canvas) {
     return false;
