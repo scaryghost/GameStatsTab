@@ -21,7 +21,7 @@ function bool PreDraw(Canvas Canvas) {
 function InitList(array<float> stats[15], array<string> descriptions) {
     local int i;
     // Update the ItemCount and select the first item
-    itemCount= ArrayCount(stats);
+    itemCount= descriptions.Length;
     SetIndex(0);
 
     statValue.Length= itemCount;
