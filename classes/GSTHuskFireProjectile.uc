@@ -70,7 +70,7 @@ simulated function HurtRadius( float DamageAmount, float DamageRadius,
                 }
                 if (humanVictim != none) {
                     pri= GSTPlayerReplicationInfo(humanVictim.Controller.PlayerReplicationInfo);
-                    pri.incrementStat(pri.EStatKeys.SHOT_BY_HUSK, 1);
+                    pri.playerStats[pri.PlayerStat.SHOT_BY_HUSK]+= 1;
                 }
 
                 CheckedPawns[CheckedPawns.Length] = P;

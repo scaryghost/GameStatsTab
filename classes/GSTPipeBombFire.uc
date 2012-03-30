@@ -5,5 +5,5 @@ function DoFireEffect() {
 
     super.DoFireEffect();
     pri= GSTPlayerReplicationInfo(Instigator.Controller.PlayerReplicationInfo);
-    pri.incrementStat(pri.EStatKeys.PIPES_SET, Load);
+    pri.kfWeaponStats[pri.WeaponStat.PIPES_SET]+= Load;
 }

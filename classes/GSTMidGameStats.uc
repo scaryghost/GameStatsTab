@@ -10,16 +10,11 @@ var() noexport transient int bgR, bgG, bgB, txtR, txtG, txtB, alpha;
 var() noexport float txtScale;
 
 var string setProp, getProp;
+var array<string> description;
 
 function ShowPanel(bool bShow) {
-    local GSTPlayerReplicationInfo pri;
-
     super.ShowPanel(bShow);
 
-    if ( bShow ) {
-        pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-        lb_StatSelect.statList.InitList(pri);
-    }
 
     EnableComponent(sl_bgR);
     EnableComponent(sl_bgG);

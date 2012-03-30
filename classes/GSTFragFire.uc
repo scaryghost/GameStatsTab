@@ -5,5 +5,5 @@ function DoFireEffect() {
 
     super.DoFireEffect();
     pri= GSTPlayerReplicationInfo(Instigator.Controller.PlayerReplicationInfo);
-    pri.incrementStat(pri.EStatKeys.FRAGS_TOSSED, 1);
+    pri.kfWeaponStats[pri.WeaponStat.FRAGS_TOSSED]+= 1;
 }

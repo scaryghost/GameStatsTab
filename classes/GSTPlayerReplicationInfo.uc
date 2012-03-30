@@ -27,13 +27,13 @@ enum ZedStat {
     SCRAKES_RAGED, SCRAKES_STUNNED
 };
 
-var array<float> playerStats[6];
-var array<float> weaponStats[9];
+var array<float> playerStats[15];
+var array<float> kfWeaponStats[15];
 var array<float> zedStats[15];
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
-        playerStats, weaponStats, zedStats;
+        playerStats, kfWeaponStats, zedStats;
 }
 
 function Reset() {
@@ -44,8 +44,8 @@ function Reset() {
         for(i= 0; i < ArrayCount(playerStats); i++) {
             playerStats[i]= 0;
         }
-        for(i= 0; i < ArrayCount(weaponStats); i++) {
-            weaponStats[i]= 0;
+        for(i= 0; i < ArrayCount(kfWeaponStats); i++) {
+            kfWeaponStats[i]= 0;
         }
         for(i= 0; i < ArrayCount(zedStats); i++) {
             zedStats[i]= 0;

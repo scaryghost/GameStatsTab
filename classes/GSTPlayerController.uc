@@ -15,8 +15,8 @@ function PawnDied(Pawn P) {
     super.PawnDied(P);
 
     pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
-    pri.incrementStat(pri.EStatKeys.DAMAGE_TAKEN,prevHealth);
-    pri.incrementStat(pri.EStatKeys.SHIELD_LOST,prevShield);
+    pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= prevHealth;
+    pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= prevShield;
 }
 
 exec function InGameStats() {

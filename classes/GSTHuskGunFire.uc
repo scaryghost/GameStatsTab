@@ -14,5 +14,5 @@ function DoFireEffect() {
     } else {
         fuelAmount= 10;
     }
-    pri.incrementStat(pri.EStatKeys.UNITS_FUEL, fuelAmount);
+    pri.kfWeaponStats[pri.WeaponStat.UNITS_FUEL]+= fuelAmount;
 }

@@ -41,13 +41,13 @@ function PostBeginPlay() {
     gameType.FallbackMonsterClass= fallbackMonsterClass;
 
     statTextColor= chr(27)$chr(255)$chr(255)$chr(1);
-
+/*
     if (bDispStat) {
         setTimer(dispInterval, true);
     }
-
+*/
 }
-
+/*
 function Timer() {
     local array<GSTPlayerController> players;
     local Controller C;
@@ -82,7 +82,7 @@ function Timer() {
     }
 
 }
-
+*/
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     local int index;
     local int i;

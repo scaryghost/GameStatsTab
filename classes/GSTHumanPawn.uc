@@ -15,7 +15,7 @@ function timer() {
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     currTimeStamp= Level.GRI.ElapsedTime;
     if (pri != none && Health > 0) {
-        pri.incrementStat(pri.EStatKeys.TIME_ALIVE, currTimeStamp - prevTimeStamp);
+        pri.playerStats[pri.PlayerStat.TIME_ALIVE]+= currTimeStamp - prevTimeStamp;
     }
     prevTimeStamp= currTimeStamp;
 }
@@ -37,12 +37,12 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     friendPawn= KFHumanPawn(InstigatedBy);
     if (friendPawn != none && friendPawn != Self) {
         pri= GSTPlayerReplicationInfo(friendPawn.Controller.PlayerReplicationInfo);
-        pri.incrementStat(pri.EStatKeys.FF_DAMAGE_DEALT, oldHealth - fmax(Health, 0.0));
+        pri.playerStats[pri.PlayerStat.FF_DAMAGE_DEALT]+= oldHealth - fmax(Health, 0.0);
     }
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if(pri != none) {
-        pri.incrementStat(pri.EStatKeys.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
-        pri.incrementStat(pri.EStatKeys.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
+        pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
+        pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
     }
 }
 
@@ -66,8 +66,8 @@ function TakeBileDamage() {
 	healthtoGive-=5;
 
     if(pri != none) {
-        pri.incrementStat(pri.EStatKeys.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
-        pri.incrementStat(pri.EStatKeys.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
+        pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
+        pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
     }
 }
 
@@ -79,6 +79,6 @@ simulated function addHealth() {
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if (pri != none) {
-        pri.incrementStat(pri.EStatKeys.HEALING_RECIEVED, Health - OldHealth);
+        pri.playerStats[pri.PlayerStat.HEALING_RECIEVED]+= Health - OldHealth;
     }
 }
