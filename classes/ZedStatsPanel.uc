@@ -7,21 +7,21 @@ function ShowPanel(bShow) {
     if ( bShow ) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
 
-        description[pri.ZedStats.CRAWLER_KILLS]="Crawler kills";
-        description[pri.ZedStats.STALKER_KILLS]="Stalker kills";
-        description[pri.ZedStats.CLOT_KILLS]="Clot kills";
-        description[pri.ZedStats.GOREFAST_KILLS]="Gorefast kills";
-        description[pri.ZedStats.BLOAT_KILLS]="Bloat kills";
-        description[pri.ZedStats.SIREN_KILLS]="Siren kills";
-        description[pri.ZedStats.HUSK_KILLS]="Husk kills";
-        description[pri.ZedStats.SCRAKE_KILLS]="Scrake kills";
-        description[pri.ZedStats.FLESHPOUND_KILLS]="Fleshpound kills";
-        description[pri.ZedStats.PATRIARCH_KILLS]="Patriarch kills";
-        description[pri.ZedStats.FLESHPOUNDS_RAGED]="Enraged a fleshpound";
-        description[pri.ZedStats.SCRAKES_RAGED]="Enraged a scrake";
-        description[pri.ZedStats.SCRAKES_STUNNED]="Stunned a scrake";
-        description[pri.ZedStats.BACKSTABS]="Backstabs";
+        description[pri.ZedStat.CRAWLER_KILLS]="Crawler kills";
+        description[pri.ZedStat.STALKER_KILLS]="Stalker kills";
+        description[pri.ZedStat.CLOT_KILLS]="Clot kills";
+        description[pri.ZedStat.GOREFAST_KILLS]="Gorefast kills";
+        description[pri.ZedStat.BLOAT_KILLS]="Bloat kills";
+        description[pri.ZedStat.SIREN_KILLS]="Siren kills";
+        description[pri.ZedStat.HUSK_KILLS]="Husk kills";
+        description[pri.ZedStat.SCRAKE_KILLS]="Scrake kills";
+        description[pri.ZedStat.FLESHPOUND_KILLS]="Fleshpound kills";
+        description[pri.ZedStat.PATRIARCH_KILLS]="Patriarch kills";
+        description[pri.ZedStat.FLESHPOUNDS_RAGED]="Enraged a fleshpound";
+        description[pri.ZedStat.SCRAKES_RAGED]="Enraged a scrake";
+        description[pri.ZedStat.SCRAKES_STUNNED]="Stunned a scrake";
+        description[pri.ZedStat.BACKSTABS]="Backstabs";
 
-        lb_StatSelect.statList.InitList(pri.zedStats, description, pri.StatGroup.ZED);
+        lb_StatSelect.statList.InitList(pri.zedStats, description);
     }
 }
