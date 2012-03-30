@@ -5,6 +5,10 @@ function InitComponent(GUIController MyController, GUIComponent MyComponent) {
     super(UT2K4PlayerLoginMenu).InitComponent(MyController, MyComponent);
 }
 
+function SetTitle() {
+    WindowName= default.WindowName;
+}
+
 defaultproperties {
     Panels(0)=(ClassName="GameStatsTab.PlayerStatsPanel",Caption="Player Stats",Hint="Damage taken, time alive, etc.")
     Panels(1)=(ClassName="GameStatsTab.WeaponStatsPanel",Caption="Weapon Stats",Hint="Rounds fired, shells fired, etc.")
