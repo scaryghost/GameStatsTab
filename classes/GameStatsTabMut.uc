@@ -2,7 +2,7 @@ class GameStatsTabMut extends Mutator;
 
 var() config bool bDispStat;
 var() config int dispInterval;
-var string statTextColor, gstLoginMenuClass, endGameBossClass, fallbackMonsterClass;
+var string statTextColor, endGameBossClass, fallbackMonsterClass;
 var byte currentStat;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
@@ -22,7 +22,6 @@ function PostBeginPlay() {
 
     Spawn(statsTabRules);
     AddToPackageMap("GameStatsTab");
-    DeathMatch(Level.Game).LoginMenuClass= gstLoginMenuClass;
 
     gameType.PlayerControllerClass= statsTabController;
     gameType.PlayerControllerClassName= string(statsTabController);
@@ -132,7 +131,6 @@ defaultproperties {
 
     currentStat= 0
     auxiliaryRef= class'GameStatsTab.GSTAuxiliary';
-    gstLoginMenuClass="GameStatsTab.GSTInvasionLoginMenu"
     statsTabRules= class'GameStatsTab.GSTGameRules'
     statsTabController= class'GameStatsTab.GSTPlayerController'
     statsTabReplicationInfo= class'GameStatsTab.GSTPlayerReplicationInfo'
