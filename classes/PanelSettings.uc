@@ -1,5 +1,6 @@
 class PanelSettings extends MidGamePanel;
 
+var automated GUISectionBackground i_BGText, i_BGBackground;
 var automated moSlider sl_bgR, sl_bgG, sl_bgB, 
         sl_txtR, sl_txtG, sl_txtB, sl_alpha, sl_txtScale;
 
@@ -105,19 +106,41 @@ defaultproperties {
     setProp= "set GameStatsTab.GSTStatList"
     getProp= "get GameStatsTab.GSTStatList"
 
+    Begin Object Class=GUISectionBackground Name=BGBackground
+        bFillClient=True
+        Caption="Background"
+        WinTop=0.012063
+        WinLeft=0.02
+        WinWidth=0.45
+        WinHeight=0.250
+        OnPreDraw=BGBackground.InternalPreDraw
+    End Object
+    i_BGBackground=GUISectionBackground'GameStatsTab.PanelSettings.BGBackground'
+
+    Begin Object Class=GUISectionBackground Name=BGText
+        bFillClient=True
+        Caption="Text"
+        WinTop=0.012063
+        WinLeft=0.53
+        WinWidth=0.45
+        WinHeight=0.250
+        OnPreDraw=BGText.InternalPreDraw
+    End Object
+    i_BGText=GUISectionBackground'GameStatsTab.PanelSettings.BGText'
+
     Begin Object Class=moSlider Name=BackgroundRedSlider
         MaxValue=255
         MinValue=1
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="BG Red"
+        Caption="Red"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="0"
         Hint="Adjust the red value of the stat background color"
-        WinTop=0.85
-        WinLeft=0.012188
-        WinWidth=0.461445
+        WinTop=0.06
+        WinLeft=0.045
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -129,14 +152,14 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="BG Green"
+        Caption="Green"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="0"
         Hint="Adjust the green value of the stat background color"
-        WinTop=0.875
-        WinLeft=0.012188
-        WinWidth=0.461445
+        WinTop=0.09
+        WinLeft=0.045
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -148,14 +171,14 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="BG Blue"
+        Caption="Blue"
         OnCreateComponent=BackgroundRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="0"
         Hint="Adjust the blue value of the stat background color"
-        WinTop=0.90
-        WinLeft=0.012188
-        WinWidth=0.461445
+        WinTop=0.12
+        WinLeft=0.045
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -167,14 +190,14 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="Text Red"
+        Caption="Red"
         OnCreateComponent=TextRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="255"
         Hint="Adjust the red value of the stat text color"
-        WinTop=0.85
-        WinLeft=0.5
-        WinWidth=0.461445
+        WinTop=0.06
+        WinLeft=0.555
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -186,14 +209,14 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="Text Green"
+        Caption="Green"
         OnCreateComponent=TextRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="255"
         Hint="Adjust the green value of the stat text color"
-        WinTop=0.875
-        WinLeft=0.5
-        WinWidth=0.461445
+        WinTop=0.09
+        WinLeft=0.555
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -205,14 +228,14 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="Text Blue"
+        Caption="Blue"
         OnCreateComponent=TextRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="255"
         Hint="Adjust the blue value of the stat text color"
-        WinTop=0.90
-        WinLeft=0.5
-        WinWidth=0.461445
+        WinTop=0.12
+        WinLeft=0.555
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -229,9 +252,9 @@ defaultproperties {
         IniOption="@Internal"
         IniDefault="255"
         Hint="Adjust alpha of the stat panel"
-        WinTop=0.925
-        WinLeft=0.012188
-        WinWidth=0.461445
+        WinTop=0.15
+        WinLeft=0.045
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
@@ -243,14 +266,14 @@ defaultproperties {
         MinValue=0
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
-        Caption="Text Scale"
+        Caption="Scale"
         OnCreateComponent=TextRedSlider.InternalOnCreateComponent
         IniOption="@Internal"
         IniDefault="1"
         Hint="Adjust text size of the stat panel"
-        WinTop=0.925
-        WinLeft=0.5
-        WinWidth=0.461445
+        WinTop=0.15
+        WinLeft=0.555
+        WinWidth=0.40
         TabOrder=2
         OnChange=PanelSettings.InternalOnChange
         OnLoadINI=PanelSettings.InternalOnLoadINI
