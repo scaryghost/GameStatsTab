@@ -1,20 +1,15 @@
-class GSTMidGameStats extends MidGamePanel;
+class PanelSettings extends MidGamePanel;
 
-var automated GUISectionBackground i_BGPerks;
-var automated GSTStatListBox    lb_StatSelect;
 var automated moSlider sl_bgR, sl_bgG, sl_bgB, 
         sl_txtR, sl_txtG, sl_txtB, sl_alpha, sl_txtScale;
 
-var() noexport bool bTeamGame;
 var() noexport transient int bgR, bgG, bgB, txtR, txtG, txtB, alpha;
 var() noexport float txtScale;
 
 var string setProp, getProp;
-var array<string> description;
 
 function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
-
 
     EnableComponent(sl_bgR);
     EnableComponent(sl_bgG);
@@ -109,29 +104,10 @@ function InternalOnChange(GUIComponent Sender) {
 defaultproperties {
     setProp= "set GameStatsTab.GSTStatList"
     getProp= "get GameStatsTab.GSTStatList"
-    Begin Object Class=GUISectionBackground Name=BGPerks
-        bFillClient=True
-        Caption="Stats"
-        WinTop=0.012063
-        WinLeft=0.019240
-        WinWidth=0.961520
-        WinHeight=0.796032
-        OnPreDraw=BGPerks.InternalPreDraw
-    End Object
-    i_BGPerks=GUISectionBackground'GameStatsTab.GSTMidGameStats.BGPerks'
-
-    Begin Object Class=GSTStatListBox Name=StatSelectList
-        OnCreateComponent=StatSelectList.InternalOnCreateComponent
-        WinTop=0.057760
-        WinLeft=0.029240
-        WinWidth=0.941520
-        WinHeight=0.742836
-    End Object
-    lb_StatSelect=GSTStatListBox'GameStatsTab.GSTMidGameStats.StatSelectList'
 
     Begin Object Class=moSlider Name=BackgroundRedSlider
         MaxValue=255
-        MinValue=0
+        MinValue=1
         SliderCaptionStyleName=""
         CaptionWidth=0.550000
         Caption="BG Red"
@@ -143,10 +119,10 @@ defaultproperties {
         WinLeft=0.012188
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_bgR=moSlider'GameStatsTab.GSTMidGameStats.BackgroundRedSlider'
+    sl_bgR=moSlider'GameStatsTab.PanelSettings.BackgroundRedSlider'
 
     Begin Object Class=moSlider Name=BackgroundGreenSlider
         MaxValue=255
@@ -162,10 +138,10 @@ defaultproperties {
         WinLeft=0.012188
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_bgG=moSlider'GameStatsTab.GSTMidGameStats.BackgroundGreenSlider'
+    sl_bgG=moSlider'GameStatsTab.PanelSettings.BackgroundGreenSlider'
 
     Begin Object Class=moSlider Name=BackgroundBlueSlider
         MaxValue=255
@@ -181,10 +157,10 @@ defaultproperties {
         WinLeft=0.012188
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_bgB=moSlider'GameStatsTab.GSTMidGameStats.BackgroundBlueSlider'
+    sl_bgB=moSlider'GameStatsTab.PanelSettings.BackgroundBlueSlider'
 
     Begin Object Class=moSlider Name=TextRedSlider
         MaxValue=255
@@ -200,10 +176,10 @@ defaultproperties {
         WinLeft=0.5
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_txtR=moSlider'GameStatsTab.GSTMidGameStats.TextRedSlider'
+    sl_txtR=moSlider'GameStatsTab.PanelSettings.TextRedSlider'
 
     Begin Object Class=moSlider Name=TextGreenSlider
         MaxValue=255
@@ -219,10 +195,10 @@ defaultproperties {
         WinLeft=0.5
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_txtG=moSlider'GameStatsTab.GSTMidGameStats.TextGreenSlider'
+    sl_txtG=moSlider'GameStatsTab.PanelSettings.TextGreenSlider'
 
     Begin Object Class=moSlider Name=TextBlueSlider
         MaxValue=255
@@ -238,10 +214,10 @@ defaultproperties {
         WinLeft=0.5
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_txtB=moSlider'GameStatsTab.GSTMidGameStats.TextBlueSlider'
+    sl_txtB=moSlider'GameStatsTab.PanelSettings.TextBlueSlider'
 
     Begin Object Class=moSlider Name=AlphaSlider
         MaxValue=255
@@ -257,10 +233,10 @@ defaultproperties {
         WinLeft=0.012188
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_alpha=moSlider'GameStatsTab.GSTMidGameStats.AlphaSlider'
+    sl_alpha=moSlider'GameStatsTab.PanelSettings.AlphaSlider'
 
     Begin Object Class=moSlider Name=TextScale
         MaxValue=1
@@ -276,8 +252,8 @@ defaultproperties {
         WinLeft=0.5
         WinWidth=0.461445
         TabOrder=2
-        OnChange=GSTMidGameStats.InternalOnChange
-        OnLoadINI=GSTMidGameStats.InternalOnLoadINI
+        OnChange=PanelSettings.InternalOnChange
+        OnLoadINI=PanelSettings.InternalOnLoadINI
     End Object
-    sl_txtScale=moSlider'GameStatsTab.GSTMidGameStats.TextScale'
+    sl_txtScale=moSlider'GameStatsTab.PanelSettings.TextScale'
 }

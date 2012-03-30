@@ -20,5 +20,5 @@ function PawnDied(Pawn P) {
 }
 
 exec function InGameStats() {
-    ClientOpenMenu("GameSTatsTab.StatsPanel");
+    ClientOpenMenu("GameSTatsTab.StatsMenu");
 }

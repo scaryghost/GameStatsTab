@@ -1,4 +1,4 @@
-class WeaponStatsPanel extends GSTMidGameStats;
+class WeaponStatsPanel extends StatsPanelBase;
 
 function ShowPanel(bool bShow) {
     local GSTPlayerReplicationInfo pri;

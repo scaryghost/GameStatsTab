@@ -1,4 +1,4 @@
-class PlayerStatsPanel extends GSTMidGameStats;
+class PlayerStatsPanel extends StatsPanelBase;
 
 function ShowPanel(bool bShow) {
     local GSTPlayerReplicationInfo pri;
