@@ -1,6 +1,7 @@
 class StatsMenu extends KFInvasionLoginMenu;
 
 function InitComponent(GUIController MyController, GUIComponent MyComponent) {
+    Panels.remove(4,Panels.Length-4);
     super(UT2K4PlayerLoginMenu).InitComponent(MyController, MyComponent);
 }
 
