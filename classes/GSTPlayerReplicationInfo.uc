@@ -1,5 +1,11 @@
 class GSTPlayerReplicationInfo extends KFPlayerReplicationInfo;
 
+enum StatGroup {
+    PLAYER,
+    WEAPON,
+    ZED
+};
+
 enum PlayerStats {
     TIME_ALIVE, HEALING_RECIEVED, DAMAGE_TAKEN,
     SHIELD_LOST, FF_DAMAGE_DEALT, SHOT_BY_HUSK
