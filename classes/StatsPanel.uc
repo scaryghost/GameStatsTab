@@ -10,8 +10,8 @@ function SetTitle() {
 }
 
 defaultproperties {
-    Panels(0)=(ClassName="GameStatsTab.PlayerStatsPanel",Caption="Player Stats",Hint="Damage taken, time alive, etc.")
-    Panels(1)=(ClassName="GameStatsTab.WeaponStatsPanel",Caption="Weapon Stats",Hint="Rounds fired, shells fired, etc.")
-    Panels(2)=(ClassName="GameStatsTab.ZedStatsPanel",Caption="ZED Stats",Hint="Clot kills, backstabs, etc.")
+    Panels(0)=(ClassName="GameStatsTab.PlayerStatsPanel",Caption="Player",Hint="Damage taken, time alive, etc.")
+    Panels(1)=(ClassName="GameStatsTab.WeaponStatsPanel",Caption="Weapon",Hint="Rounds fired, shells fired, etc.")
+    Panels(2)=(ClassName="GameStatsTab.ZedStatsPanel",Caption="Zed",Hint="Clot kills, backstabs, etc.")
     WindowName="Game Statistics"
 }
