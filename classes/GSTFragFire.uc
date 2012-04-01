@@ -1,5 +1,7 @@
 class GSTFragFire extends FragFire;
 
+var class<Grenade> flameFragClass;
+
 function DoFireEffect() {
     local GSTPlayerReplicationInfo pri;
 
@@ -9,19 +11,48 @@ function DoFireEffect() {
     pri.kfWeaponStats[pri.WeaponStat.FRAGS_TOSSED]+= 1;
 }
 
+/** Copied from KFMod.FragFire */
 function projectile SpawnProjectile(Vector Start, Rotator Dir) {
-    local Projectile p;
+    local Grenade g;
+    local vector X, Y, Z;
+    local float pawnSpeed;
+    local class<Grenade> fragClass;
 
-    if( ProjectileClass != None )
-        p = Weapon.Spawn(ProjectileClass,,, Start, Dir);
+    if ( KFPlayerReplicationInfo(Instigator.PlayerReplicationInfo) != none && 
+        KFPlayerReplicationInfo(Instigator.PlayerReplicationInfo).ClientVeteranSkill != none ) {
+        fragClass= KFPlayerReplicationInfo(Instigator.PlayerReplicationInfo).ClientVeteranSkill.Static.GetNadeType(KFPlayerReplicationInfo(Instigator.PlayerReplicationInfo));
+        if (fragClass == class'FlameNade') {
+            fragClass= flameFragClass;
+        } else {
+            fragClass= class<Grenade>(ProjectileClass);
+        }
+    }
+    else {
+        fragClass= class<Grenade>(ProjectileClass);
+    }
 
-    if( p == None )
-        return None;
+    g = Weapon.Spawn(fragClass, instigator,, Start, Dir);
+    if (g != None) {
+        Weapon.GetViewAxes(X,Y,Z);
+        pawnSpeed = X dot Instigator.Velocity;
 
-    p.Damage *= DamageAtten;
-    return p;
+        if ( Bot(Instigator.Controller) != None ) {
+            g.Speed = mHoldSpeedMax;
+        }
+        else {
+            g.Speed = mHoldSpeedMin + HoldTime*mHoldSpeedGainPerSec;
+        }
+
+        g.Speed = FClamp(g.Speed, mHoldSpeedMin, mHoldSpeedMax);
+        g.Speed = pawnSpeed + g.Speed;
+        g.Velocity = g.Speed * Vector(Dir);
+        g.Damage *= DamageAtten;
+    }
+
+    return g;
 }
 
 defaultproperties {
+    flameFragClass= class'GameStatsTab.FlameFragProjectile'
     ProjectileClass=class'GameStatsTab.FragProjectile'
 }
