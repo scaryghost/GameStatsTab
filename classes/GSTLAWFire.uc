@@ -7,3 +7,7 @@ function DoFireEffect() {
     pri= GSTPlayerReplicationInfo(Instigator.Controller.PlayerReplicationInfo);
     pri.kfWeaponStats[pri.WeaponStat.ROCKETS_LAUNCHED]+= Load;
 }
+
+defaultproperties {
+    ProjectileClass=class'GameStatsTab.LAWProjectile'
+}

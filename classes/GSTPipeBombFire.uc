@@ -7,3 +7,7 @@ function DoFireEffect() {
     pri= GSTPlayerReplicationInfo(Instigator.Controller.PlayerReplicationInfo);
     pri.kfWeaponStats[pri.WeaponStat.PIPES_SET]+= Load;
 }
+
+defaultproperties {
+    ProjectileClass=class'GameStatsTab.PipeBombProjectile'
+}

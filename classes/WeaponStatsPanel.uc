@@ -17,6 +17,7 @@ function ShowPanel(bool bShow) {
         description[pri.WeaponStat.ROCKETS_LAUNCHED]="Rockets launched";
         description[pri.WeaponStat.BOLTS_FIRED]="Bolts fired";
         description[pri.WeaponStat.BOLTS_RETRIEVED]="Bolts retrieved";
+        description[pri.WeaponStat.EXPLOSIVES_DISINTEGRATED]="Explosive disintegrated";
 
         lb_StatSelect.statList.InitList(pri.kfWeaponStats, description);
     }
