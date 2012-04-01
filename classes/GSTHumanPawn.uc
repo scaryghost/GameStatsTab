@@ -1,5 +1,6 @@
 class GSTHumanPawn extends KFHumanPawn;
 
+var float prevHealth, prevShield;
 var GSTPlayerReplicationInfo pri;
 var int prevTimeStamp;
 
@@ -28,9 +29,9 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     local KFHumanPawn friendPawn;
 
     oldHealth= Health;
-    GSTPlayerController(Controller).prevHealth= oldHealth;
+    prevHealth= oldHealth;
     oldShield= ShieldStrength;
-    GSTPlayerController(Controller).prevShield= oldShield;
+    prevShield= oldShield;
 
     Super.TakeDamage(Damage,instigatedBy,hitlocation,momentum,damageType);
     
@@ -46,6 +47,20 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     }
 }
 
+
+function Died(Controller Killer, class<DamageType> damageType, vector HitLocation) {
+    pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
+    if(pri != none) {
+        pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= prevHealth;
+        pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= prevShield;
+
+        prevHealth= 0;
+        prevShield= 0;
+    }
+
+    super.Died(Killer, damageType, HitLocation);
+}
+
 /**
  * Copied from KFPawn.TakeBileDamage()
  * Had to inject stats tracking code here because the original
@@ -58,9 +73,9 @@ function TakeBileDamage() {
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
 
     oldHealth= Health;
-    GSTPlayerController(Controller).prevHealth= oldHealth;
+    prevHealth= oldHealth;
     oldShield= ShieldStrength;
-    GSTPlayerController(Controller).prevShield= oldShield;
+    prevShield= oldShield;
 
     Super(xPawn).TakeDamage(2+Rand(3), BileInstigator, Location, vect(0,0,0), class'DamTypeVomit');
     healthtoGive-=5;
@@ -116,5 +131,3 @@ exec function TossCash( int Amount ) {
         }
     }
 }
-
-
