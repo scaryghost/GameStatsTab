@@ -13,6 +13,8 @@ function ShowPanel(bool bShow) {
         description[pri.PlayerStat.SHIELD_LOST]="Total shield lost";
         description[pri.PlayerStat.FF_DAMAGE_DEALT]="Friendly fire damage";
         description[pri.PlayerStat.SHOT_BY_HUSK]="Shot by husk";
+        description[pri.PlayerStat.CASH_GIVEN]="Cash given";
+        description[pri.PlayerStat.CASH_VANISHED]="Cash vanished";
 
         lb_StatSelect.statList.InitList(pri.playerStats, description);
     }
