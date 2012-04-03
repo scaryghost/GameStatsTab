@@ -30,9 +30,9 @@ enum ZedStat {
     SCRAKES_RAGED, SCRAKES_STUNNED
 };
 
-var array<float> playerStats[15];
-var array<float> kfWeaponStats[15];
-var array<float> zedStats[15];
+var array<float> playerStats[16];
+var array<float> kfWeaponStats[16];
+var array<float> zedStats[16];
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)

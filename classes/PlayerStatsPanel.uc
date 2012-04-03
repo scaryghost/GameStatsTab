@@ -15,6 +15,7 @@ function ShowPanel(bool bShow) {
         description[pri.PlayerStat.SHOT_BY_HUSK]="Shot by husk";
         description[pri.PlayerStat.CASH_GIVEN]="Cash given";
         description[pri.PlayerStat.CASH_VANISHED]="Cash vanished";
+        description[pri.PlayerStat.FORCED_SUICIDE]="Forced suicides";
         description[pri.PlayerStat.TIME_BERSERKER]="Time as berserker";
         description[pri.PlayerStat.TIME_COMMANDO]="Time as commando";
         description[pri.PlayerStat.TIME_DEMO]="Time as demolitions";

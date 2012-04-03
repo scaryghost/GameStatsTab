@@ -7,6 +7,14 @@ function SetPawnClass(string inClass, string inCharacter) {
     PlayerReplicationInfo.SetCharacterName(inCharacter);
 }
 
+exec function suicide() {
+    local GSTPlayerReplicationInfo pri;
+
+    super.suicide();
+    pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
+    pri.playerStats[pri.PlayerStat.FORCED_SUICIDE]+= 1;
+}
+
 exec function InGameStats() {
     ClientOpenMenu("GameStatsTab.StatsMenu");
 }
