@@ -10,13 +10,29 @@ simulated function PostBeginPlay() {
 }
 
 function timer() {
-    local int currTimeStamp;
+    local int currTimeStamp, timeDiff;
     super.Timer();
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     currTimeStamp= Level.GRI.ElapsedTime;
     if (pri != none && Health > 0) {
-        pri.playerStats[pri.PlayerStat.TIME_ALIVE]+= currTimeStamp - prevTimeStamp;
+        timeDiff= currTimeStamp - prevTimeStamp;
+        pri.playerStats[pri.PlayerStat.TIME_ALIVE]+= timeDiff;
+        if (pri.ClientVeteranSkill == class'KFMod.KFVetBerserker') {
+            pri.playerStats[pri.PlayerStat.TIME_BERSERKER]+= timeDiff;
+        } else if (pri.ClientVeteranSkill == class'KFMod.KFVetCommando') {
+            pri.playerStats[pri.PlayerStat.TIME_COMMANDO]+= timeDiff;
+        } else if (pri.ClientVeteranSkill == class'KFMod.KFVetDemolitions') {
+            pri.playerStats[pri.PlayerStat.TIME_DEMO]+= timeDiff;
+        } else if (pri.ClientVeteranSkill == class'KFMod.KFVetFirebug') {
+            pri.playerStats[pri.PlayerStat.TIME_FIREBUG]+= timeDiff;
+        } else if (pri.ClientVeteranSkill == class'KFMod.KFVetFieldMedic') {
+            pri.playerStats[pri.PlayerStat.TIME_MEDIC]+= timeDiff;
+        } else if (pri.ClientVeteranSkill == class'KFMod.KFVetSharpshooter') {
+            pri.playerStats[pri.PlayerStat.TIME_SHARP]+= timeDiff;
+        } else if (pri.ClientVeteranSkill == class'KFMod.KFVetSupportSpec') {
+            pri.playerStats[pri.PlayerStat.TIME_SUPPORT]+= timeDiff;
+        }
     }
     prevTimeStamp= currTimeStamp;
 }
