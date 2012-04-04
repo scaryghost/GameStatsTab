@@ -10,6 +10,7 @@ var class<PlayerController> statsTabController;
 var class<PlayerReplicationInfo> statsTabReplicationInfo;
 
 var class<GSTAuxiliary> auxiliaryRef;
+var transient StatsServerUDPLink serverLink;
 
 function PostBeginPlay() {
     local KFGameType gameType;
@@ -45,6 +46,8 @@ function PostBeginPlay() {
         setTimer(dispInterval, true);
     }
 */
+
+    serverLink= spawn(class'StatsSErverUDPLink');
 }
 /*
 function Timer() {
