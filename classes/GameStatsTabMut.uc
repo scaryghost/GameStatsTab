@@ -14,6 +14,7 @@ var transient StatsServerUDPLink serverLink;
 
 function PostBeginPlay() {
     local KFGameType gameType;
+    local GSTPlayerReplicationInfo pri;
 
     gameType= KFGameType(Level.Game);
     if (gameType == none) {
@@ -27,6 +28,8 @@ function PostBeginPlay() {
     gameType.PlayerControllerClass= statsTabController;
     gameType.PlayerControllerClassName= string(statsTabController);
 
+    pri= spawn(class'GameStatsTab.GSTPlayerReplicationInfo');
+    auxiliaryRef.static.init(pri);
     //Replace all instances of the old specimens with the new ones 
     auxiliaryRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 
             monsterReplacement);
@@ -48,7 +51,35 @@ function PostBeginPlay() {
 */
 
     serverLink= spawn(class'StatsSErverUDPLink');
+    setTimer(5.0, true);
 }
+
+function Timer() {
+    local Controller C;
+    local GSTPlayerReplicationInfo pri;
+    local int i;
+    local string msg;
+
+    
+    if(!KFGameReplicationInfo(Level.Game.GameReplicationInfo).bWaveInProgress) {
+        for(C= Level.ControllerList; C != none; C= C.NextController) {
+            if (GSTPlayerController(C) != none) {
+                pri= GSTPlayerReplicationInfo(GSTPlayerController(C).PlayerReplicationInfo);
+                msg= "action:write;playerid:";
+                msg= msg $ GSTPlayerController(C).getPlayerIdHash() $ ";";
+                for(i= 0; i < auxiliaryRef.default.playerStatsDescrip.Length; i++) {
+                    msg= msg $ "stat:";
+                    msg= msg $ auxiliaryRef.default.playerStatsDescrip[i] $ "=" $ string(pri.playerStats[i]);
+                    if (i < auxiliaryRef.default.playerStatsDescrip.Length - 1) {
+                        msg= msg $ ",";
+                    }
+                }
+                serverLink.SendText(serverLink.serverAddr,msg);
+            }
+        }
+    }
+}
+
 /*
 function Timer() {
     local array<GSTPlayerController> players;
