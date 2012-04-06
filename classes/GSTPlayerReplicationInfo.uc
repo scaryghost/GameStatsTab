@@ -30,9 +30,10 @@ enum ZedStat {
     SCRAKES_RAGED, SCRAKES_STUNNED
 };
 
-var array<float> playerStats[16];
-var array<float> kfWeaponStats[16];
-var array<float> zedStats[16];
+var protected array<float> playerStats[16];
+var protected array<float> kfWeaponStats[16];
+var protected array<float> zedStats[16];
+var bool idHashSet;
 var string playerIDHash;
 
 replication {
@@ -55,4 +56,26 @@ function Reset() {
             zedStats[i]= 0;
         }
     }
+}
+
+function setPlayerIDHash() {
+    if (!idHashSet) {
+        playerIDHash= PlayerController(Owner).getPlayerIDHash();
+        idHashSet= true;
+    }
+}
+
+function addToPlayerStat(PlayerStat key, float delta) {
+    setPlayerIDHash();
+    playerStats[key]+= delta;
+}
+
+function addToWeaponStat(PlayerStat key, float delta) {
+    setPlayerIDHash();
+    kfWeaponStats[key]+= delta;
+}
+
+function addToZedStat(PlayerStat key, float delta) {
+    setPlayerIDHash();
+    zedStats[key]+= delta;
 }
