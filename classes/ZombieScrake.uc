@@ -19,29 +19,12 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
 }
 
 state RunningState {
-    // Don't override speed in this state
-    function bool CanSpeedAdjust() {
-        return super.CanSpeedAdjust();
-    }
-
     function BeginState() {
         super.BeginState();
         if (!rageCounted) {
             pri.addToZedStat(pri.ZedStat.SCRAKES_RAGED, 1);
             rageCounted= true;
         }
-    }
-
-    function EndState() {
-        super.EndState();
-    }
-
-    function RemoveHead() {
-        super.RemoveHead();
-    }
-
-    function RangedAttack(Actor A) {
-        super.RangedAttack(A);
     }
 }
 

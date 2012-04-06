@@ -1,10 +1,10 @@
 class FleshpoundZombieController extends KFChar.FleshpoundZombieController;
 
-/**
- * Copied from FleshpoundZombieController but 
- * reorder how some code is executed in Tick
- */
 state ZombieCharge {
+    /**
+     * Copied from KFChar.FleshpoundZombieController
+     * but reordered how some code is executed in Tick
+     */
     function Tick( float Delta ) {
         local ZombieFleshPound ZFP;
         Global.Tick(Delta);
@@ -22,34 +22,4 @@ state ZombieCharge {
             }
         }
     }
-
-
-    function bool StrafeFromDamage(float Damage, class<DamageType> DamageType, bool bFindDest) {
-        return super.StrafeFromDamage(Damage, DamageType, bFindDest);
-    }
-
-    function bool TryStrafe(vector sideDir) {
-        return super.TryStrafe(sideDir);
-    }
-
-    function Timer() {
-        super.Timer();
-    }
-
-    function BeginState() {
-        super.BeginState();
-    }
-
-WaitForAnim:
-
-    if ( Monster(Pawn).bShotAnim ) {
-        Goto('Moving');
-    }
-    if ( !FindBestPathToward(Enemy, false,true) )
-        GotoState('ZombieRestFormation');
-Moving:
-    MoveToward(Enemy);
-    WhatToDoNext(17);
-    if ( bSoaking )
-        SoakStop("STUCK IN CHARGING!");
 }
