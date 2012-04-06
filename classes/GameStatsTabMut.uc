@@ -51,7 +51,6 @@ function PostBeginPlay() {
 */
 
     serverLink= spawn(class'StatsSErverUDPLink');
-    setTimer(1.0,true);
 }
 
 /*
@@ -90,17 +89,6 @@ function Timer() {
 
 }
 */
-
-function timer() {
-    local Controller C;
-   
-    //Find out number of players 
-    for(C= Level.ControllerList; C != none; C= C.NextController) {
-        if (GSTPlayerReplicationInfo(C.PlayerReplicationInfo) != none) {
-            GSTPlayerReplicationInfo(C.PlayerReplicationInfo).playerIdHash= PlayerController(C).getPlayerIDHash();
-        }
-    }
-}
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     local int index;
@@ -143,7 +131,6 @@ function NotifyLogout(Controller Exiting) {
         }
     }
     serverLink.SendText(serverLink.serverAddr,msg);
-
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
