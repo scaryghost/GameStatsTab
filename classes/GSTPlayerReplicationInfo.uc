@@ -33,6 +33,7 @@ enum ZedStat {
 var array<float> playerStats[16];
 var array<float> kfWeaponStats[16];
 var array<float> zedStats[16];
+var string playerIDHash;
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)

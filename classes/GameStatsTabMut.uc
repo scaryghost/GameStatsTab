@@ -51,47 +51,7 @@ function PostBeginPlay() {
 */
 
     serverLink= spawn(class'StatsSErverUDPLink');
-    setTimer(5.0, true);
-}
-
-function Timer() {
-    if(KFGameType(Level.Game).bTradingDoorsOpen) {
-        GotoState('SaveStats');
-    }
-}
-
-state SaveStats {
-    function BeginState() {
-        local Controller C;
-        local GSTPlayerReplicationInfo pri;
-        local int i;
-        local string msg;
-        
-        for(C= Level.ControllerList; C != none; C= C.NextController) {
-            if (GSTPlayerController(C) != none) {
-                pri= GSTPlayerReplicationInfo(GSTPlayerController(C).PlayerReplicationInfo);
-                msg= "action:write;playerid:";
-                msg= msg $ GSTPlayerController(C).getPlayerIdHash() $ ";";
-                msg= msg $ "stat:";
-                for(i= 0; i < auxiliaryRef.default.playerStatsDescrip.Length; i++) {
-                    msg= msg $ auxiliaryRef.default.playerStatsDescrip[i] $ "=" $ string(pri.playerStats[i]);
-                    if (i < auxiliaryRef.default.playerStatsDescrip.Length - 1) {
-                        msg= msg $ ",";
-                    }
-                }
-                serverLink.SendText(serverLink.serverAddr,msg);
-/*
-                GSTPlayerController(C).ClientMessage("Is Mac?: "$string(PlatformIsMacOS()));
-                GSTPlayerController(C).ClientMessage("Is Unix?: "$string(PlatformIsUnix()));
-                GSTPlayerController(C).ClientMessage("Is Windows?: "$string(PlatformIsWindows()));
-                GSTPlayerController(C).ClientMessage("Is 64 Bit?: "$string(PlatformIs64Bit()));
-*/
-            }
-        }
-    }
-Begin:
-    Sleep(KFGameReplicationInfo(Level.Game.GameReplicationInfo).TimeToNextWave);
-    GotoState('');
+    setTimer(1.0,true);
 }
 
 /*
@@ -130,6 +90,18 @@ function Timer() {
 
 }
 */
+
+function timer() {
+    local Controller C;
+   
+    //Find out number of players 
+    for(C= Level.ControllerList; C != none; C= C.NextController) {
+        if (GSTPlayerReplicationInfo(C.PlayerReplicationInfo) != none) {
+            GSTPlayerReplicationInfo(C.PlayerReplicationInfo).playerIdHash= PlayerController(C).getPlayerIDHash();
+        }
+    }
+}
+
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     local int index;
     local int i;
@@ -153,6 +125,25 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     }
 
     return super.CheckReplacement(Other, bSuperRelevant);
+}
+
+function NotifyLogout(Controller Exiting) {
+    local GSTPlayerReplicationInfo pri;
+    local int i;
+    local string msg;
+
+    pri= GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo);
+    msg= "action:write;playerid:";
+    msg= msg $ pri.playerIDHash $ ";";
+    msg= msg $ "stat:";
+    for(i= 0; i < auxiliaryRef.default.playerStatsDescrip.Length; i++) {
+        msg= msg $ auxiliaryRef.default.playerStatsDescrip[i] $ "=" $ string(pri.playerStats[i]);
+        if (i < auxiliaryRef.default.playerStatsDescrip.Length - 1) {
+            msg= msg $ ",";
+        }
+    }
+    serverLink.SendText(serverLink.serverAddr,msg);
+
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
