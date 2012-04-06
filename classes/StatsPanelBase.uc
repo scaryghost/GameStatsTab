@@ -1,7 +1,7 @@
 class StatsPanelBase extends MidGamePanel;
 
 var automated GUISectionBackground i_BGStats;
-var automated GSTStatListBox lb_StatSelect;
+var automated StatListBox lb_StatSelect;
 var array<string> description;
 
 defaultproperties {
@@ -16,12 +16,12 @@ defaultproperties {
     End Object
     i_BGStats=GUISectionBackground'GameStatsTab.StatsPanelBase.BGStats'
 
-    Begin Object Class=GSTStatListBox Name=StatSelectList
+    Begin Object Class=StatListBox Name=StatSelectList
         OnCreateComponent=StatSelectList.InternalOnCreateComponent
         WinTop=0.057760
         WinLeft=0.029240
         WinWidth=0.941520
         WinHeight=0.742836
     End Object
-    lb_StatSelect=GSTStatListBox'GameStatsTab.StatsPanelBase.StatSelectList'
+    lb_StatSelect=StatListBox'GameStatsTab.StatsPanelBase.StatSelectList'
 }

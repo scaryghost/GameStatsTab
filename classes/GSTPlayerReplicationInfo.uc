@@ -30,9 +30,9 @@ enum ZedStat {
     SCRAKES_RAGED, SCRAKES_STUNNED
 };
 
-var protected array<float> playerStats[16];
-var protected array<float> kfWeaponStats[16];
-var protected array<float> zedStats[16];
+var array<float> playerStats[16];
+var array<float> kfWeaponStats[16];
+var array<float> zedStats[16];
 var bool idHashSet;
 var string playerIDHash;
 
@@ -70,12 +70,12 @@ function addToPlayerStat(PlayerStat key, float delta) {
     playerStats[key]+= delta;
 }
 
-function addToWeaponStat(PlayerStat key, float delta) {
+function addToWeaponStat(WeaponStat key, float delta) {
     setPlayerIDHash();
     kfWeaponStats[key]+= delta;
 }
 
-function addToZedStat(PlayerStat key, float delta) {
+function addToZedStat(ZedStat key, float delta) {
     setPlayerIDHash();
     zedStats[key]+= delta;
 }

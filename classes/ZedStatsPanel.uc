@@ -6,7 +6,7 @@ function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
     if ( bShow ) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-        lb_StatSelect.statList.InitList(pri.zedStats, 
+        lb_StatSelect.statListObj.InitList(pri.zedStats, 
             class'GameStatsTab.GSTAuxiliary'.default.zedStatsDescrip);
     }
 }

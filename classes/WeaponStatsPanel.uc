@@ -6,7 +6,7 @@ function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
     if ( bShow ) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-        lb_StatSelect.statList.InitList(pri.kfWeaponStats, 
+        lb_StatSelect.statListObj.InitList(pri.kfWeaponStats, 
             class'GameStatsTab.GSTAuxiliary'.default.weaponStatsDescrip);
     }
 }

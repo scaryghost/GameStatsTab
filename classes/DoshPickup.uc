@@ -7,7 +7,7 @@ function GiveCashTo(Pawn Other) {
    
     if (Other.Controller != DroppedBy) { 
         pri= GSTPlayerReplicationInfo(DroppedBy.PlayerReplicationInfo);
-        pri.playerStats[pri.PlayerStat.CASH_GIVEN]+= CashAmount;
+        pri.addToPlayerStat(pri.PlayerStat.CASH_GIVEN, CashAmount);
     }
 }
 
@@ -17,6 +17,6 @@ state FadeOut {
 
         super.EndState();
         pri= GSTPlayerReplicationInfo(DroppedBy.PlayerReplicationInfo);
-        pri.playerStats[pri.PlayerStat.CASH_VANISHED]+= CashAmount;
+        pri.addToPlayerStat(pri.PlayerStat.CASH_VANISHED, CashAmount);
     }
 }

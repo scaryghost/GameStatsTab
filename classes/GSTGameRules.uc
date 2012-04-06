@@ -2,7 +2,7 @@ class GSTGameRules extends GameRules;
 
 struct monsterIndexPair {
     var string monsterName;
-    var byte statIndex;
+    var GSTPlayerReplicationInfo.ZedStat statIndex;
 };
 
 var array<monsterIndexPair> monsterIndexArray;
@@ -26,7 +26,7 @@ function ScoreKill(Controller Killer, Controller Killed) {
         }
         for(i= 0; i < monsterIndexArray.Length; i++) {
             if (InStr(string(Killed.pawn),monsterIndexArray[i].monsterName) != -1) {
-                pri.zedStats[monsterIndexArray[i].statIndex]+= 1;
+                pri.addToZedStat(monsterIndexArray[i].statIndex, 1);
                 break;
             }
         }
