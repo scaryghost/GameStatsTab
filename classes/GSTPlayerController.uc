@@ -12,7 +12,7 @@ exec function suicide() {
 
     super.suicide();
     pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
-    pri.playerStats[pri.PlayerStat.FORCED_SUICIDE]+= 1;
+    pri.addToPlayerStat(pri.PlayerStat.FORCED_SUICIDE, 1);
 }
 
 exec function InGameStats() {

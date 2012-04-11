@@ -5,5 +5,4 @@ function DoFireEffect() {
 
     super.DoFireEffect();
     pri.addToWeaponStat(pri.WeaponStat.SHELLS_FIRED, Load);
-    pri.KFWeaponStats[pri.WeaponStat.SHELLS_FIRED]+= Load;
 }

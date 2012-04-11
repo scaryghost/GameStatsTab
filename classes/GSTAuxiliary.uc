@@ -29,13 +29,6 @@ static function init(GSTPlayerReplicationInfo pri) {
     default.playerStatsDescrip[pri.PlayerStat.CASH_GIVEN]="Cash given";
     default.playerStatsDescrip[pri.PlayerStat.CASH_VANISHED]="Cash vanished";
     default.playerStatsDescrip[pri.PlayerStat.FORCED_SUICIDE]="Forced suicides";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_BERSERKER]="Time as berserker";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_COMMANDO]="Time as commando";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_DEMO]="Time as demolitions";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_FIREBUG]="Time as firebug";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_MEDIC]="Time as medic";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_SHARP]="Time as sharpshooter";
-    default.playerStatsDescrip[pri.PlayerStat.TIME_SUPPORT]="Time as support specialist";
 
     default.weaponStatsDescrip[pri.WeaponStat.ROUNDS_FIRED]="Rounds fired";
     default.weaponStatsDescrip[pri.WeaponStat.MELEE_SWINGS]="Melee swings";

@@ -14,7 +14,7 @@ simulated state OnWall {
                     PlaySound(Sound'KF_InventorySnd.Ammo_GenericPickup', SLOT_Pain,2*TransientSoundVolume,,400);
                     if(PlayerController(Pawn(Other).Controller) !=none) {
                         PlayerController(Pawn(Other).Controller).ClientMessage( "You picked up a bolt" );
-                        pri.kfWeaponStats[pri.WeaponStat.BOLTS_RETRIEVED]+= 1.0;
+                        pri.addToWeaponStat(pri.WeaponStat.BOLTS_RETRIEVED, 1.0);
                     }
                     Destroy();
                 }
