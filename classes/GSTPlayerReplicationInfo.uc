@@ -1,18 +1,9 @@
 class GSTPlayerReplicationInfo extends KFPlayerReplicationInfo;
 
-enum StatGroup {
-    PLAYER,
-    WEAPON,
-    ZED
-};
-
 enum PlayerStat {
     TIME_ALIVE, HEALING_RECIEVED, DAMAGE_TAKEN,
     SHIELD_LOST, FF_DAMAGE_DEALT, SHOT_BY_HUSK,
     CASH_GIVEN, CASH_VANISHED, FORCED_SUICIDE,
-    TIME_BERSERKER, TIME_COMMANDO, TIME_DEMO, 
-    TIME_FIREBUG, TIME_MEDIC, TIME_SHARP, 
-    TIME_SUPPORT
 };
 
 enum WeaponStat {
@@ -30,9 +21,16 @@ enum ZedStat {
     SCRAKES_RAGED, SCRAKES_STUNNED
 };
 
-var array<float> playerStats[16];
-var array<float> kfWeaponStats[16];
-var array<float> zedStats[16];
+enum HiddenStat {
+    TIME_BERSERKER, TIME_COMMANDO, TIME_DEMO, 
+    TIME_FIREBUG, TIME_MEDIC, TIME_SHARP, 
+    TIME_SUPPORT
+};
+
+var array<float> playerStats[15];
+var array<float> kfWeaponStats[15];
+var array<float> zedStats[15];
+var array<float> hiddenStats[15];
 var bool idHashSet;
 var string playerIDHash;
 
@@ -54,6 +52,9 @@ function Reset() {
         }
         for(i= 0; i < ArrayCount(zedStats); i++) {
             zedStats[i]= 0;
+        }
+        for(i= 0; i < ArrayCount(hiddenStats); i++) {
+            hiddenStats[i]= 0;
         }
     }
 }
@@ -78,4 +79,9 @@ function addToWeaponStat(WeaponStat key, float delta) {
 function addToZedStat(ZedStat key, float delta) {
     setPlayerIDHash();
     zedStats[key]+= delta;
+}
+
+function addToHiddenStat(HiddenStat key, float delta) {
+    setPlayerIDHash();
+    hiddenStats[key]+= delta;
 }

@@ -17,21 +17,21 @@ function timer() {
     currTimeStamp= Level.GRI.ElapsedTime;
     if (pri != none && Health > 0) {
         timeDiff= currTimeStamp - prevTimeStamp;
-        pri.playerStats[pri.PlayerStat.TIME_ALIVE]+= timeDiff;
+        pri.addToPlayerStat(pri.PlayerStat.TIME_ALIVE, timeDiff);
         if (pri.ClientVeteranSkill == class'KFMod.KFVetBerserker') {
-            pri.playerStats[pri.PlayerStat.TIME_BERSERKER]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_BERSERKER, timeDiff);
         } else if (pri.ClientVeteranSkill == class'KFMod.KFVetCommando') {
-            pri.playerStats[pri.PlayerStat.TIME_COMMANDO]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_COMMANDO, timeDiff);
         } else if (pri.ClientVeteranSkill == class'KFMod.KFVetDemolitions') {
-            pri.playerStats[pri.PlayerStat.TIME_DEMO]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_DEMO, timeDiff);
         } else if (pri.ClientVeteranSkill == class'KFMod.KFVetFirebug') {
-            pri.playerStats[pri.PlayerStat.TIME_FIREBUG]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_FIREBUG, timeDiff);
         } else if (pri.ClientVeteranSkill == class'KFMod.KFVetFieldMedic') {
-            pri.playerStats[pri.PlayerStat.TIME_MEDIC]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_MEDIC, timeDiff);
         } else if (pri.ClientVeteranSkill == class'KFMod.KFVetSharpshooter') {
-            pri.playerStats[pri.PlayerStat.TIME_SHARP]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_SHARP, timeDiff);
         } else if (pri.ClientVeteranSkill == class'KFMod.KFVetSupportSpec') {
-            pri.playerStats[pri.PlayerStat.TIME_SUPPORT]+= timeDiff;
+            pri.addToHiddenStat(pri.HiddenStat.TIME_SUPPORT, timeDiff);
         }
     }
     prevTimeStamp= currTimeStamp;
@@ -54,12 +54,12 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     friendPawn= KFHumanPawn(InstigatedBy);
     if (friendPawn != none && friendPawn != Self) {
         pri= GSTPlayerReplicationInfo(friendPawn.Controller.PlayerReplicationInfo);
-        pri.playerStats[pri.PlayerStat.FF_DAMAGE_DEALT]+= oldHealth - fmax(Health, 0.0);
+        pri.addToPlayerStat(pri.PlayerStat.FF_DAMAGE_DEALT, oldHealth - fmax(Health, 0.0));
     }
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if(pri != none) {
-        pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
-        pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
+        pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
+        pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
     }
 }
 
@@ -67,8 +67,8 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
 function Died(Controller Killer, class<DamageType> damageType, vector HitLocation) {
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if(pri != none) {
-        pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= prevHealth;
-        pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= prevShield;
+        pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, prevHealth);
+        pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, prevShield);
 
         prevHealth= 0;
         prevShield= 0;
@@ -97,8 +97,8 @@ function TakeBileDamage() {
     healthtoGive-=5;
 
     if(pri != none) {
-        pri.playerStats[pri.PlayerStat.DAMAGE_TAKEN]+= oldHealth - fmax(Health,0.0);
-        pri.playerStats[pri.PlayerStat.SHIELD_LOST]+= oldShield - fmax(ShieldStrength,0.0);
+        pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
+        pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
     }
 }
 
@@ -110,7 +110,7 @@ simulated function addHealth() {
 
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if (pri != none) {
-        pri.playerStats[pri.PlayerStat.HEALING_RECIEVED]+= Health - OldHealth;
+        pri.addToPlayerStat(pri.PlayerStat.HEALING_RECIEVED, Health - OldHealth);
     }
 }
 
