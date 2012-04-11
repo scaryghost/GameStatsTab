@@ -1,4 +1,5 @@
-class GameStatsTabMut extends Mutator;
+class GameStatsTabMut extends Mutator
+    dependson(GSTAuxiliary);
 
 var() config bool bDispStat;
 var() config int dispInterval;

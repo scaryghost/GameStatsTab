@@ -2,7 +2,7 @@
  * Have it extend ReplicationInfo so this class will be compiled
  * before all other classes that need to use it
  */
-class GSTAuxiliary extends ReplicationInfo;
+class GSTAuxiliary extends Object;
 
 var array<string> playerStatsDescrip;
 var array<string> weaponStatsDescrip;
