@@ -103,8 +103,8 @@ function InternalOnChange(GUIComponent Sender) {
 }
 
 defaultproperties {
-    setProp= "set GameStatsTab.GSTStatList"
-    getProp= "get GameStatsTab.GSTStatList"
+    setProp= "set GameStatsTab.StatList"
+    getProp= "get GameStatsTab.StatList"
 
     Begin Object Class=GUISectionBackground Name=BGBackground
         bFillClient=True
