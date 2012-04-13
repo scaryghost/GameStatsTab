@@ -2,7 +2,8 @@ class GameStatsTabMut extends Mutator
     dependson(GSTAuxiliary);
 
 var() config bool bDispStat;
-var() config int dispInterval;
+var() config int dispInterval, serverPort;
+var() config string serverIp;
 var string statTextColor, endGameBossClass, fallbackMonsterClass;
 var byte currentStat;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
@@ -15,7 +16,6 @@ var transient StatsServerUDPLink serverLink;
 
 function PostBeginPlay() {
     local KFGameType gameType;
-    local GSTPlayerReplicationInfo pri;
 
     gameType= KFGameType(Level.Game);
     if (gameType == none) {
@@ -164,6 +164,8 @@ static function FillPlayInfo(PlayInfo PlayInfo) {
     Super.FillPlayInfo(PlayInfo);
     PlayInfo.AddSetting("GameStatsTab", "bDispStat", "Display Stats", 0, 0, "Check");
     PlayInfo.AddSetting("GameStatsTab", "dispInterval", "Display Interval", 0, 0, "Text");
+    PlayInfo.AddSetting("GameStatsTab", "serverIp", "Remote Server IP", 0, 0, "Text", "128");
+    PlayInfo.AddSetting("GameStatsTab", "serverPort", "Remote Server Port", 0, 0, "Text");
 }
 
 static event string GetDescriptionText(string property) {
@@ -172,6 +174,10 @@ static event string GetDescriptionText(string property) {
             return "Display a random stat from a random player";
         case "dispInterval":
             return "Interval (sec) between polls";
+        case "serverIp":
+            return "IP address of remote tracking server";
+        case "serverPort":
+            return "Port number of remote tracking server";
         default:
             return Super.GetDescriptionText(property);
     }
