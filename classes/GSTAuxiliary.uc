@@ -1,12 +1,9 @@
-/**
- * Have it extend ReplicationInfo so this class will be compiled
- * before all other classes that need to use it
- */
 class GSTAuxiliary extends Object;
 
 var array<string> playerStatsDescrip;
 var array<string> weaponStatsDescrip;
 var array<string> zedStatsDescrip;
+var array<string> hiddenStatsDescrip;
 var bool isInit;
 
 struct ReplacementPair {
@@ -57,6 +54,14 @@ static function init(GSTPlayerReplicationInfo pri) {
     default.zedStatsDescrip[pri.ZedStat.SCRAKES_STUNNED]="Stunned a scrake";
     default.zedStatsDescrip[pri.ZedStat.BACKSTABS]="Backstabs";
     default.zedStatsDescrip[pri.ZedStat.NUM_DECAPS]="Decapitations";
+
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_BERSERKER]="Time Berserker";
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_COMMANDO]="Time Commando";
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_DEMO]="Time Demo";
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_FIREBUG]="Time Firebug";
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_MEDIC]="Time Medic";
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_SHARP]="Time Sharpshooter";
+    default.hiddenStatsDescrip[pri.HiddenStat.TIME_SUPPORT]="Time Support";
 
     default.isInit= true;
 }

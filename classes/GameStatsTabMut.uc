@@ -118,20 +118,33 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 
 function NotifyLogout(Controller Exiting) {
     local GSTPlayerReplicationInfo pri;
-    local int i;
-    local string msg;
+    local string baseMsg;
 
     pri= GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo);
-    msg= "action:write;playerid:";
-    msg= msg $ pri.playerIDHash $ ";";
-    msg= msg $ "stat:";
-    for(i= 0; i < auxiliaryRef.default.playerStatsDescrip.Length; i++) {
-        msg= msg $ auxiliaryRef.default.playerStatsDescrip[i] $ "=" $ string(pri.playerStats[i]);
-        if (i < auxiliaryRef.default.playerStatsDescrip.Length - 1) {
-            msg= msg $ ",";
+    baseMsg= "action:write;playerid:";
+    baseMsg= baseMsg $ pri.playerIDHash $ ";";
+    serverLink.SendText(serverLink.serverAddr, 
+        baseMsg $ getStatGroup(pri.playerStats, auxiliaryRef.default.playerStatsDescrip));
+    serverLink.SendText(serverLink.serverAddr, 
+        baseMsg $ getStatGroup(pri.kfWeaponStats, auxiliaryRef.default.weaponStatsDescrip));
+    serverLink.SendText(serverLink.serverAddr, 
+        baseMsg $ getStatGroup(pri.zedStats, auxiliaryRef.default.zedStatsDescrip));
+    serverLink.SendText(serverLink.serverAddr, 
+        baseMsg $ getStatGroup(pri.hiddenStats, auxiliaryRef.default.hiddenStatsDescrip));
+}
+
+function string getStatGroup(array<float> statList[15], array<string> descrips) {
+    local string statVals;
+    local int i;
+
+    statVals= "stat:";
+    for(i= 0; i < descrips.Length; i++) {
+        statVals$=  descrips[i]$ "=" $ statList[i];
+        if (i < descrips.Length - 1) {
+            statVals$= ",";
         }
     }
-    serverLink.SendText(serverLink.serverAddr,msg);
+    return statVals;
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
