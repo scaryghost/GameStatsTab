@@ -1,4 +1,5 @@
-class StatsPanelBase extends MidGamePanel;
+class StatsPanelBase extends MidGamePanel
+    abstract;
 
 var automated GUISectionBackground i_BGStats;
 var automated StatListBox lb_StatSelect;
