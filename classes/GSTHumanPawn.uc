@@ -61,6 +61,8 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
         pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
         pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
     }
+    prevHealth= 0;
+    prevShield= 0;
 }
 
 
