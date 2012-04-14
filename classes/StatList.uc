@@ -1,13 +1,23 @@
 class StatList extends GUIVertList
     config;
 
+enum DescripFormat {
+    TEXT,
+    DOSH,
+    TIME
+};
+
+struct DescripInfo {
+    var localized string description;
+    var DescripFormat format;
+};
+
 // Display
 var texture InfoBackground;
 
 // State
-var localized array<string> statName;
+var array<DescripInfo> statDescriptions;
 var array<int>  statValue;
-var int timeIndex;
 
 var() config int bgR, bgG, bgB;
 var() config int txtR, txtG, txtB;
@@ -18,7 +28,7 @@ function bool PreDraw(Canvas Canvas) {
     return false;
 }
 
-function InitList(array<float> stats[15], array<string> descriptions) {
+function InitList(array<float> stats[15], array<DescripInfo> descriptions) {
     local int i;
     // Update the ItemCount and select the first item
     itemCount= descriptions.Length;
@@ -26,7 +36,7 @@ function InitList(array<float> stats[15], array<string> descriptions) {
 
     statValue.Length= itemCount;
     for(i= 0; i < itemCount; i++) {
-        statName[i]= descriptions[i];
+        statDescriptions[i]= descriptions[i];
         statValue[i]= stats[i];
     }
 
@@ -64,15 +74,17 @@ function DrawStat(Canvas Canvas, int CurIndex, float X, float Y,
     Canvas.SetDrawColor(txtR, txtG, txtB, alpha);
 
     // Write stat name
-    Canvas.TextSize(statName[CurIndex],TempWidth,TempHeight);
+    Canvas.TextSize(statDescriptions[CurIndex].description,TempWidth,TempHeight);
     TempX += Width*0.1f;
     TempY += (Height-TempHeight)*0.5f;
     Canvas.SetPos(TempX, TempY);
-    Canvas.DrawText(statName[CurIndex]);
+    Canvas.DrawText(statDescriptions[CurIndex].description);
 
     // Write stat value
-    if (curIndex == timeIndex) {
+    if (statDescriptions[CurIndex].format == DescripFormat.TIME) {
         S= class'GameStatsTab.GSTAuxiliary'.static.formatTime(statValue[CurIndex]);
+    } else if (statDescriptions[CurIndex].format == DescripFormat.DOSH) {
+        S= "£" $ string(statValue[CurIndex]);
     } else {
         S = string(statValue[CurIndex]);
     }
@@ -91,7 +103,6 @@ defaultproperties {
     OnDrawItem=StatList.DrawStat
     FontScale=FNS_Medium
     OnPreDraw=StatList.PreDraw
-    timeIndex=-1
 
     bgR=255
     bgG=255

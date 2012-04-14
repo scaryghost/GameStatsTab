@@ -6,19 +6,20 @@ function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
     if ( bShow ) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-         if (description.Length == 0) {
-            description[pri.WeaponStat.ROUNDS_FIRED]="Rounds fired";
-            description[pri.WeaponStat.MELEE_SWINGS]="Melee swings";
-            description[pri.WeaponStat.FRAGS_TOSSED]="Frags tossed";
-            description[pri.WeaponStat.PIPES_SET]="Pipes set";
-            description[pri.WeaponStat.UNITS_FUEL]="Units of fuel consumed";
-            description[pri.WeaponStat.SHELLS_FIRED]="Shells fired";
-            description[pri.WeaponStat.GRENADES_LAUNCHED]="Grenades launched";
-            description[pri.WeaponStat.ROCKETS_LAUNCHED]="Rockets launched";
-            description[pri.WeaponStat.BOLTS_FIRED]="Bolts fired";
-            description[pri.WeaponStat.BOLTS_RETRIEVED]="Bolts retrieved";
-            description[pri.WeaponStat.EXPLOSIVES_DISINTEGRATED]="Explosive disintegrated";
+         if (descriptions.Length == 0) {
+            descriptions.Length= pri.WeaponStat.EnumCount;
+            descriptions[pri.WeaponStat.ROUNDS_FIRED].description="Rounds fired";
+            descriptions[pri.WeaponStat.MELEE_SWINGS].description="Melee swings";
+            descriptions[pri.WeaponStat.FRAGS_TOSSED].description="Frags tossed";
+            descriptions[pri.WeaponStat.PIPES_SET].description="Pipes set";
+            descriptions[pri.WeaponStat.UNITS_FUEL].description="Units of fuel consumed";
+            descriptions[pri.WeaponStat.SHELLS_FIRED].description="Shells fired";
+            descriptions[pri.WeaponStat.GRENADES_LAUNCHED].description="Grenades launched";
+            descriptions[pri.WeaponStat.ROCKETS_LAUNCHED].description="Rockets launched";
+            descriptions[pri.WeaponStat.BOLTS_FIRED].description="Bolts fired";
+            descriptions[pri.WeaponStat.BOLTS_RETRIEVED].description="Bolts retrieved";
+            descriptions[pri.WeaponStat.EXPLOSIVES_DISINTEGRATED].description="Explosive disintegrated";
         }       
-        lb_StatSelect.statListObj.InitList(pri.kfWeaponStats, description);
+        lb_StatSelect.statListObj.InitList(pri.kfWeaponStats, descriptions);
     }
 }

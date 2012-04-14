@@ -6,17 +6,23 @@ function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
     if ( bShow ) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-        if (description.Length == 0) {
-            description[pri.PlayerStat.TIME_ALIVE]="Time alive";
-            description[pri.PlayerStat.HEALING_RECIEVED]="Total healing received";
-            description[pri.PlayerStat.DAMAGE_TAKEN]="Total damage taken";
-            description[pri.PlayerStat.SHIELD_LOST]="Total shield lost";
-            description[pri.PlayerStat.FF_DAMAGE_DEALT]="Friendly fire damage";
-            description[pri.PlayerStat.SHOT_BY_HUSK]="Shot by husk";
-            description[pri.PlayerStat.CASH_GIVEN]="Cash given";
-            description[pri.PlayerStat.CASH_VANISHED]="Cash vanished";
-            description[pri.PlayerStat.FORCED_SUICIDE]="Forced suicides";
+        if (descriptions.Length == 0) {
+            descriptions.Length= pri.PlayerStat.EnumCount;
+            descriptions[pri.PlayerStat.TIME_ALIVE].description="Time alive";
+            descriptions[pri.PlayerStat.TIME_ALIVE].format= lb_StatSelect.statListObj.DescripFormat.TIME;
+            descriptions[pri.PlayerStat.HEALING_RECIEVED].description="Total healing received";
+            descriptions[pri.PlayerStat.DAMAGE_TAKEN].description="Total damage taken";
+            descriptions[pri.PlayerStat.SHIELD_LOST].description="Total shield lost";
+            descriptions[pri.PlayerStat.FF_DAMAGE_DEALT].description="Friendly fire damage";
+            descriptions[pri.PlayerStat.SHOT_BY_HUSK].description="Shot by husk";
+            descriptions[pri.PlayerStat.CASH_GIVEN].description="Cash given";
+            descriptions[pri.PlayerStat.CASH_GIVEN].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
+            descriptions[pri.PlayerStat.CASH_VANISHED].description="Cash vanished";
+            descriptions[pri.PlayerStat.CASH_VANISHED].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
+            descriptions[pri.PlayerStat.FORCED_SUICIDE].description="Forced suicides";
+
+            PlayerOwner().ClientMEssage(descriptions.Length);
         }
-        lb_StatSelect.statListObj.InitList(pri.playerStats,description);
+        lb_StatSelect.statListObj.InitList(pri.playerStats,descriptions);
     }
 }

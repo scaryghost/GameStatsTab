@@ -1,9 +1,10 @@
 class StatsPanelBase extends MidGamePanel
+    dependson(StatList)
     abstract;
 
 var automated GUISectionBackground i_BGStats;
 var automated StatListBox lb_StatSelect;
-var array<string> description;
+var array<StatList.DescripInfo> descriptions;
 
 defaultproperties {
     Begin Object Class=GUISectionBackground Name=BGStats

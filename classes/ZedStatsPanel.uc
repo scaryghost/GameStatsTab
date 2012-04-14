@@ -6,23 +6,24 @@ function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
     if ( bShow ) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-        if (description.Length == 0) {
-            description[pri.ZedStat.CRAWLER_KILLS]="Crawler kills";
-            description[pri.ZedStat.STALKER_KILLS]="Stalker kills";
-            description[pri.ZedStat.CLOT_KILLS]="Clot kills";
-            description[pri.ZedStat.GOREFAST_KILLS]="Gorefast kills";
-            description[pri.ZedStat.BLOAT_KILLS]="Bloat kills";
-            description[pri.ZedStat.SIREN_KILLS]="Siren kills";
-            description[pri.ZedStat.HUSK_KILLS]="Husk kills";
-            description[pri.ZedStat.SCRAKE_KILLS]="Scrake kills";
-            description[pri.ZedStat.FLESHPOUND_KILLS]="Fleshpound kills";
-            description[pri.ZedStat.PATRIARCH_KILLS]="Patriarch kills";
-            description[pri.ZedStat.FLESHPOUNDS_RAGED]="Enraged a fleshpound";
-            description[pri.ZedStat.SCRAKES_RAGED]="Enraged a scrake";
-            description[pri.ZedStat.SCRAKES_STUNNED]="Stunned a scrake";
-            description[pri.ZedStat.BACKSTABS]="Backstabs";
-            description[pri.ZedStat.NUM_DECAPS]="Decapitations";
+        if (descriptions.Length == 0) {
+            descriptions.Length= pri.ZedStat.EnumCount;
+            descriptions[pri.ZedStat.CRAWLER_KILLS].description="Crawler kills";
+            descriptions[pri.ZedStat.STALKER_KILLS].description="Stalker kills";
+            descriptions[pri.ZedStat.CLOT_KILLS].description="Clot kills";
+            descriptions[pri.ZedStat.GOREFAST_KILLS].description="Gorefast kills";
+            descriptions[pri.ZedStat.BLOAT_KILLS].description="Bloat kills";
+            descriptions[pri.ZedStat.SIREN_KILLS].description="Siren kills";
+            descriptions[pri.ZedStat.HUSK_KILLS].description="Husk kills";
+            descriptions[pri.ZedStat.SCRAKE_KILLS].description="Scrake kills";
+            descriptions[pri.ZedStat.FLESHPOUND_KILLS].description="Fleshpound kills";
+            descriptions[pri.ZedStat.PATRIARCH_KILLS].description="Patriarch kills";
+            descriptions[pri.ZedStat.FLESHPOUNDS_RAGED].description="Enraged a fleshpound";
+            descriptions[pri.ZedStat.SCRAKES_RAGED].description="Enraged a scrake";
+            descriptions[pri.ZedStat.SCRAKES_STUNNED].description="Stunned a scrake";
+            descriptions[pri.ZedStat.BACKSTABS].description="Backstabs";
+            descriptions[pri.ZedStat.NUM_DECAPS].description="Decapitations";
         }
-        lb_StatSelect.statListObj.InitList(pri.zedStats, description);
+        lb_StatSelect.statListObj.InitList(pri.zedStats, descriptions);
     }
 }
