@@ -1,16 +1,14 @@
 class GameStatsTabMut extends Mutator
     dependson(GSTAuxiliary);
 
-var() config bool bDispStat;
-var() config int dispInterval, serverPort;
+var() config bool accumulateStats;
+var() config int serverPort;
 var() config string serverIp;
-var string statTextColor, endGameBossClass, fallbackMonsterClass;
-var byte currentStat;
+var string endGameBossClass, fallbackMonsterClass;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
 var class<PlayerController> statsTabController;
 var class<PlayerReplicationInfo> statsTabReplicationInfo;
-
 var class<GSTAuxiliary> auxiliaryRef;
 var transient StatsServerUDPLink serverLink;
 
@@ -42,52 +40,10 @@ function PostBeginPlay() {
     gameType.EndGameBossClass= endGameBossClass;
     gameType.FallbackMonsterClass= fallbackMonsterClass;
 
-    statTextColor= chr(27)$chr(255)$chr(255)$chr(1);
-/*
-    if (bDispStat) {
-        setTimer(dispInterval, true);
+    if (accumulateStats) {
+        serverLink= spawn(class'StatsSErverUDPLink');
     }
-*/
-
-    serverLink= spawn(class'StatsSErverUDPLink');
 }
-
-/*
-function Timer() {
-    local array<GSTPlayerController> players;
-    local Controller C;
-    local GSTPlayerReplicationInfo pri;
-    local string msg;
-    local int i;
-   
-    //Find out number of players 
-    for(C= Level.ControllerList; C != none; C= C.NextController) {
-        if (GSTPlayerController(C) != none) {
-            players[players.Length]= GSTPlayerController(C);
-        }
-    }
-    
-    if (players.Length > 0) {
-        //randomly select a player
-        pri= GSTPlayerReplicationInfo(players[Rand(players.Length)].PlayerReplicationInfo);
-
-        //Retrieve and display stat
-        msg= pri.PlayerName$" - ";
-        msg= msg$pri.descripArray[currentStat]$" - ";
-        if (currentStat == pri.EStatKeys.TIME_ALIVE) {
-            msg= msg$auxiliaryRef.static.formatTime(pri.getStatValue(currentStat));
-        } else {
-            msg= msg$string(int(pri.getStatValue(currentStat)));
-        }
-        for(i= 0; i < players.Length; i++) {
-            players[i].ClientMessage(statTextColor$msg);
-        }
-        //Get next stat
-        currentStat= (currentStat+1) % pri.EStatKeys.EnumCount;
-    }
-
-}
-*/
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
     local int index;
@@ -115,73 +71,22 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 }
 
 function NotifyLogout(Controller Exiting) {
-    local GSTPlayerReplicationInfo pri;
-    local string baseMsg, statVals;
-    local int i;
-
-    pri= GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo);
-    baseMsg= "action:write;playerid:";
-    baseMsg= baseMsg $ pri.playerIDHash $ ";";
-
-    statVals= "";
-    for(i= 0; i < pri.PlayerStat.EnumCount; i++) {
-        if (pri.playerStats[i] != 0) {
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.PlayerStat',i) $ "=" $ pri.playerStats[i];
-            if (i < pri.PlayerStat.EnumCount - 1) {
-                statVals$= ",";
-            }
-        }
+    if (accumulateStats) {
+        serverLink.sendStats(GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo));
     }
-    serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
-
-    statVals= "";
-    for(i= 0; i < pri.WeaponStat.EnumCount; i++) {
-        if (pri.kfWeaponStats[i] != 0) {
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.WeaponStat',i) $ "=" $ pri.kfWeaponStats[i];
-            if (i < pri.WeaponStat.EnumCount - 1) {
-                statVals$= ",";
-            }
-        }
-    }
-    serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
-
-    statVals= "";
-    for(i= 0; i < pri.ZedStat.EnumCount; i++) {
-        if (pri.zedStats[i] != 0) {
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.ZedStat',i) $ "=" $ pri.zedStats[i];
-            if (i < pri.ZedStat.EnumCount - 1) {
-                statVals$= ",";
-            }
-        }
-    }
-    serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
-
-    statVals= "";
-    for(i= 0; i < pri.HiddenStat.EnumCount; i++) {
-        if (pri.hiddenStats[i] != 0) {
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.HiddenStat',i) $ "=" $ pri.hiddenStats[i];
-            if (i < pri.HiddenStat.EnumCount - 1) {
-                statVals$= ",";
-            }
-        }
-    }
-    serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
     Super.FillPlayInfo(PlayInfo);
-    PlayInfo.AddSetting("GameStatsTab", "bDispStat", "Display Stats", 0, 0, "Check");
-    PlayInfo.AddSetting("GameStatsTab", "dispInterval", "Display Interval", 0, 0, "Text");
+    PlayInfo.AddSetting("GameStatsTab", "accumulateStats", "Accumulate Statistics", 0, 0, "Check");
     PlayInfo.AddSetting("GameStatsTab", "serverIp", "Remote Server IP", 0, 0, "Text", "128");
     PlayInfo.AddSetting("GameStatsTab", "serverPort", "Remote Server Port", 0, 0, "Text");
 }
 
 static event string GetDescriptionText(string property) {
     switch(property) {
-        case "bDispStat":
-            return "Display a random stat from a random player";
-        case "dispInterval":
-            return "Interval (sec) between polls";
+        case "accumulateStats":
+            return "Check if the mutator should save the stats to a remote server";
         case "serverIp":
             return "IP address of remote tracking server";
         case "serverPort":
@@ -196,7 +101,6 @@ defaultproperties {
     FriendlyName="Game Stats Tab"
     Description="Displays detailed statistics about your game.  Version 1.2.0"
 
-    currentStat= 0
     auxiliaryRef= class'GameStatsTab.GSTAuxiliary';
     statsTabRules= class'GameStatsTab.GSTGameRules'
     statsTabController= class'GameStatsTab.GSTPlayerController'
