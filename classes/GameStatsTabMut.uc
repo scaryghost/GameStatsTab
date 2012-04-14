@@ -125,36 +125,44 @@ function NotifyLogout(Controller Exiting) {
 
     statVals= "";
     for(i= 0; i < pri.PlayerStat.EnumCount; i++) {
-        statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.PlayerStat',i) $ "=" $ pri.playerStats[i];
-        if (i < pri.PlayerStat.EnumCount - 1) {
-            statVals$= ";";
+        if (pri.playerStats[i] != 0) {
+            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.PlayerStat',i) $ "=" $ pri.playerStats[i];
+            if (i < pri.PlayerStat.EnumCount - 1) {
+                statVals$= ",";
+            }
         }
     }
     serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
 
     statVals= "";
     for(i= 0; i < pri.WeaponStat.EnumCount; i++) {
-        statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.WeaponStat',i) $ "=" $ pri.kfWeaponStats[i];
-        if (i < pri.WeaponStat.EnumCount - 1) {
-            statVals$= ";";
+        if (pri.kfWeaponStats[i] != 0) {
+            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.WeaponStat',i) $ "=" $ pri.kfWeaponStats[i];
+            if (i < pri.WeaponStat.EnumCount - 1) {
+                statVals$= ",";
+            }
         }
     }
     serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
 
     statVals= "";
     for(i= 0; i < pri.ZedStat.EnumCount; i++) {
-        statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.ZedStat',i) $ "=" $ pri.zedStats[i];
-        if (i < pri.ZedStat.EnumCount - 1) {
-            statVals$= ";";
+        if (pri.zedStats[i] != 0) {
+            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.ZedStat',i) $ "=" $ pri.zedStats[i];
+            if (i < pri.ZedStat.EnumCount - 1) {
+                statVals$= ",";
+            }
         }
     }
     serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
 
     statVals= "";
     for(i= 0; i < pri.HiddenStat.EnumCount; i++) {
-        statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.HiddenStat',i) $ "=" $ pri.hiddenStats[i];
-        if (i < pri.HiddenStat.EnumCount - 1) {
-            statVals$= ";";
+        if (pri.hiddenStats[i] != 0) {
+            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.HiddenStat',i) $ "=" $ pri.hiddenStats[i];
+            if (i < pri.HiddenStat.EnumCount - 1) {
+                statVals$= ",";
+            }
         }
     }
     serverLink.SendText(serverLink.serverAddr, baseMsg $ statVals);
