@@ -23,7 +23,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     baseMsg= "action:write;playerid:";
     baseMsg$= pri.playerIDHash $ ";";
-    baseMsg$= "isunix:" $ PlatformIsUnix() $ ";";
+    baseMsg$= "isunix:" $ PlatformIsUnix() $ ";stat:";
 
     statVals= "";
     for(i= 0; i < pri.PlayerStat.EnumCount; i++) {
