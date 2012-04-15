@@ -20,8 +20,6 @@ function ShowPanel(bool bShow) {
             descriptions[pri.PlayerStat.CASH_VANISHED].description="Cash vanished";
             descriptions[pri.PlayerStat.CASH_VANISHED].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
             descriptions[pri.PlayerStat.FORCED_SUICIDE].description="Forced suicides";
-
-            PlayerOwner().ClientMEssage(descriptions.Length);
         }
         lb_StatSelect.statListObj.InitList(pri.playerStats,descriptions);
     }
