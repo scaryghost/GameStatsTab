@@ -3,7 +3,7 @@ class GameStatsTabMut extends Mutator
 
 var() config bool accumulateStats;
 var() config int serverPort;
-var() config string serverIp;
+var() config string serverIp, serverPassword;
 var string endGameBossClass, fallbackMonsterClass;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
@@ -131,6 +131,7 @@ static function FillPlayInfo(PlayInfo PlayInfo) {
     PlayInfo.AddSetting("GameStatsTab", "accumulateStats", "Accumulate Statistics", 0, 0, "Check");
     PlayInfo.AddSetting("GameStatsTab", "serverIp", "Remote Server IP", 0, 0, "Text", "128");
     PlayInfo.AddSetting("GameStatsTab", "serverPort", "Remote Server Port", 0, 0, "Text");
+    PlayInfo.AddSetting("GameStatsTab", "serverPassword", "Remote Server Password", 0, 0, "Text", "128");
 }
 
 static event string GetDescriptionText(string property) {
@@ -141,6 +142,8 @@ static event string GetDescriptionText(string property) {
             return "IP address of remote tracking server";
         case "serverPort":
             return "Port number of remote tracking server";
+        case "serverPassword":
+            return "Password to connect to remote server";
         default:
             return Super.GetDescriptionText(property);
     }

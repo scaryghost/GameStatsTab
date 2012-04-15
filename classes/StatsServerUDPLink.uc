@@ -13,5 +13,5 @@ function PostBeginPlay() {
 event Resolved(IpAddr addr) {
     serverAddr= addr;
     serverAddr.port= class'GameStatsTabMut'.default.serverPort;
-    SendText(serverAddr, "Hello World!");
+    SendText(serverAddr, "action:auth;password:"$class'GameStatsTabMut'.default.serverPassword);
 }
