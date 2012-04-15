@@ -72,6 +72,9 @@ function Died(Controller Killer, class<DamageType> damageType, vector HitLocatio
         pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, prevHealth);
         pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, prevShield);
 
+        if(GSTPlayerController(Controller).forcedSuicideAttempt) {
+            pri.addToPlayerStat(pri.PlayerStat.FORCED_SUICIDE, 1);
+        }
         prevHealth= 0;
         prevShield= 0;
     }

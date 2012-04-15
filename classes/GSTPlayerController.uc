@@ -1,5 +1,7 @@
 class GSTPlayerController extends KFPlayerController;
 
+var bool forcedSuicideAttempt;
+
 function SetPawnClass(string inClass, string inCharacter) {
     PawnClass = Class'GameStatsTab.GSTHumanPawn';
     inCharacter = Class'KFGameType'.Static.GetValidCharacter(inCharacter);
@@ -8,11 +10,10 @@ function SetPawnClass(string inClass, string inCharacter) {
 }
 
 exec function suicide() {
-    local GSTPlayerReplicationInfo pri;
-
+    /** TODO: Don't count forced suicide unless it actually worked */
+    forcedSuicideAttempt= true;
     super.suicide();
-    pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
-    pri.addToPlayerStat(pri.PlayerStat.FORCED_SUICIDE, 1);
+    forcedSuicideAttempt= false;
 }
 
 exec function InGameStats() {
