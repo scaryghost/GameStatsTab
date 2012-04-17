@@ -10,7 +10,6 @@ function SetPawnClass(string inClass, string inCharacter) {
 }
 
 exec function suicide() {
-    /** TODO: Don't count forced suicide unless it actually worked */
     forcedSuicideAttempt= true;
     super.suicide();
     forcedSuicideAttempt= false;
