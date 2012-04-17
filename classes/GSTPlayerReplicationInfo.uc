@@ -4,6 +4,7 @@ enum PlayerStat {
     TIME_ALIVE, HEALING_RECIEVED, DAMAGE_TAKEN,
     SHIELD_LOST, FF_DAMAGE_DEALT, SHOT_BY_HUSK,
     CASH_GIVEN, CASH_VANISHED, FORCED_SUICIDE,
+    DAMAGE_DEALT
 };
 
 enum WeaponStat {
@@ -24,7 +25,7 @@ enum ZedStat {
 enum HiddenStat {
     TIME_BERSERKER, TIME_COMMANDO, TIME_DEMO, 
     TIME_FIREBUG, TIME_MEDIC, TIME_SHARP, 
-    TIME_SUPPORT
+    TIME_SUPPORT, DAMAGE_DEALT
 };
 
 var array<float> playerStats[15];
