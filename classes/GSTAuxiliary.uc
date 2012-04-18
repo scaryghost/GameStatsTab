@@ -6,15 +6,23 @@ struct ReplacementPair {
 };
 
 static function int replaceClass(string className, array<ReplacementPair> replacementArray) {
-    local int i, replaceIndex;
+    local int replaceIndex;
+    local int low, high, mid;
 
+    low= 0;
+    high= replacementArray.Length - 1;
     replaceIndex= -1;
-    for(i=0; replaceIndex == -1 && i < replacementArray.length; i++) {
-        if (className ~= String(replacementArray[i].oldClass)) {
-            replaceIndex = i;
+    while(low <= high) {
+        mid= (low+high)/2;
+        if (Caps(string(replacementArray[mid].oldClass)) < Caps(className)) {
+            low= mid + 1;
+        } else if (Caps(string(replacementArray[mid].oldClass)) > Caps(className)) {
+            high= mid - 1;
+        } else {
+            replaceIndex= mid;
+            break;
         }
     }
-    
     return replaceIndex;
 }
 
