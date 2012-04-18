@@ -1,12 +1,11 @@
 class GSTPlayerController extends KFPlayerController;
 
+var string statsPanelClassName;
 var bool forcedSuicideAttempt;
 
 function SetPawnClass(string inClass, string inCharacter) {
+    super.SetPawnClass(inClass, inCharacter);
     PawnClass = Class'GameStatsTab.GSTHumanPawn';
-    inCharacter = Class'KFGameType'.Static.GetValidCharacter(inCharacter);
-    PawnSetupRecord = class'xUtil'.static.FindPlayerRecord(inCharacter);
-    PlayerReplicationInfo.SetCharacterName(inCharacter);
 }
 
 exec function suicide() {
@@ -16,5 +15,9 @@ exec function suicide() {
 }
 
 exec function InGameStats() {
-    ClientOpenMenu("GameStatsTab.StatsMenu");
+    ClientOpenMenu(statsPanelClassName);
+}
+
+defaultproperties {
+    statsPanelClassName= "GameStatsTab.StatsMenu"
 }
