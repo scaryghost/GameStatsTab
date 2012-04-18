@@ -17,7 +17,7 @@ function ShowPanel(bool bShow) {
             descriptions[pri.ZedStat.HUSK_KILLS].description="Husk kills";
             descriptions[pri.ZedStat.SCRAKE_KILLS].description="Scrake kills";
             descriptions[pri.ZedStat.FLESHPOUND_KILLS].description="Fleshpound kills";
-            descriptions[pri.ZedStat.PATRIARCH_KILLS].description="Patriarch kills";
+            descriptions[pri.ZedStat.BOSS_KILLS].description="Boss kills";
             descriptions[pri.ZedStat.FLESHPOUNDS_RAGED].description="Enraged a fleshpound";
             descriptions[pri.ZedStat.SCRAKES_RAGED].description="Enraged a scrake";
             descriptions[pri.ZedStat.SCRAKES_STUNNED].description="Stunned a scrake";
