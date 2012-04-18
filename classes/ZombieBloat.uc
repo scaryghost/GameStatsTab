@@ -23,7 +23,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
         pri.addToZedStat(pri.ZedStat.NUM_DECAPS, 1);
         decapCounted= true;
     }
-    pri.addToPlayerStat(pri.PlayerStat.DAMAGE_DEALT, diffHealth);
+    pri.addToHiddenStat(pri.HiddenStat.DAMAGE_DEALT, diffHealth);
 }
 
 function RemoveHead() {
