@@ -18,6 +18,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     diffHealth= prevHealth - fmax(Health, 0);
     if (decapCounted) {
         diffHealth-= tempHealth;
+        tempHealth= 0;
     }
     if (!decapCounted && bDecapitated && pri != none) {
         pri.addToZedStat(pri.ZedStat.NUM_DECAPS, 1);
