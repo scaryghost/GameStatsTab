@@ -10,4 +10,4 @@ function DoFireEffect() {
 
 defaultproperties {
     ProjectileClass=class'GameStatsTab.M32Projectile'
-{
+}
