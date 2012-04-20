@@ -24,6 +24,8 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     baseMsg= "action:write;playerid:";
     baseMsg$= pri.playerIDHash $ ";";
     baseMsg$= "isunix:" $ PlatformIsUnix() $ ";stat:";
+    baseMsg$= "timestamp:";
+    baseMsg$= Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second$";";
 
     statVals= "";
     for(i= 0; i < pri.PlayerStat.EnumCount; i++) {
