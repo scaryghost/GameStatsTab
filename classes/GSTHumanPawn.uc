@@ -152,3 +152,30 @@ exec function TossCash( int Amount ) {
         }
     }
 }
+
+function ServerBuyWeapon( Class<Weapon> WClass ) {
+    local int oldScore;
+
+    oldScore= PlayerReplicationInfo.Score;
+    super.ServerBuyWeapon(WClass);
+    pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
+    pri.addToPlayerStat(pri.PlayerStat.CASH_SPENT, oldScore - pri.Score);
+}
+
+function ServerBuyAmmo( Class<Ammunition> AClass, bool bOnlyClip ) {
+    local int oldScore;
+
+    oldScore= PlayerReplicationInfo.Score;
+    super.ServerBuyAmmo(AClass, bOnlyClip);
+    pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
+    pri.addToPlayerStat(pri.PlayerStat.CASH_SPENT, oldScore - pri.Score);
+}
+
+function ServerBuyKevlar() {
+    local int oldScore;
+
+    oldScore= PlayerReplicationInfo.Score;
+    super.ServerBuyKevlar();
+    pri= GSTPlayerReplicationInfo(PlayerReplicationInfo);
+    pri.addToPlayerStat(pri.PlayerStat.CASH_SPENT, oldScore - pri.Score);
+}

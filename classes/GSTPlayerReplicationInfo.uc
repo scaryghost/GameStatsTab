@@ -3,7 +3,7 @@ class GSTPlayerReplicationInfo extends KFPlayerReplicationInfo;
 enum PlayerStat {
     TIME_ALIVE, HEALING_RECIEVED, DAMAGE_TAKEN,
     SHIELD_LOST, FF_DAMAGE_DEALT, SHOT_BY_HUSK,
-    CASH_GIVEN, CASH_VANISHED, FORCED_SUICIDE
+    CASH_SPENT, CASH_VANISHED, FORCED_SUICIDE
 };
 
 enum WeaponStat {

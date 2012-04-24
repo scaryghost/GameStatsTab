@@ -1,16 +1,5 @@
 class DoshPickup extends CashPickup;
 
-function GiveCashTo(Pawn Other) {
-    local GSTPlayerReplicationInfo pri;
-
-    super.GiveCashTo(Other);
-   
-    if (Other.Controller != DroppedBy) { 
-        pri= GSTPlayerReplicationInfo(DroppedBy.PlayerReplicationInfo);
-        pri.addToPlayerStat(pri.PlayerStat.CASH_GIVEN, CashAmount);
-    }
-}
-
 state FadeOut {
     function EndState() {
         local GSTPlayerReplicationInfo pri;
