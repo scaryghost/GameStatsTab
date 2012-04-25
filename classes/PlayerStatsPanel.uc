@@ -22,6 +22,7 @@ function ShowPanel(bool bShow) {
             descriptions[pri.PlayerStat.SCRAKES_STUNNED].description="Stunned a scrake";
             descriptions[pri.PlayerStat.BACKSTABS].description="Backstabs";
             descriptions[pri.PlayerStat.NUM_DECAPS].description="Decapitations";
+            descriptions[pri.PlayerStat.HUSKS_StUNNED].description="Husks stunned";
         }
         lb_StatSelect.statListObj.InitList(pri.playerStats,descriptions);
     }
