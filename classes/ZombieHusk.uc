@@ -33,6 +33,14 @@ function RemoveHead() {
     tempHealth-= fmax(Health, 0);
 }
 
+function bool FlipOver() {
+    if (Health > 0 && pri != none) {
+        pri.addToPlayerStat(pri.PlayerStat.HUSKS_STUNNED, 1);
+    }
+
+    return super.FlipOver();
+}
+
 /**
  * Copied from ZombieHusk.SpawnTwoShots()
  * Changed projectile to use stats tacking projectile
