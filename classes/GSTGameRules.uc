@@ -9,7 +9,7 @@ function PostBeginPlay() {
 }
 
 function ScoreKill(Controller Killer, Controller Killed) {
-    local GSTPlayerReplicationInfo.ZedStat index;
+    local GSTPlayerReplicationInfo.KillStat index;
     local GSTPlayerReplicationInfo pri;
 
     Super.ScoreKill(Killer,Killed);
@@ -19,24 +19,24 @@ function ScoreKill(Controller Killer, Controller Killed) {
         if (zedNames.Length == 0) {
             fillZedNamesArray(pri);
         }
-        index= ZedStat(class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames));
+        index= KillStat(class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames));
         if (index > -1) {
             log("GSTGameRules: "$index);
-            pri.addToZedStat(index, 1);
+            pri.addToKillStat(index, 1);
         }
     }
 
 }
 
 function fillZedNamesArray(GSTPlayerReplicationInfo pri) {
-    zedNames[pri.ZedStat.BLOAT_KILLS]= "ZombieBloat";
-    zedNames[pri.ZedStat.BOSS_KILLS]= "ZombieBoss";
-    zedNames[pri.ZedStat.CLOT_KILLS]= "ZombieClot";
-    zedNames[pri.ZedStat.CRAWLER_KILLS]= "ZombieCrawler";
-    zedNames[pri.ZedStat.FLESHPOUND_KILLS]= "ZombieFleshPound";
-    zedNames[pri.ZedStat.GOREFAST_KILLS]= "ZombieGorefast";
-    zedNames[pri.ZedStat.HUSK_KILLS]= "ZombieHusk";
-    zedNames[pri.ZedStat.SCRAKE_KILLS]= "ZombieScrake";
-    zedNames[pri.ZedStat.SIREN_KILLS]= "ZombieSiren";
-    zedNames[pri.ZedStat.STALKER_KILLS]= "ZombieStalker";
+    zedNames[pri.KillStat.BLOAT_KILLS]= "ZombieBloat";
+    zedNames[pri.KillStat.BOSS_KILLS]= "ZombieBoss";
+    zedNames[pri.KillStat.CLOT_KILLS]= "ZombieClot";
+    zedNames[pri.KillStat.CRAWLER_KILLS]= "ZombieCrawler";
+    zedNames[pri.KillStat.FLESHPOUND_KILLS]= "ZombieFleshPound";
+    zedNames[pri.KillStat.GOREFAST_KILLS]= "ZombieGorefast";
+    zedNames[pri.KillStat.HUSK_KILLS]= "ZombieHusk";
+    zedNames[pri.KillStat.SCRAKE_KILLS]= "ZombieScrake";
+    zedNames[pri.KillStat.SIREN_KILLS]= "ZombieSiren";
+    zedNames[pri.KillStat.STALKER_KILLS]= "ZombieStalker";
 }

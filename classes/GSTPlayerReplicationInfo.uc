@@ -13,11 +13,11 @@ enum WeaponStat {
     MELEE_SWINGS, FRAGS_TOSSED, PIPES_SET, EXPLOSIVES_DISINTEGRATED
 };
 
-enum ZedStat {
+enum KillStat {
     BLOAT_KILLS, BOSS_KILLS, CLOT_KILLS,
     CRAWLER_KILLS, FLESHPOUND_KILLS, GOREFAST_KILLS,
     HUSK_KILLS, SCRAKE_KILLS, SIREN_KILLS,
-    STALKER_KILLS, 
+    STALKER_KILLS
 };
 
 enum HiddenStat {
@@ -75,7 +75,7 @@ function addToWeaponStat(WeaponStat key, float delta) {
     kfWeaponStats[key]+= delta;
 }
 
-function addToZedStat(ZedStat key, float delta) {
+function addToKillStat(KillStat key, float delta) {
     setPlayerIDHash();
     zedStats[key]+= delta;
 }

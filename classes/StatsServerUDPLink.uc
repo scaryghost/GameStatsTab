@@ -58,12 +58,12 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     
     statVals= "";
     addComma= false;
-    for(i= 0; i < pri.ZedStat.EnumCount; i++) {
+    for(i= 0; i < pri.KillStat.EnumCount; i++) {
         if (pri.zedStats[i] != 0) {
             if (addComma) {
                 statVals$= ",";
             }
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.ZedStat',i) $ "=" $ pri.zedStats[i];
+            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.KillStat',i) $ "=" $ pri.zedStats[i];
             addComma= true;
         }
     }
