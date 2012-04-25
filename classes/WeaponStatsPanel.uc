@@ -19,6 +19,8 @@ function ShowPanel(bool bShow) {
             descriptions[pri.WeaponStat.BOLTS_FIRED].description="Bolts fired";
             descriptions[pri.WeaponStat.BOLTS_RETRIEVED].description="Bolts retrieved";
             descriptions[pri.WeaponStat.EXPLOSIVES_DISINTEGRATED].description="Explosives disintegrated";
+            descriptions[pri.WeaponStat.HEAL_DARTS_FIRED].description="Heal darts fired";
+            descriptions[pri.WeaponStat.HEAL_DARTS_LANDED].description="Heal darts landed";
         }       
         lb_StatSelect.statListObj.InitList(pri.kfWeaponStats, descriptions);
     }
