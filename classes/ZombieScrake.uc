@@ -11,7 +11,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
     prevHealth= Health;
     pri= GSTPlayerReplicationInfo(GSTPlayerController(InstigatedBy.Controller).PlayerReplicationInfo);
     if (!bDecapitated && bBackstabbed) {
-        pri.addToZedStat(pri.ZedStat.BACKSTABS, 1);
+        pri.addToPlayerStat(pri.PlayerStat.BACKSTABS, 1);
     }
 
     super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
@@ -22,7 +22,7 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
         tempHealth= 0;
     }
     if (!decapCounted && bDecapitated && pri != none) {
-        pri.addToZedStat(pri.ZedStat.NUM_DECAPS, 1);
+        pri.addToPlayerStat(pri.PlayerStat.NUM_DECAPS, 1);
         decapCounted= true;
     }
     pri.addToHiddenStat(pri.HiddenStat.DAMAGE_DEALT, diffHealth);
@@ -38,7 +38,7 @@ state RunningState {
     function BeginState() {
         super.BeginState();
         if (!rageCounted) {
-            pri.addToZedStat(pri.ZedStat.SCRAKES_RAGED, 1);
+            pri.addToPlayerStat(pri.PlayerStat.SCRAKES_RAGED, 1);
             rageCounted= true;
         }
     }
@@ -46,7 +46,7 @@ state RunningState {
 
 function bool FlipOver() {
     if (Health > 0 && pri != none) {
-        pri.addToZedStat(pri.ZedStat.SCRAKES_STUNNED, 1);
+        pri.addToPlayerStat(pri.PlayerStat.SCRAKES_STUNNED, 1);
     }
 
     return super.FlipOver();

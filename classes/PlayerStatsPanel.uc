@@ -20,6 +20,11 @@ function ShowPanel(bool bShow) {
             descriptions[pri.PlayerStat.CASH_VANISHED].description="Cash vanished";
             descriptions[pri.PlayerStat.CASH_VANISHED].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
             descriptions[pri.PlayerStat.FORCED_SUICIDE].description="Forced suicides";
+            descriptions[pri.PlayerStat.FLESHPOUNDS_RAGED].description="Enraged a fleshpound";
+            descriptions[pri.PlayerStat.SCRAKES_RAGED].description="Enraged a scrake";
+            descriptions[pri.PlayerStat.SCRAKES_STUNNED].description="Stunned a scrake";
+            descriptions[pri.PlayerStat.BACKSTABS].description="Backstabs";
+            descriptions[pri.PlayerStat.NUM_DECAPS].description="Decapitations";
         }
         lb_StatSelect.statListObj.InitList(pri.playerStats,descriptions);
     }
