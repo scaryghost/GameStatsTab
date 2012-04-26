@@ -24,6 +24,7 @@ function ShowPanel(bool bShow) {
             descriptions[pri.PlayerStat.NUM_DECAPS].description="Decapitations";
             descriptions[pri.PlayerStat.HUSKS_STUNNED].description="Husks stunned";
             descriptions[pri.PlayerStat.WELDING].description="Welding";
+            descriptions[pri.PlayerStat.SELF_HEALS].description="Self heals";
         }
         lb_StatSelect.statListObj.InitList(pri.playerStats,descriptions);
     }
