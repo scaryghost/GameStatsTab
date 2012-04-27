@@ -8,7 +8,9 @@ function ShowPanel(bool bShow) {
         pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
          if (descriptions.Length == 0) {
             descriptions.Length= pri.WeaponStat.EnumCount;
-            descriptions[pri.WeaponStat.ROUNDS_FIRED].description="Rounds fired";
+            descriptions[pri.WeaponStat.PISTOL_ROUNDS_FIRED].description="Pistol rounds fired";
+            descriptions[pri.WeaponStat.RIFLE_ROUNDS_FIRED].description="Rifle rounds fired";
+            descriptions[pri.WeaponStat.AUTOMATIC_ROUNDS_FIRED].description="Automatic rounds fired";
             descriptions[pri.WeaponStat.MELEE_SWINGS].description="Melee swings";
             descriptions[pri.WeaponStat.FRAGS_TOSSED].description="Frags tossed";
             descriptions[pri.WeaponStat.PIPES_SET].description="Pipes set";
