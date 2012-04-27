@@ -13,7 +13,6 @@ function PostBeginPlay() {
 event Resolved(IpAddr addr) {
     serverAddr= addr;
     serverAddr.port= class'GameStatsTabMut'.default.serverPort;
-    SendText(serverAddr, "action:auth;password:"$class'GameStatsTabMut'.default.serverPassword);
 }
 
 function saveStats(GSTPlayerReplicationInfo pri) {
@@ -21,9 +20,8 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     local int i;
     local bool addComma;
 
-    baseMsg= "action:accum;playerid:" $ pri.playerIDHash $ ";";
-    baseMsg$= "timestamp:";
-    baseMsg$= Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second$";";
+    baseMsg= "action:accum;playerid:"$pri.playerIDHash$";authkey:"$class'GameStatsTabMut'.default.serverPassword$";";
+    baseMsg$= "timestamp:"$Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second$";";
     baseMsg$= "isunix:" $ PlatformIsUnix() $ ";stat:";
 
     statVals= "";
