@@ -21,7 +21,6 @@ function ScoreKill(Controller Killer, Controller Killed) {
         }
         index= KillStat(class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames));
         if (index > -1) {
-            log("GSTGameRules: "$index);
             pri.addToKillStat(index, 1);
         }
     }

@@ -23,7 +23,6 @@ static function int binarySearch(String key, array<string> values) {
             break;
         }
     }
-    log("GSTAuxiliary: "$replaceIndex$"-"$key);
     return replaceIndex;
 }
 
