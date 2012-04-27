@@ -21,11 +21,10 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     local int i;
     local bool addComma;
 
-    baseMsg= "action:write;playerid:";
-    baseMsg$= pri.playerIDHash $ ";";
-    baseMsg$= "isunix:" $ PlatformIsUnix() $ ";stat:";
+    baseMsg= "action:accum;playerid:" $ pri.playerIDHash $ ";";
     baseMsg$= "timestamp:";
     baseMsg$= Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second$";";
+    baseMsg$= "isunix:" $ PlatformIsUnix() $ ";stat:";
 
     statVals= "";
     for(i= 0; i < pri.PlayerStat.EnumCount; i++) {
