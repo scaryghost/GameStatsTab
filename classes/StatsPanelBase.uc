@@ -5,6 +5,19 @@ class StatsPanelBase extends MidGamePanel
 var automated GUISectionBackground i_BGStats;
 var automated StatListBox lb_StatSelect;
 var array<StatList.DescripInfo> descriptions;
+var GSTPlayerReplicationInfo pri;
+
+function fillDescription(GSTPlayerReplicationInfo pri) {
+}
+
+function ShowPanel(bool bShow) {
+    super.ShowPanel(bShow);
+
+    pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
+    if (descriptions.Length == 0) {
+        fillDescription(pri);
+    }
+}
 
 defaultproperties {
     Begin Object Class=GUISectionBackground Name=BGStats

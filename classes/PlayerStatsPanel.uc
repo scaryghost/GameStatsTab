@@ -1,31 +1,30 @@
 class PlayerStatsPanel extends StatsPanelBase;
 
-function ShowPanel(bool bShow) {
-    local GSTPlayerReplicationInfo pri;
+function fillDescription(GSTPlayerReplicationInfo pri) {
+    descriptions.Length= pri.PlayerStat.EnumCount;
+    descriptions[pri.PlayerStat.TIME_ALIVE].description="Time alive";
+    descriptions[pri.PlayerStat.TIME_ALIVE].format= lb_StatSelect.statListObj.DescripFormat.TIME;
+    descriptions[pri.PlayerStat.HEALING_RECIEVED].description="Healing received";
+    descriptions[pri.PlayerStat.DAMAGE_TAKEN].description="Damage taken";
+    descriptions[pri.PlayerStat.SHIELD_LOST].description="Armor lost";
+    descriptions[pri.PlayerStat.FF_DAMAGE_DEALT].description="Friendly fire damage";
+    descriptions[pri.PlayerStat.SHOT_BY_HUSK].description="Shot by husk";
+    descriptions[pri.PlayerStat.CASH_SPENT].description="Cash spent";
+    descriptions[pri.PlayerStat.CASH_SPENT].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
+    descriptions[pri.PlayerStat.FLESHPOUNDS_RAGED].description="Fleshpounds enraged";
+    descriptions[pri.PlayerStat.SCRAKES_RAGED].description="Scrakes enraged";
+    descriptions[pri.PlayerStat.SCRAKES_STUNNED].description="Scrakes stunned";
+    descriptions[pri.PlayerStat.BACKSTABS].description="Backstabs";
+    descriptions[pri.PlayerStat.NUM_DECAPS].description="Decapitations";
+    descriptions[pri.PlayerStat.HUSKS_STUNNED].description="Husks stunned";
+    descriptions[pri.PlayerStat.WELDING].description="Welding";
+    descriptions[pri.PlayerStat.SELF_HEALS].description="Self heals";
+}
 
+function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
+
     if ( bShow ) {
-        pri= GSTPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
-        if (descriptions.Length == 0) {
-            descriptions.Length= pri.PlayerStat.EnumCount;
-            descriptions[pri.PlayerStat.TIME_ALIVE].description="Time alive";
-            descriptions[pri.PlayerStat.TIME_ALIVE].format= lb_StatSelect.statListObj.DescripFormat.TIME;
-            descriptions[pri.PlayerStat.HEALING_RECIEVED].description="Total healing received";
-            descriptions[pri.PlayerStat.DAMAGE_TAKEN].description="Total damage taken";
-            descriptions[pri.PlayerStat.SHIELD_LOST].description="Total shield lost";
-            descriptions[pri.PlayerStat.FF_DAMAGE_DEALT].description="Friendly fire damage";
-            descriptions[pri.PlayerStat.SHOT_BY_HUSK].description="Shot by husk";
-            descriptions[pri.PlayerStat.CASH_SPENT].description="Cash spent";
-            descriptions[pri.PlayerStat.CASH_SPENT].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
-            descriptions[pri.PlayerStat.FLESHPOUNDS_RAGED].description="Enraged a fleshpound";
-            descriptions[pri.PlayerStat.SCRAKES_RAGED].description="Enraged a scrake";
-            descriptions[pri.PlayerStat.SCRAKES_STUNNED].description="Stunned a scrake";
-            descriptions[pri.PlayerStat.BACKSTABS].description="Backstabs";
-            descriptions[pri.PlayerStat.NUM_DECAPS].description="Decapitations";
-            descriptions[pri.PlayerStat.HUSKS_STUNNED].description="Husks stunned";
-            descriptions[pri.PlayerStat.WELDING].description="Welding";
-            descriptions[pri.PlayerStat.SELF_HEALS].description="Self heals";
-        }
         lb_StatSelect.statListObj.InitList(pri.playerStats,descriptions);
     }
 }
