@@ -3,6 +3,7 @@ class StatsServerUDPLink extends UDPLink;
 var int udpPort;
 var IpAddr serverAddr;
 
+
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
     if (udpPort > 0) {
@@ -15,72 +16,35 @@ event Resolved(IpAddr addr) {
     serverAddr.port= class'GameStatsTabMut'.default.serverPort;
 }
 
-function saveStats(GSTPlayerReplicationInfo pri) {
-    local string baseMsg, statVals;
+function string getStatValues(array<float> stats[15], int numStats, Object statEnum) {
+    local string statVals;
     local int i;
     local bool addComma;
+
+    for(i= 0; i < numStats; i++) {
+        if (stats[i] != 0) {
+            if (addComma) statVals$= ",";
+            statVals$= GetEnum(statEnum,i) $ "=" $ stats[i];
+            addComma= true;
+        }
+    }
+    return statVals;
+}
+
+function saveStats(GSTPlayerReplicationInfo pri) {
+    local string baseMsg;
+    local array<string> statValues;
+    local int index;
 
     baseMsg= "action:accum;playerid:"$pri.playerIDHash$";authkey:"$class'GameStatsTabMut'.default.serverPassword$";";
     baseMsg$= "timestamp:"$Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second$";";
     baseMsg$= "isunix:" $ PlatformIsUnix() $ ";stat:";
 
-    statVals= "";
-    for(i= 0; i < pri.PlayerStat.EnumCount; i++) {
-        if (pri.playerStats[i] != 0) {
-            if (addComma) {
-                statVals$= ",";
-            }
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.PlayerStat',i) $ "=" $ pri.playerStats[i];
-            addComma= true;
-        }
+    statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
+    statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
+    statValues[statValues.Length]= getStatValues(pri.zedStats, pri.KillStat.EnumCount, Enum'KillStat');
+    statValues[statValues.Length]= getStatValues(pri.hiddenStats, pri.HiddenStat.EnumCount, Enum'HiddenStat');
+    for(index= 0; index < statValues.Length; index++) {
+        if (statValues[index] != "") SendText(serverAddr, baseMsg $ statValues[index]);
     }
-    if (addComma) {
-        SendText(serverAddr, baseMsg $ statVals);
-    }
-
-    statVals= "";
-    addComma= false;
-    for(i= 0; i < pri.WeaponStat.EnumCount; i++) {
-        if (pri.kfWeaponStats[i] != 0) {
-            if (addComma) {
-                statVals$= ",";
-            }
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.WeaponStat',i) $ "=" $ pri.kfWeaponStats[i];
-            addComma= true;
-        }
-    }
-    if (addComma) {
-        SendText(serverAddr, baseMsg $ statVals);
-    }
-    
-    statVals= "";
-    addComma= false;
-    for(i= 0; i < pri.KillStat.EnumCount; i++) {
-        if (pri.zedStats[i] != 0) {
-            if (addComma) {
-                statVals$= ",";
-            }
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.KillStat',i) $ "=" $ pri.zedStats[i];
-            addComma= true;
-        }
-    }
-    if (addComma) {
-        SendText(serverAddr, baseMsg $ statVals);
-    }
-    
-    statVals= "";
-    addComma= false;
-    for(i= 0; i < pri.HiddenStat.EnumCount; i++) {
-        if (pri.hiddenStats[i] != 0) {
-            if (addComma) {
-                statVals$= ",";
-            }
-            statVals$= GetEnum(Enum'GSTPlayerReplicationInfo.HiddenStat',i) $ "=" $ pri.hiddenStats[i];
-            addComma= true;
-        }
-    }
-    if (addComma) {
-        SendText(serverAddr, baseMsg $ statVals);
-    }
-
 }
