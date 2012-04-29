@@ -41,6 +41,11 @@ replication {
         playerStats, kfWeaponStats, zedStats;
 }
 
+function MatchStarting() {
+    super.MatchStarting();
+    playerIDHash= PlayerController(Owner).getPlayerIDHash();
+}
+
 function Reset() {
     local int i;
 
@@ -61,28 +66,18 @@ function Reset() {
     }
 }
 
-function setPlayerIDHash() {
-    if (playerIDHash == "") {
-        playerIDHash= PlayerController(Owner).getPlayerIDHash();
-    }
-}
-
 function addToPlayerStat(PlayerStat key, float delta) {
-    setPlayerIDHash();
     playerStats[key]+= delta;
 }
 
 function addToWeaponStat(WeaponStat key, float delta) {
-    setPlayerIDHash();
     kfWeaponStats[key]+= delta;
 }
 
 function addToKillStat(KillStat key, float delta) {
-    setPlayerIDHash();
     zedStats[key]+= delta;
 }
 
 function addToHiddenStat(HiddenStat key, float delta) {
-    setPlayerIDHash();
     hiddenStats[key]+= delta;
 }
