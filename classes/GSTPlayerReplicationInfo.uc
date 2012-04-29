@@ -34,7 +34,6 @@ var array<float> playerStats[15];
 var array<float> kfWeaponStats[15];
 var array<float> zedStats[15];
 var array<float> hiddenStats[15];
-var bool idHashSet;
 var string playerIDHash;
 
 replication {
@@ -63,9 +62,8 @@ function Reset() {
 }
 
 function setPlayerIDHash() {
-    if (!idHashSet) {
+    if (playerIDHash == "") {
         playerIDHash= PlayerController(Owner).getPlayerIDHash();
-        idHashSet= true;
     }
 }
 
