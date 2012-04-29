@@ -71,7 +71,8 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 }
 
 function NotifyLogout(Controller Exiting) {
-    if (accumulateStats) {
+    if (accumulateStats && 
+            GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo).playerIDHash != "") {
         serverLink.saveStats(GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo));
     }
 }
