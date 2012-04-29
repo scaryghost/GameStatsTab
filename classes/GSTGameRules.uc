@@ -4,8 +4,31 @@ class GSTGameRules extends GameRules
 var array<string> zedNames;
 
 function PostBeginPlay() {
+    local GSTPlayerReplicationInfo.KillStat index;
+
     NextGameRules = Level.Game.GameRulesModifiers;
     Level.Game.GameRulesModifiers = Self;
+    
+    index= BLOAT_KILLS;
+    zedNames[index]= "ZombieBloat";
+    index= BOSS_KILLS;
+    zedNames[index]= "ZombieBoss";
+    index= CLOT_KILLS;
+    zedNames[index]= "ZombieClot";
+    index= CRAWLER_KILLS;
+    zedNames[index]= "ZombieCrawler";
+    index= FLESHPOUND_KILLS;
+    zedNames[index]= "ZombieFleshPound";
+    index= GOREFAST_KILLS;
+    zedNames[index]= "ZombieGorefast";
+    index= HUSK_KILLS;
+    zedNames[index]= "ZombieHusk";
+    index= SCRAKE_KILLS;
+    zedNames[index]= "ZombieScrake";
+    index= SIREN_KILLS;
+    zedNames[index]= "ZombieSiren";
+    index= STALKER_KILLS;
+    zedNames[index]= "ZombieStalker";
 }
 
 function ScoreKill(Controller Killer, Controller Killed) {
@@ -16,26 +39,8 @@ function ScoreKill(Controller Killer, Controller Killed) {
     
     pri= GSTPlayerReplicationInfo(killer.PlayerReplicationInfo);
     if(pri != none) {
-        if (zedNames.Length == 0) {
-            fillZedNamesArray(pri);
-        }
         index= KillStat(class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames));
-        if (index > -1) {
-            pri.addToKillStat(index, 1);
-        }
+        if (index > -1) pri.addToKillStat(index, 1);
     }
 
-}
-
-function fillZedNamesArray(GSTPlayerReplicationInfo pri) {
-    zedNames[pri.KillStat.BLOAT_KILLS]= "ZombieBloat";
-    zedNames[pri.KillStat.BOSS_KILLS]= "ZombieBoss";
-    zedNames[pri.KillStat.CLOT_KILLS]= "ZombieClot";
-    zedNames[pri.KillStat.CRAWLER_KILLS]= "ZombieCrawler";
-    zedNames[pri.KillStat.FLESHPOUND_KILLS]= "ZombieFleshPound";
-    zedNames[pri.KillStat.GOREFAST_KILLS]= "ZombieGorefast";
-    zedNames[pri.KillStat.HUSK_KILLS]= "ZombieHusk";
-    zedNames[pri.KillStat.SCRAKE_KILLS]= "ZombieScrake";
-    zedNames[pri.KillStat.SIREN_KILLS]= "ZombieSiren";
-    zedNames[pri.KillStat.STALKER_KILLS]= "ZombieStalker";
 }
