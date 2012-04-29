@@ -41,8 +41,8 @@ replication {
         playerStats, kfWeaponStats, zedStats;
 }
 
-function MatchStarting() {
-    super.MatchStarting();
+function Timer() {
+    super.Timer();
     playerIDHash= PlayerController(Owner).getPlayerIDHash();
 }
 
