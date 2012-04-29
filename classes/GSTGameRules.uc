@@ -32,15 +32,15 @@ function PostBeginPlay() {
 }
 
 function ScoreKill(Controller Killer, Controller Killed) {
-    local GSTPlayerReplicationInfo.KillStat index;
+    local int index;
     local GSTPlayerReplicationInfo pri;
 
     Super.ScoreKill(Killer,Killed);
     
     pri= GSTPlayerReplicationInfo(killer.PlayerReplicationInfo);
     if(pri != none) {
-        index= KillStat(class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames));
-        if (index > -1) pri.addToKillStat(index, 1);
+        index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames);
+        if (index > -1) pri.addToKillStat(KillStat(index), 1);
     }
 
 }
