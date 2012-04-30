@@ -32,13 +32,13 @@ enum HiddenStat {
 
 var array<float> playerStats[15];
 var array<float> kfWeaponStats[15];
-var array<float> zedStats[15];
+var array<float> killStats[15];
 var array<float> hiddenStats[15];
 var string playerIDHash;
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
-        playerStats, kfWeaponStats, zedStats;
+        playerStats, kfWeaponStats, killStats;
 }
 
 function Timer() {
@@ -57,8 +57,8 @@ function Reset() {
         for(i= 0; i < ArrayCount(kfWeaponStats); i++) {
             kfWeaponStats[i]= 0;
         }
-        for(i= 0; i < ArrayCount(zedStats); i++) {
-            zedStats[i]= 0;
+        for(i= 0; i < ArrayCount(killStats); i++) {
+            killStats[i]= 0;
         }
         for(i= 0; i < ArrayCount(hiddenStats); i++) {
             hiddenStats[i]= 0;
@@ -75,7 +75,7 @@ function addToWeaponStat(WeaponStat key, float delta) {
 }
 
 function addToKillStat(KillStat key, float delta) {
-    zedStats[key]+= delta;
+    killStats[key]+= delta;
 }
 
 function addToHiddenStat(HiddenStat key, float delta) {

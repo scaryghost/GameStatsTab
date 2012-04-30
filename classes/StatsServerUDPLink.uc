@@ -43,7 +43,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
-    statValues[statValues.Length]= getStatValues(pri.zedStats, pri.KillStat.EnumCount, Enum'KillStat');
+    statValues[statValues.Length]= getStatValues(pri.killStats, pri.KillStat.EnumCount, Enum'KillStat');
     statValues[statValues.Length]= getStatValues(pri.hiddenStats, pri.HiddenStat.EnumCount, Enum'HiddenStat');
     for(index= 0; index < statValues.Length; index++) {
         if (statValues[index] != "") SendText(serverAddr, actionAccum $ baseMsg $ "stat:" $ statValues[index]);

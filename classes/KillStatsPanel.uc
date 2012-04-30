@@ -20,6 +20,6 @@ function ShowPanel(bool bShow) {
     super.ShowPanel(bShow);
 
     if ( bShow ) {
-        lb_StatSelect.statListObj.InitList(pri.zedStats, descriptions);
+        lb_StatSelect.statListObj.InitList(pri.killStats, descriptions);
     }
 }
