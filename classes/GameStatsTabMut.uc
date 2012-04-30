@@ -168,7 +168,8 @@ defaultproperties {
     fireModeReplacement(42)=(oldClass=class'KFMod.ShotgunFire',newClass=class'GameStatsTab.ShotgunFire')
     fireModeReplacement(43)=(oldClass=class'KFMod.SingleFire',newClass=class'GameStatsTab.SingleFire')
     fireModeReplacement(44)=(oldClass=class'KFMod.SyringeAltFire',newClass=class'GameStatsTab.SyringeAltFire')
-    fireModeReplacement(45)=(oldClass=class'KFMod.UnWeldFire',newClass=class'GameStatsTab.UnWeldFire')
-    fireModeReplacement(46)=(oldClass=class'KFMod.WeldFire',newClass=class'GameStatsTab.WeldFire')
-    fireModeReplacement(47)=(oldClass=class'KFMod.WinchesterFire',newClass=class'GameStatsTab.WinchesterFire')
+    fireModeReplacement(45)=(oldClass=class'KFMod.SyringeFire',newClass=class'GameStatsTab.SyringeFire')
+    fireModeReplacement(46)=(oldClass=class'KFMod.UnWeldFire',newClass=class'GameStatsTab.UnWeldFire')
+    fireModeReplacement(47)=(oldClass=class'KFMod.WeldFire',newClass=class'GameStatsTab.WeldFire')
+    fireModeReplacement(48)=(oldClass=class'KFMod.WinchesterFire',newClass=class'GameStatsTab.WinchesterFire')
 }

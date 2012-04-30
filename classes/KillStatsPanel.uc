@@ -12,6 +12,8 @@ function fillDescription(GSTPlayerReplicationInfo pri) {
     descriptions[pri.KillStat.SCRAKE_KILLS].description="Scrake kills";
     descriptions[pri.KillStat.FLESHPOUND_KILLS].description="Fleshpound kills";
     descriptions[pri.KillStat.BOSS_KILLS].description="Boss kills";
+    descriptions[pri.KillStat.SELF_KILLS].description="Self kills";
+    descriptions[pri.KillStat.TEAMMATE_KILLS].description="Teammate kills";
 }
 
 function ShowPanel(bool bShow) {

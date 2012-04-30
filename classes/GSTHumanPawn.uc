@@ -42,7 +42,6 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
         optional int HitIndex) {
     local float oldHealth;
     local float oldShield;
-    local KFHumanPawn friendPawn;
 
     oldHealth= Health;
     prevHealth= oldHealth;
@@ -51,11 +50,6 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
 
     Super.TakeDamage(Damage,instigatedBy,hitlocation,momentum,damageType);
     
-    friendPawn= KFHumanPawn(InstigatedBy);
-    if (friendPawn != none && friendPawn != Self) {
-        pri= GSTPlayerReplicationInfo(friendPawn.Controller.PlayerReplicationInfo);
-        pri.addToPlayerStat(pri.PlayerStat.FF_DAMAGE_DEALT, oldHealth - fmax(Health, 0.0));
-    }
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if(pri != none) {
         pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
@@ -82,6 +76,19 @@ function Died(Controller Killer, class<DamageType> damageType, vector HitLocatio
     super.Died(Killer, damageType, HitLocation);
 }
 
+function bool GiveHealth(int HealAmount, int HealMax) {
+    local bool result;
+
+    result= super.GiveHealth(HealAmount, HealMax);
+    if (result) {
+        pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
+        if (pri != none) {
+            pri.addToPlayerStat(pri.PlayerStat.HEALS_RECEIVED, 1);
+        }
+    }
+    return result;
+}
+
 /**
  * Copied from KFPawn.TakeBileDamage()
  * Had to inject stats tracking code here because the original
@@ -104,18 +111,6 @@ function TakeBileDamage() {
     if(pri != none) {
         pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
         pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, oldShield - fmax(ShieldStrength,0.0));
-    }
-}
-
-simulated function addHealth() {
-    local float oldHealth;
-    
-    oldHealth= Health;
-    super.addHealth();
-
-    pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
-    if (pri != none) {
-        pri.addToPlayerStat(pri.PlayerStat.HEALING_RECIEVED, Health - OldHealth);
     }
 }
 

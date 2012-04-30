@@ -4,10 +4,8 @@ function fillDescription(GSTPlayerReplicationInfo pri) {
     descriptions.Length= pri.PlayerStat.EnumCount;
     descriptions[pri.PlayerStat.TIME_ALIVE].description="Time alive";
     descriptions[pri.PlayerStat.TIME_ALIVE].format= lb_StatSelect.statListObj.DescripFormat.TIME;
-    descriptions[pri.PlayerStat.HEALING_RECIEVED].description="Healing received";
     descriptions[pri.PlayerStat.DAMAGE_TAKEN].description="Damage taken";
     descriptions[pri.PlayerStat.SHIELD_LOST].description="Armor lost";
-    descriptions[pri.PlayerStat.FF_DAMAGE_DEALT].description="Friendly fire damage";
     descriptions[pri.PlayerStat.SHOT_BY_HUSK].description="Shot by husk";
     descriptions[pri.PlayerStat.CASH_SPENT].description="Cash spent";
     descriptions[pri.PlayerStat.CASH_SPENT].format= lb_StatSelect.statListObj.DescripFormat.DOSH;
@@ -19,6 +17,8 @@ function fillDescription(GSTPlayerReplicationInfo pri) {
     descriptions[pri.PlayerStat.HUSKS_STUNNED].description="Husks stunned";
     descriptions[pri.PlayerStat.WELDING].description="Welding";
     descriptions[pri.PlayerStat.SELF_HEALS].description="Self heals";
+    descriptions[pri.PlayerStat.TEAMMATES_HEALED].description="Teammates healed";
+    descriptions[pri.PlayerStat.HEALS_RECEIVED].description="Heals received";
 }
 
 function ShowPanel(bool bShow) {

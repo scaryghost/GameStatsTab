@@ -7,5 +7,6 @@ simulated function ProcessTouch(Actor Other, Vector HitLocation) {
     if (KFHumanPawn(Other) != none) {
         pri= GSTPlayerReplicationInfo(Instigator.PlayerReplicationInfo);
         pri.addToWeaponStat(pri.WeaponStat.HEAL_DARTS_LANDED, 1);
+        pri.addToPlayerStat(pri.PlayerStat.TEAMMATES_HEALED, 1);
     }
 }
