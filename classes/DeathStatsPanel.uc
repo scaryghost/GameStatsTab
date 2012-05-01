@@ -3,19 +3,19 @@ class DeathStatsPanel extends StatsPanelBase
 
 function fillDescription(GSTPlayerReplicationInfo pri) {
     descriptions.Length= GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.EnumCount;
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.CRAWLER_DEATH].description="Killed by crawler";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.STALKER_DEATH].description="Killed by stalker";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.CLOT_DEATH].description="Killed by clot";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.GOREFAST_DEATH].description="Killed by gorefast";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.BLOAT_DEATH].description="Killed by bloat";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SIREN_DEATH].description="Killed by siren";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.HUSK_DEATH].description="Killed by husk";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SCRAKE_DEATH].description="Killed by scrake";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FLESHPOUND_DEATH].description="Killed by Fleshpound";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.BOSS_DEATH].description="Killed by boss";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SELF_DEATH].description="Killed by yourself";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FF_DEATH].description="Killed by teammate";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.ENV_DEATH].description="Killed by environment";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.CRAWLER_DEATH].description="Crawler";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.STALKER_DEATH].description="Stalker";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.CLOT_DEATH].description="Clot";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.GOREFAST_DEATH].description="Gorefast";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.BLOAT_DEATH].description="Bloat";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SIREN_DEATH].description="Siren";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.HUSK_DEATH].description="Husk";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SCRAKE_DEATH].description="Scrake";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FLESHPOUND_DEATH].description="Fleshpound";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.BOSS_DEATH].description="Boss";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SELF_DEATH].description="Yourself";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FF_DEATH].description="Teammate";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.ENV_DEATH].description="Environment";
 }
 
 function ShowPanel(bool bShow) {
