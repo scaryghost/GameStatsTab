@@ -26,7 +26,7 @@ defaultproperties {
     Panels(0)=(ClassName="GameStatsTab.PlayerStatsPanel",Caption="Player",Hint="Player related stats")
     Panels(1)=(ClassName="GameStatsTab.WeaponStatsPanel",Caption="Weapon",Hint="Stats about weapon usage")
     Panels(2)=(ClassName="GameStatsTab.KillStatsPanel",Caption="Kills",Hint="Breakdown of the kill count")
-    Panels(3)=(ClassName="GameStatsTab.GameStatsPanel",Caption="Game",Hint="Death count and game info")
+    Panels(3)=(ClassName="GameStatsTab.DeathStatsPanel",Caption="Deaths",Hint="Death tallies of the players")
     Panels(4)=(ClassName="GameStatsTab.PanelSettings",Caption="Settings",Hint="Adjust settings for the stat panels")
     WindowName="Game Statistics"
 }

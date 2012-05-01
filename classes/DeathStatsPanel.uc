@@ -1,4 +1,4 @@
-class GameStatsPanel extends StatsPanelBase
+class DeathStatsPanel extends StatsPanelBase
     dependson(GSTGameReplicationInfo);
 
 function fillDescription(GSTPlayerReplicationInfo pri) {
