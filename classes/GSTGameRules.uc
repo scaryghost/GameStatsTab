@@ -8,6 +8,16 @@ function PostBeginPlay() {
     Level.Game.GameRulesModifiers = Self;
 }
 
+function bool PreventDeath(Pawn Killed, Controller Killer, class<DamageType> damageType, vector HitLocation) {
+    local GSTGameReplicationInfo.DeathStat deathIndex;
+
+    if (damageType == class'Engine.Fell' || damageType == class'Gameplay.Burned') {
+        deathIndex= ENV_DEATH;
+        GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[deathIndex]+= 1;
+    }
+    return super.PreventDeath(Killed, Killer, damageType, HitLocation);
+}
+
 function ScoreKill(Controller Killer, Controller Killed) {
     local int index;
     local GSTPlayerReplicationInfo.KillStat statIndex;
@@ -29,6 +39,7 @@ function ScoreKill(Controller Killer, Controller Killed) {
         }
         if (index > -1) pri.addToKillStat(KillStat(index), 1);
     } else if (AIController(Killer) != none) {
+        /** TODO: self deaths is bugged, need to move to first if statement block */
         if (Killer == Killed) {
             deathIndex= SELF_DEATH;
             index= deathIndex;
