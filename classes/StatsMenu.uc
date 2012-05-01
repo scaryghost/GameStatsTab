@@ -1,7 +1,6 @@
 class StatsMenu extends KFInvasionLoginMenu;
 
 function InitComponent(GUIController MyController, GUIComponent MyComponent) {
-    Panels.remove(4,Panels.Length-4);
     super(UT2K4PlayerLoginMenu).InitComponent(MyController, MyComponent);
 }
 
@@ -27,6 +26,7 @@ defaultproperties {
     Panels(0)=(ClassName="GameStatsTab.PlayerStatsPanel",Caption="Player",Hint="Player related stats")
     Panels(1)=(ClassName="GameStatsTab.WeaponStatsPanel",Caption="Weapon",Hint="Stats about weapon usage")
     Panels(2)=(ClassName="GameStatsTab.KillStatsPanel",Caption="Kills",Hint="Breakdown of the kill count")
-    Panels(3)=(ClassName="GameStatsTab.PanelSettings",Caption="Settings",Hint="Adjust settings for the stat panels")
+    Panels(3)=(ClassName="GameStatsTab.GameStatsPanel",Caption="Game",Hint="Death count and game info")
+    Panels(4)=(ClassName="GameStatsTab.PanelSettings",Caption="Settings",Hint="Adjust settings for the stat panels")
     WindowName="Game Statistics"
 }

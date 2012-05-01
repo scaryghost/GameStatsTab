@@ -26,6 +26,7 @@ function PostBeginPlay() {
 
     gameType.PlayerControllerClass= statsTabController;
     gameType.PlayerControllerClassName= string(statsTabController);
+    gameType.GameReplicationInfoClass= class'GameStatsTab.GSTGameReplicationInfo';
 
     //Replace all instances of the old specimens with the new ones 
     auxiliaryRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 

@@ -4,42 +4,20 @@ class GSTGameRules extends GameRules
 var array<string> zedNames;
 
 function PostBeginPlay() {
-    local GSTPlayerReplicationInfo.KillStat index;
-
     NextGameRules = Level.Game.GameRulesModifiers;
     Level.Game.GameRulesModifiers = Self;
-    
-    index= BLOAT_KILLS;
-    zedNames[index]= "ZombieBloat";
-    index= BOSS_KILLS;
-    zedNames[index]= "ZombieBoss";
-    index= CLOT_KILLS;
-    zedNames[index]= "ZombieClot";
-    index= CRAWLER_KILLS;
-    zedNames[index]= "ZombieCrawler";
-    index= FLESHPOUND_KILLS;
-    zedNames[index]= "ZombieFleshPound";
-    index= GOREFAST_KILLS;
-    zedNames[index]= "ZombieGorefast";
-    index= HUSK_KILLS;
-    zedNames[index]= "ZombieHusk";
-    index= SCRAKE_KILLS;
-    zedNames[index]= "ZombieScrake";
-    index= SIREN_KILLS;
-    zedNames[index]= "ZombieSiren";
-    index= STALKER_KILLS;
-    zedNames[index]= "ZombieStalker";
 }
 
 function ScoreKill(Controller Killer, Controller Killed) {
     local int index;
     local GSTPlayerReplicationInfo.KillStat statIndex;
+    local GSTGameReplicationInfo.DeathStat deathIndex;
     local GSTPlayerReplicationInfo pri;
 
     Super.ScoreKill(Killer,Killed);
     
     pri= GSTPlayerReplicationInfo(killer.PlayerReplicationInfo);
-    if(pri != none) {
+    if(PlayerController(Killer) != none && pri != none) {
         if (Killer == Killed) {
             statIndex= SELF_KILLS;
             index= statIndex;
@@ -50,6 +28,31 @@ function ScoreKill(Controller Killer, Controller Killed) {
             index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames);
         }
         if (index > -1) pri.addToKillStat(KillStat(index), 1);
+    } else if (AIController(Killer) != none) {
+        if (Killer == Killed) {
+            deathIndex= SELF_DEATH;
+            index= deathIndex;
+        } else if (Killer.PlayerReplicationInfo.Team == Killed.PlayerReplicationInfo.Team) {
+            deathIndex= FF_DEATH;
+            index= deathIndex;
+        } else {
+            index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killer.pawn)), zedNames);
+        }
+        if (index > -1) GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
+        PlayerController(Killed).ClientMessage("Killed by: "$zedNames[index]);
     }
+    PlayerController(Killed).ClientMessage("Killed by: "$Killer);
+}
 
+defaultproperties {
+    zedNames(0)="ZombieBloat";
+    zedNames(1)="ZombieBoss";
+    zedNames(2)="ZombieClot";
+    zedNames(3)="ZombieCrawler";
+    zedNames(4)="ZombieFleshPound";
+    zedNames(5)="ZombieGorefast";
+    zedNames(6)="ZombieHusk";
+    zedNames(7)="ZombieScrake";
+    zedNames(8)="ZombieSiren";
+    zedNames(9)="ZombieStalker";
 }
