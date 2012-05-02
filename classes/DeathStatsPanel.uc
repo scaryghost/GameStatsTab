@@ -14,7 +14,7 @@ function fillDescription(GSTPlayerReplicationInfo pri) {
     descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FLESHPOUND_DEATH].description="Fleshpound";
     descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.BOSS_DEATH].description="Boss";
     descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.SELF_DEATH].description="Yourself";
-    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FF_DEATH].description="Teammate";
+    descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.FF_DEATH].description="Friendly fire";
     descriptions[GSTGameReplicationInfo(PlayerOwner().GameReplicationInfo).DeathStat.ENV_DEATH].description="Environment";
 }
 

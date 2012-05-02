@@ -29,9 +29,15 @@ function ScoreKill(Controller Killer, Controller Killed) {
     pri= GSTPlayerReplicationInfo(killer.PlayerReplicationInfo);
     if(PlayerController(Killer) != none && pri != none) {
         if (Killer == Killed) {
+            deathIndex= SELF_DEATH;
+            index= deathIndex;
+            GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
             statIndex= SELF_KILLS;
             index= statIndex;
         } else if (Killer.PlayerReplicationInfo.Team == Killed.PlayerReplicationInfo.Team) { 
+            deathIndex= FF_DEATH;
+            index= deathIndex;
+            GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
             statIndex= TEAMMATE_KILLS;
             index= statIndex;
         } else {
@@ -39,20 +45,9 @@ function ScoreKill(Controller Killer, Controller Killed) {
         }
         if (index > -1) pri.addToKillStat(KillStat(index), 1);
     } else if (AIController(Killer) != none) {
-        /** TODO: self deaths is bugged, need to move to first if statement block */
-        if (Killer == Killed) {
-            deathIndex= SELF_DEATH;
-            index= deathIndex;
-        } else if (Killer.PlayerReplicationInfo.Team == Killed.PlayerReplicationInfo.Team) {
-            deathIndex= FF_DEATH;
-            index= deathIndex;
-        } else {
-            index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killer.pawn)), zedNames);
-        }
+        index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killer.pawn)), zedNames);
         if (index > -1) GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
-        PlayerController(Killed).ClientMessage("Killed by: "$zedNames[index]);
     }
-    PlayerController(Killed).ClientMessage("Killed by: "$Killer);
 }
 
 defaultproperties {
