@@ -43,7 +43,20 @@ function PostBeginPlay() {
 
     if (accumulateStats) {
         serverLink= spawn(class'StatsSErverUDPLink');
+        SetTimer(1,true);
     }
+}
+
+function Timer() {
+    if (KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType != 0) {
+        serverLink.broadcastMatchEnd();
+        SetTimer(0,false);
+    }
+}
+
+function MatchStarting() {
+    serverLink.broadcastMatchStart();
+    super.MatchStarting();
 }
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {

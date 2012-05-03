@@ -11,9 +11,10 @@ enum DeathStat {
 var array<float> deathStats[15];
 var array<GSTPlayerReplicationInfo> players;
 var array<GSTPlayerReplicationInfo> spectators;
-var int numPlayers, numSpectators;
+/** TODO: generate uuid out of the playerid hash */
+var string uuid;
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
-        numPlayers, numSpectators, deathStats;
+        deathStats;
 }

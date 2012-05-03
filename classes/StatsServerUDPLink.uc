@@ -16,6 +16,18 @@ event Resolved(IpAddr addr) {
     serverAddr.port= class'GameStatsTabMut'.default.serverPort;
 }
 
+function broadcastMatchStart() {
+    SendText(serverAddr, "action:matchstart;"$password$"matchid:"$GSTGameReplicationInfo(Level.Game.GameReplicationInfo).uuid);
+}
+
+function broadcastMatchEnd() {
+    SendText(serverAddr, "action:matchend;"$password$"timestamp:"$getDateTime());
+}    
+
+function string getDateTime() {
+    return Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second;
+}
+
 function string getStatValues(array<float> stats[15], int numStats, Object statEnum) {
     local string statVals;
     local int i;
@@ -39,7 +51,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
     baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password $ isUnix;
-    baseMsg$= "timestamp:"$Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second$";";
+    baseMsg$= "timestamp:"$getDateTime()$";";
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
