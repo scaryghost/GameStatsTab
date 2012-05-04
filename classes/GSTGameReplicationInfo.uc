@@ -9,8 +9,7 @@ enum DeathStat {
 };
 
 var array<float> deathStats[15];
-var array<GSTPlayerReplicationInfo> players;
-var array<GSTPlayerReplicationInfo> spectators;
+var string matchDateTime;
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
