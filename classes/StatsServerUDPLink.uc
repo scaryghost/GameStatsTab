@@ -17,15 +17,23 @@ event Resolved(IpAddr addr) {
 }
 
 function broadcastMatchStart() {
-    SendText(serverAddr, "action:matchstart;"$password$"matchid:"$GSTGameReplicationInfo(Level.Game.GameReplicationInfo).uuid);
+    local string matchStats;
+
+    matchStats= "matchstat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
+    matchStats$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
+    matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength $ ",";
+    SendText(serverAddr, "action:matchstart;" $ password $ getDateTime() $ matchStats);
 }
 
 function broadcastMatchEnd() {
-    SendText(serverAddr, "action:matchend;"$password$"timestamp:"$getDateTime());
+    local string matchStats;
+
+    matchStats= "matchstat:result=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType;
+    SendText(serverAddr, "action:matchend;" $ password $ getDateTime() $ matchStats);
 }    
 
 function string getDateTime() {
-    return Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second;
+    return "timestamp:" $ Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second $ ";";
 }
 
 function string getStatValues(array<float> stats[15], int numStats, Object statEnum) {
@@ -50,8 +58,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
-    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password $ isUnix;
-    baseMsg$= "timestamp:"$getDateTime()$";";
+    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password $ isUnix $ getDateTime();
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
@@ -60,12 +67,6 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     for(index= 0; index < statValues.Length; index++) {
         if (statValues[index] != "") SendText(serverAddr, actionAccum $ baseMsg $ "stat:" $ statValues[index]);
     }
-
-    gameInfo= "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
-    gameInfo$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
-    gameInfo$= "length=" $ KFGameType(Level.Game).KFGameLength $ ",";
-    gameInfo$= "endgame=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType;
-    SendText(serverAddr, actionWrite $ baseMsg $ gameInfo);
 }
 
 defaultproperties {
