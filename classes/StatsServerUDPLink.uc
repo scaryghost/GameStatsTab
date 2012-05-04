@@ -21,7 +21,7 @@ function broadcastMatchStart() {
 
     matchStats= "matchstat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
     matchStats$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
-    matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength $ ",";
+    matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength;
     SendText(serverAddr, "action:matchstart;" $ password $ getDateTime() $ matchStats);
 }
 
