@@ -6,7 +6,7 @@ var string password, actionAccum, actionWrite, isUnix;
 
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
-    if (udpPort > 0) Resolve(class'GameStatsTabMut'.default.serverIp);
+    if (udpPort > 0) Resolve(class'GameStatsTabMut'.default.serverAddress);
     password= "password:"$class'GameStatsTabMut'.default.serverPassword$";";
     isUnix= "isunix:"$PlatformIsUnix()$";";
 }

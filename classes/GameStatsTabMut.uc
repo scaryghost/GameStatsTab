@@ -3,7 +3,7 @@ class GameStatsTabMut extends Mutator
 
 var() config bool accumulateStats;
 var() config int serverPort;
-var() config string serverIp, serverPassword;
+var() config string serverAddress, serverPassword;
 var string endGameBossClass, fallbackMonsterClass;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
@@ -94,7 +94,7 @@ function NotifyLogout(Controller Exiting) {
 static function FillPlayInfo(PlayInfo PlayInfo) {
     Super.FillPlayInfo(PlayInfo);
     PlayInfo.AddSetting("GameStatsTab", "accumulateStats", "Accumulate Statistics", 0, 0, "Check");
-    PlayInfo.AddSetting("GameStatsTab", "serverIp", "Remote Server IP", 0, 0, "Text", "128");
+    PlayInfo.AddSetting("GameStatsTab", "serverAddress", "Remote Server Address", 0, 0, "Text", "128");
     PlayInfo.AddSetting("GameStatsTab", "serverPort", "Remote Server Port", 0, 0, "Text");
     PlayInfo.AddSetting("GameStatsTab", "serverPassword", "Remote Server Password", 0, 0, "Text", "128");
 }
@@ -103,8 +103,8 @@ static event string GetDescriptionText(string property) {
     switch(property) {
         case "accumulateStats":
             return "Check if the mutator should save the stats to a remote server";
-        case "serverIp":
-            return "IP address of remote tracking server";
+        case "serverAddress":
+            return "Address address of remote tracking server";
         case "serverPort":
             return "Port number of remote tracking server";
         case "serverPassword":
