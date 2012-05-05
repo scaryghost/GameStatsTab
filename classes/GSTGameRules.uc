@@ -11,11 +11,14 @@ function PostBeginPlay() {
 function bool PreventDeath(Pawn Killed, Controller Killer, class<DamageType> damageType, vector HitLocation) {
     local GSTGameReplicationInfo.DeathStat deathIndex;
 
-    if (damageType == class'Engine.Fell' || damageType == class'Gameplay.Burned') {
-        deathIndex= ENV_DEATH;
-        GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[deathIndex]+= 1;
+    if (!super.PreventDeath(Killed, Killer, damageType, HitLocation)) {
+        if(damageType == class'Engine.Fell' || damageType == class'Gameplay.Burned') {
+            deathIndex= ENV_DEATH;
+            GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[deathIndex]+= 1;
+        }
+        return false;
     }
-    return super.PreventDeath(Killed, Killer, damageType, HitLocation);
+    return true;
 }
 
 function ScoreKill(Controller Killer, Controller Killed) {
@@ -26,9 +29,15 @@ function ScoreKill(Controller Killer, Controller Killed) {
 
     Super.ScoreKill(Killer,Killed);
     
-    pri= GSTPlayerReplicationInfo(killer.PlayerReplicationInfo);
-    if(PlayerController(Killer) != none && pri != none) {
-        if (Killer == Killed) {
+    if (KFMonsterController(Killer) != none) {
+        index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killer.pawn)), zedNames);
+        if (index > -1) GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
+    } else if (PlayerController(Killer) != none) {
+        pri= GSTPlayerReplicationInfo(Killer.PlayerReplicationInfo);
+        if (Killed.PlayerReplicationInfo == none || 
+            Killer.PlayerReplicationInfo.Team != Killed.PlayerReplicationInfo.Team) {
+            index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames);
+        } else if (Killer == Killed) {
             deathIndex= SELF_DEATH;
             index= deathIndex;
             GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
@@ -41,12 +50,9 @@ function ScoreKill(Controller Killer, Controller Killed) {
             statIndex= TEAMMATE_KILLS;
             index= statIndex;
         } else {
-            index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killed.pawn)), zedNames);
+            index= -1;
         }
-        if (index > -1) pri.addToKillStat(KillStat(index), 1);
-    } else if (AIController(Killer) != none) {
-        index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killer.pawn)), zedNames);
-        if (index > -1) GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
+        if (index > -1 && pri != none) pri.addToKillStat(KillStat(index), 1);
     }
 }
 

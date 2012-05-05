@@ -51,7 +51,7 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
     Super.TakeDamage(Damage,instigatedBy,hitlocation,momentum,damageType);
    
     pri= GSTPlayerReplicationInfo(InstigatedBy.Controller.PlayerReplicationInfo);
-    if (pri.Team == Controller.PlayerReplicationInfo.Team) {
+    if (pri != none && pri.Team == Controller.PlayerReplicationInfo.Team) {
         pri.addToHiddenStat(pri.HiddenStat.FF_DAMAGE_DEALT, oldHealth - fmax(Health, 0.0));
     }
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
