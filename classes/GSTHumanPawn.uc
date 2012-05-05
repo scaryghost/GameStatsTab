@@ -50,10 +50,6 @@ simulated function TakeDamage( int Damage, Pawn InstigatedBy,
 
     Super.TakeDamage(Damage,instigatedBy,hitlocation,momentum,damageType);
    
-    pri= GSTPlayerReplicationInfo(InstigatedBy.Controller.PlayerReplicationInfo);
-    if (pri != none && pri.Team == Controller.PlayerReplicationInfo.Team) {
-        pri.addToHiddenStat(pri.HiddenStat.FF_DAMAGE_DEALT, oldHealth - fmax(Health, 0.0));
-    }
     pri= GSTPlayerReplicationInfo(Controller.PlayerReplicationInfo);
     if(pri != none) {
         pri.addToPlayerStat(pri.PlayerStat.DAMAGE_TAKEN, oldHealth - fmax(Health,0.0));
@@ -71,8 +67,8 @@ function Died(Controller Killer, class<DamageType> damageType, vector HitLocatio
         pri.addToPlayerStat(pri.PlayerStat.SHIELD_LOST, prevShield);
         pri.addToHiddenStat(pri.HiddenStat.DEATHS, 1);
 
-        if(GSTPlayerController(Controller).forcedSuicideAttempt) {
-            pri.addToHiddenStat(pri.HiddenStat.FORCED_SUICIDE, 1);
+        if(Killer == Self.Controller) {
+            pri.addToHiddenStat(pri.HiddenStat.SUICIDE, 1);
         }
         prevHealth= 0;
         prevShield= 0;

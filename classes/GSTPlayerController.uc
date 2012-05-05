@@ -8,12 +8,6 @@ function SetPawnClass(string inClass, string inCharacter) {
     PawnClass = Class'GameStatsTab.GSTHumanPawn';
 }
 
-exec function suicide() {
-    forcedSuicideAttempt= true;
-    super.suicide();
-    forcedSuicideAttempt= false;
-}
-
 exec function InGameStats() {
     ClientOpenMenu(statsPanelClassName);
 }
