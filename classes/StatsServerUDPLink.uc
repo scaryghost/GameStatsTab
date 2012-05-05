@@ -22,17 +22,16 @@ function broadcastMatchStart() {
     matchStats= "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
     matchStats$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
     matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength;
-    GSTGameReplicationInfo(Level.GRI).matchDateTime= getDateTime();
-    SendText(serverAddr, "action:matchstart;" $ password $ GSTGameReplicationInfo(Level.GRI).matchDateTime $ matchStats);
+    SendText(serverAddr, "action:matchbegin;" $ password $ matchStats);
 }
 
 function broadcastMatchEnd() {
     local string matchStats;
 
-    matchStats= "result:" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType $ ";";
+    matchStats= "stat:result=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType $ ",";
     matchStats$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
             GSTGameReplicationInfo(Level.GRI).DeathStat.EnumCount, Enum'DeathStat');
-    SendText(serverAddr, "action:matchend;" $ password $ getDateTime() $ matchStats);
+    SendText(serverAddr, "action:matchend;" $ password $ matchStats);
 }    
 
 function string getDateTime() {
@@ -61,7 +60,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
-    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password $ isUnix $ GSTGameReplicationInfo(Level.GRI).matchDateTime;
+    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password $ isUnix;
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');

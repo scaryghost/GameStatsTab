@@ -9,7 +9,6 @@ enum DeathStat {
 };
 
 var array<float> deathStats[15];
-var string matchDateTime;
 
 replication {
     reliable if (bNetDirty && Role == ROLE_Authority)
