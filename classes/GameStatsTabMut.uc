@@ -9,7 +9,9 @@ var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
 var class<PlayerController> statsTabController;
 var class<PlayerReplicationInfo> statsTabReplicationInfo;
+var class<GameReplicationInfo> statsTabGameReplicationInfo;
 var class<GSTAuxiliary> auxiliaryRef;
+var class<StatsServerUDPLink> statsUDPLink;
 var transient StatsServerUDPLink serverLink;
 
 function PostBeginPlay() {
@@ -26,7 +28,7 @@ function PostBeginPlay() {
 
     gameType.PlayerControllerClass= statsTabController;
     gameType.PlayerControllerClassName= string(statsTabController);
-    gameType.GameReplicationInfoClass= class'GameStatsTab.GSTGameReplicationInfo';
+    gameType.GameReplicationInfoClass= statsTabGameReplicationInfo;
 
     //Replace all instances of the old specimens with the new ones 
     auxiliaryRef.static.replaceStandardMonsterClasses(gameType.StandardMonsterClasses, 
@@ -42,7 +44,7 @@ function PostBeginPlay() {
     gameType.FallbackMonsterClass= fallbackMonsterClass;
 
     if (accumulateStats) {
-        serverLink= spawn(class'StatsServerUDPLink');
+        serverLink= spawn(statsUDPLink);
         SetTimer(1,true);
     }
 }
@@ -129,6 +131,8 @@ defaultproperties {
     statsTabRules= class'GameStatsTab.GSTGameRules'
     statsTabController= class'GameStatsTab.GSTPlayerController'
     statsTabReplicationInfo= class'GameStatsTab.GSTPlayerReplicationInfo'
+    statsTabGameReplicationInfo= class'GameStatsTab.GSTGameReplicationInfo'
+    statsUDPLink= class'StatsServerUDPLink'
 
     endGameBossClass= "GameStatsTab.ZombieBoss"
     fallbackMonsterClass= "GameStatsTab.ZombieStalker"
