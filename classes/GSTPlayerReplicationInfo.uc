@@ -43,7 +43,11 @@ replication {
 
 function Timer() {
     super.Timer();
-    playerIDHash= PlayerController(Owner).getPlayerIDHash();
+    if (Owner == Level.GetLocalPlayerController()) {
+        playerIDHash= class'GameStatsTabMut'.default.localHostSteamId;
+    } else {
+        playerIDHash= PlayerController(Owner).getPlayerIDHash();
+    }
 }
 
 function Reset() {

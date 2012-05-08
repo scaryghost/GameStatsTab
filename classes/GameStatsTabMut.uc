@@ -3,7 +3,7 @@ class GameStatsTabMut extends Mutator
 
 var() config bool accumulateStats;
 var() config int serverPort;
-var() config string serverAddress, serverPassword;
+var() config string serverAddress, serverPassword, localHostSteamId;
 var string endGameBossClass, fallbackMonsterClass;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
@@ -42,7 +42,7 @@ function PostBeginPlay() {
     gameType.FallbackMonsterClass= fallbackMonsterClass;
 
     if (accumulateStats) {
-        serverLink= spawn(class'StatsSErverUDPLink');
+        serverLink= spawn(class'StatsServerUDPLink');
         SetTimer(1,true);
     }
 }
@@ -50,6 +50,9 @@ function PostBeginPlay() {
 function Timer() {
     if (KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType != 0) {
         serverLink.broadcastMatchEnd();
+        if (accumulateStats && Level.NetMode != NM_DedicatedServer) {
+            serverLink.saveStats(GSTPlayerReplicationInfo(Level.GetLocalPlayerController().PlayerReplicationInfo));
+        }
         SetTimer(0,false);
     }
 }
@@ -85,7 +88,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 }
 
 function NotifyLogout(Controller Exiting) {
-    if (accumulateStats && Level.Game.GameReplicationInfo.bMatchHasBegun && 
+    if (accumulateStats && Level.Game.GameReplicationInfo.bMatchHasBegun && Exiting != Level.GetLocalPlayerController() && 
             GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo).playerIDHash != "") {
         serverLink.saveStats(GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo));
     }
@@ -94,6 +97,7 @@ function NotifyLogout(Controller Exiting) {
 static function FillPlayInfo(PlayInfo PlayInfo) {
     Super.FillPlayInfo(PlayInfo);
     PlayInfo.AddSetting("GameStatsTab", "accumulateStats", "Accumulate Statistics", 0, 0, "Check");
+    PlayInfo.AddSetting("GameStatsTab", "localHostSteamId", "Local Host Steam ID", 0, 0, "Text", "16");
     PlayInfo.AddSetting("GameStatsTab", "serverAddress", "Remote Server Address", 0, 0, "Text", "128");
     PlayInfo.AddSetting("GameStatsTab", "serverPort", "Remote Server Port", 0, 0, "Text");
     PlayInfo.AddSetting("GameStatsTab", "serverPassword", "Remote Server Password", 0, 0, "Text", "128");
@@ -103,6 +107,8 @@ static event string GetDescriptionText(string property) {
     switch(property) {
         case "accumulateStats":
             return "Check if the mutator should save the stats to a remote server";
+        case "localHostSteamId":
+            return "16 digit steam id of the game's local host.  Used for solo or listen server games by the host.";
         case "serverAddress":
             return "Address address of remote tracking server";
         case "serverPort":
