@@ -8,7 +8,12 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
         class<DamageType> damageType, optional int HitIndex) {
     local float prevHealth, diffHealth;
     prevHealth= Health;
-    lastHitByPri= GSTPlayerReplicationInfo(GSTPlayerController(InstigatedBy.Controller).PlayerReplicationInfo);
+
+    if (InstigatedBy != none) {
+        lastHitByPri= GSTPlayerReplicationInfo(InstigatedBy.Controller.PlayerReplicationInfo);
+    } else {
+        lastHitByPri= none;
+    }
     if (lastHitByPri != none && tempHealth == 0 && bBackstabbed) {
         lastHitByPri.addToPlayerStat(lastHitByPri.PlayerStat.BACKSTABS, 1);
     }
