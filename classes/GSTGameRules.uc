@@ -29,7 +29,7 @@ function ScoreKill(Controller Killer, Controller Killed) {
 
     Super.ScoreKill(Killer,Killed);
     
-    if (KFMonsterController(Killer) != none) {
+    if (KFMonsterController(Killer) != none && PlayerController(Killed) != none) {
         index= class'GSTAuxiliary'.static.binarySearch(GetItemName(string(Killer.pawn)), zedNames);
         if (index > -1) GSTGameReplicationInfo(Level.Game.GameReplicationInfo).deathStats[index]+= 1;
     } else if (PlayerController(Killer) != none) {
