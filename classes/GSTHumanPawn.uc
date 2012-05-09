@@ -37,9 +37,8 @@ function timer() {
     prevTimeStamp= currTimeStamp;
 }
 
-simulated function TakeDamage( int Damage, Pawn InstigatedBy, 
-        Vector Hitlocation, Vector Momentum, class<DamageType> damageType, 
-        optional int HitIndex) {
+simulated function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, 
+        Vector Momentum, class<DamageType> damageType, optional int HitIndex) {
     local float oldHealth;
     local float oldShield;
 
