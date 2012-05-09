@@ -9,8 +9,3 @@ enum DeathStat {
 };
 
 var array<float> deathStats[15];
-
-replication {
-    reliable if (bNetDirty && Role == ROLE_Authority)
-        deathStats;
-}
