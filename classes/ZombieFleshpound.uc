@@ -1,6 +1,6 @@
 class ZombieFleshPound extends KFChar.ZombieFleshPound;
 
-var GSTPlayerReplicationInfo pri;
+var GSTPlayerReplicationInfo lastHitByPri;
 var float tempHealth;
 var bool decapCounted;
 
@@ -8,9 +8,9 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
         class<DamageType> damageType, optional int HitIndex) {
     local float prevHealth, diffHealth;
     prevHealth= Health;
-    pri= GSTPlayerReplicationInfo(GSTPlayerController(InstigatedBy.Controller).PlayerReplicationInfo);
-    if (!bDecapitated && bBackstabbed) {
-        pri.addToPlayerStat(pri.PlayerStat.BACKSTABS, 1);
+    lastHitByPri= GSTPlayerReplicationInfo(GSTPlayerController(InstigatedBy.Controller).PlayerReplicationInfo);
+    if (lastHitByPri != none && tempHealth == 0 && bBackstabbed) {
+        lastHitByPri.addToPlayerStat(lastHitByPri.PlayerStat.BACKSTABS, 1);
     }
 
     super.TakeDamage(Damage, InstigatedBy, Hitlocation, Momentum, damageType, HitIndex);
@@ -20,11 +20,13 @@ function TakeDamage( int Damage, Pawn InstigatedBy, Vector Hitlocation, Vector M
         diffHealth-= tempHealth;
         tempHealth= 0;
     }
-    if (!decapCounted && bDecapitated && pri != none) {
-        pri.addToPlayerStat(pri.PlayerStat.NUM_DECAPS, 1);
-        decapCounted= true;
+    if (lastHitByPri != none) {
+        if (!decapCounted && bDecapitated) {
+            lastHitByPri.addToPlayerStat(lastHitByPri.PlayerStat.NUM_DECAPS, 1);
+            decapCounted= true;
+        }
+        lastHitByPri.addToHiddenStat(lastHitByPri.HiddenStat.DAMAGE_DEALT, diffHealth);
     }
-    pri.addToHiddenStat(pri.HiddenStat.DAMAGE_DEALT, diffHealth);
 }
 
 function RemoveHead() {
@@ -40,12 +42,12 @@ function StartCharging() {
     super.StartCharging();
 
     if(bFrustrated) {
-        pri= GSTPlayerReplicationInfo(GSTHumanPawn(FleshpoundZombieController(Controller).Target).Controller.PlayerReplicationInfo);
+        lastHitByPri= GSTPlayerReplicationInfo(GSTHumanPawn(FleshpoundZombieController(Controller).Target).Controller.PlayerReplicationInfo);
     } else {
-        pri= GSTPlayerReplicationInfo(lastHitBy.PlayerReplicationInfo);
+        lastHitByPri= GSTPlayerReplicationInfo(lastHitBy.PlayerReplicationInfo);
     }
-    if (Health > 0 && pri != none) {
-        pri.addToPlayerStat(pri.PlayerStat.FLESHPOUNDS_RAGED, 1);
+    if (Health > 0 && lastHitByPri != none) {
+        lastHitByPri.addToPlayerStat(lastHitByPri.PlayerStat.FLESHPOUNDS_RAGED, 1);
     }
 }
 
