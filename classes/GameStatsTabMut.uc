@@ -90,8 +90,8 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 }
 
 function NotifyLogout(Controller Exiting) {
-    if (accumulateStats && Level.Game.GameReplicationInfo.bMatchHasBegun && Exiting != Level.GetLocalPlayerController() && 
-            GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo).playerIDHash != "") {
+    if (accumulateStats && Level.Game.GameReplicationInfo.bMatchHasBegun && 
+        Exiting != Level.GetLocalPlayerController()) {
         serverLink.saveStats(GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo));
     }
 }
