@@ -124,7 +124,7 @@ static event string GetDescriptionText(string property) {
 
 defaultproperties {
     GroupName="KFGameStatsTab"
-    FriendlyName="Game Stats Tab"
+    FriendlyName="Game Stats Tab v2.0"
     Description="Displays detailed statistics about your game.  Version 2.0"
 
     auxiliaryRef= class'GameStatsTab.GSTAuxiliary';
