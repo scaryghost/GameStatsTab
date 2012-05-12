@@ -2,13 +2,12 @@ class StatsServerUDPLink extends UDPLink;
 
 var int udpPort;
 var IpAddr serverAddr;
-var string password, actionAccum, actionWrite, isUnix;
+var string password, actionAccum, actionWrite;
 
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
     if (udpPort > 0) Resolve(class'GameStatsTabMut'.default.serverAddress);
     password= "password:"$class'GameStatsTabMut'.default.serverPassword$";";
-    isUnix= "isunix:"$PlatformIsUnix()$";";
 }
 
 event Resolved(IpAddr addr) {
@@ -60,7 +59,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
-    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password $ isUnix;
+    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password;
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
