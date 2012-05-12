@@ -2,7 +2,7 @@ class StatsServerUDPLink extends UDPLink;
 
 var int udpPort;
 var IpAddr serverAddr;
-var string authKey, actionAccum, actionWrite;
+var string authKey, actionAccum;
 
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
@@ -72,6 +72,5 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
 defaultproperties {
     actionAccum="action:accum;"
-    actionWrite="action:write;"
 }
 
