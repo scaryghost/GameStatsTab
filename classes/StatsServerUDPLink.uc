@@ -2,12 +2,12 @@ class StatsServerUDPLink extends UDPLink;
 
 var int udpPort;
 var IpAddr serverAddr;
-var string password, actionAccum, actionWrite;
+var string authKey, actionAccum, actionWrite;
 
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
     if (udpPort > 0) Resolve(class'GameStatsTabMut'.default.serverAddress);
-    password= "password:"$class'GameStatsTabMut'.default.serverPassword$";";
+    authKey= "authKey:"$class'GameStatsTabMut'.default.authKey$";";
 }
 
 event Resolved(IpAddr addr) {
@@ -21,7 +21,7 @@ function broadcastMatchStart() {
     matchStats= "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
     matchStats$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
     matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength;
-    SendText(serverAddr, "action:matchbegin;" $ password $ matchStats);
+    SendText(serverAddr, "action:matchbegin;" $ authKey $ matchStats);
 }
 
 function broadcastMatchEnd() {
@@ -30,7 +30,7 @@ function broadcastMatchEnd() {
     matchStats= "stat:result=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType $ ",";
     matchStats$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
             GSTGameReplicationInfo(Level.GRI).DeathStat.EnumCount, Enum'DeathStat');
-    SendText(serverAddr, "action:matchend;" $ password $ matchStats);
+    SendText(serverAddr, "action:matchend;" $ authKey $ matchStats);
 }    
 
 function string getDateTime() {
@@ -59,7 +59,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
-    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ password;
+    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ authKey;
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
