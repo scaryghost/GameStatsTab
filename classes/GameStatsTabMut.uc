@@ -1,4 +1,5 @@
 class GameStatsTabMut extends Mutator
+    config(GameStatsTabMut)
     dependson(GSTAuxiliary);
 
 var() config bool accumulateStats;
