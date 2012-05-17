@@ -2,7 +2,7 @@ class StatsServerUDPLink extends UDPLink;
 
 var int udpPort;
 var IpAddr serverAddr;
-var string authKey, timeStamp;
+var string timeStamp;
 
 enum Actions {
     ACCUM,
@@ -18,7 +18,6 @@ enum Events {
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
     if (udpPort > 0) Resolve(class'GameStatsTabMut'.default.serverAddress);
-    authKey= "authKey:"$class'GameStatsTabMut'.default.authKey$";";
 }
 
 event Resolved(IpAddr addr) {
@@ -34,7 +33,7 @@ function broadcastMatchStart() {
     matchStats$= timeStamp $ "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
     matchStats$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
     matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength;
-    SendText(serverAddr, "action:" $ GetEnum(Enum'Actions', 1) $ ";" $ authKey $ matchStats);
+    SendText(serverAddr, "action:" $ GetEnum(Enum'Actions', 1) $ ";" $ matchStats);
 }
 
 function broadcastMatchEnd() {
@@ -44,7 +43,7 @@ function broadcastMatchEnd() {
     matchStats$= "stat:result=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType $ ",";
     matchStats$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
             GSTGameReplicationInfo(Level.GRI).DeathStat.EnumCount, Enum'DeathStat');
-    SendText(serverAddr, "action:" $ GetEnum(Enum'Actions', 1) $ ";" $ authKey $ matchStats);
+    SendText(serverAddr, "action:" $ GetEnum(Enum'Actions', 1) $ ";" $ matchStats);
 }    
 
 function string getDateTime() {
@@ -74,7 +73,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
     baseMsg= "event:" $ GetEnum(Enum'Events',2) $ ";";
-    baseMsg$= "action:" $ GetEnum(Enum'Actions',0) $ ";playerid:" $ pri.playerIDHash $ ";" $ authKey $ timeStamp;
+    baseMsg$= "action:" $ GetEnum(Enum'Actions',0) $ ";playerid:" $ pri.playerIDHash $ ";" $ timeStamp;
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
