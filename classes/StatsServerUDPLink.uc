@@ -2,7 +2,18 @@ class StatsServerUDPLink extends UDPLink;
 
 var int udpPort;
 var IpAddr serverAddr;
-var string authKey, actionAccum;
+var string authKey, timeStamp;
+
+enum Actions {
+    ACCUM,
+    WRITE
+};
+
+enum Events {
+    MATCH_BEGIN,
+    MATCH_END,
+    PLAYER_LOGOUT
+};
 
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
@@ -18,19 +29,22 @@ event Resolved(IpAddr addr) {
 function broadcastMatchStart() {
     local string matchStats;
 
-    matchStats= "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
+    timeStamp= getDateTime();
+    matchStats= "event:" $ GetEnum(Enum'Events', 0) $ ";";
+    matchStats$= timeStamp $ "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
     matchStats$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
     matchStats$= "length=" $ KFGameType(Level.Game).KFGameLength;
-    SendText(serverAddr, "action:matchbegin;" $ authKey $ matchStats);
+    SendText(serverAddr, "action:" $ GetEnum(Enum'Actions', 1) $ ";" $ authKey $ matchStats);
 }
 
 function broadcastMatchEnd() {
     local string matchStats;
 
-    matchStats= "stat:result=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType $ ",";
+    matchStats= "event:" $ GetEnum(Enum'Events', 1) $ ";";
+    matchStats$= "stat:result=" $ KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType $ ",";
     matchStats$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
             GSTGameReplicationInfo(Level.GRI).DeathStat.EnumCount, Enum'DeathStat');
-    SendText(serverAddr, "action:matchend;" $ authKey $ matchStats);
+    SendText(serverAddr, "action:" $ GetEnum(Enum'Actions', 1) $ ";" $ authKey $ matchStats);
 }    
 
 function string getDateTime() {
@@ -59,18 +73,15 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
-    baseMsg= "playerid:" $ pri.playerIDHash $ ";" $ authKey;
+    baseMsg= "event:" $ GetEnum(Enum'Events',2) $ ";";
+    baseMsg$= "action:" $ GetEnum(Enum'Actions',0) $ ";playerid:" $ pri.playerIDHash $ ";" $ authKey $ timeStamp;
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
     statValues[statValues.Length]= getStatValues(pri.killStats, pri.KillStat.EnumCount, Enum'KillStat');
     statValues[statValues.Length]= getStatValues(pri.hiddenStats, pri.HiddenStat.EnumCount, Enum'HiddenStat');
     for(index= 0; index < statValues.Length; index++) {
-        if (statValues[index] != "") SendText(serverAddr, actionAccum $ baseMsg $ "stat:" $ statValues[index]);
+        if (statValues[index] != "") SendText(serverAddr, baseMsg $ "stat:" $ statValues[index]);
     }
-}
-
-defaultproperties {
-    actionAccum="action:accum;"
 }
 
