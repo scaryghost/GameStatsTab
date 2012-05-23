@@ -72,8 +72,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
 
-    baseMsg= "event:" $ GetEnum(Enum'Events',2) $ ";";
-    baseMsg$= "action:" $ GetEnum(Enum'Actions',0) $ ";playerid:" $ pri.playerIDHash $ ";" $ timeStamp;
+    baseMsg= "action:" $ GetEnum(Enum'Actions',0) $ ";playerid:" $ pri.playerIDHash $ ";" $ timeStamp;
 
     statValues[statValues.Length]= getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statValues[statValues.Length]= getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
