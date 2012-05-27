@@ -2,7 +2,7 @@ class StatsServerUDPLink extends UDPLink;
 
 var int udpPort;
 var IpAddr serverAddr;
-var string timeStamp;
+var string timeStamp, matchData;
 
 function PostBeginPlay() {
     udpPort= bindPort(class'GameStatsTabMut'.default.serverPort+1, true);
@@ -16,20 +16,21 @@ event Resolved(IpAddr addr) {
 
 function MatchStarting() {
     timeStamp= "timestamp:"$Level.Year$Level.Month$Level.Day$"_"$Level.Hour$":"$Level.Minute$":"$Level.Second $ ";";
-}
 
-function broadcastMatchData() {
-    local string matchData;
-
-    matchData= timeStamp $ "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
-    matchData$= "elapsedtime=" $ Level.GRI.ElapsedTime $ ",";
+    matchData= "stat:map=" $ Left(string(Level), InStr(string(Level), ".")) $ ",";
     matchData$= "difficulty=" $ Level.Game.GameDifficulty $ ",";
     matchData$= "length=" $ KFGameType(Level.Game).KFGameLength $ ",";
-    matchData$= "result=" $ KFGameReplicationInfo(Level.GRI).EndGameType $ ",";
-    matchData$= "wave=" $ KFGameType(Level.Game).WaveNum $ ",";
-    matchData$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
+}
+
+function broadcastMatchResults() {
+    local string results;
+
+    results$= "elapsedtime=" $ Level.GRI.ElapsedTime $ ",";
+    results$= "result=" $ KFGameReplicationInfo(Level.GRI).EndGameType $ ",";
+    results$= "wave=" $ KFGameType(Level.Game).WaveNum $ ",";
+    results$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
             GSTGameReplicationInfo(Level.GRI).DeathStat.EnumCount, Enum'DeathStat');
-    SendText(serverAddr, matchData);
+    SendText(serverAddr, timestamp $ matchData $ results);
 }    
 
 function string getStatValues(array<float> stats[15], int numStats, Object statEnum) {
@@ -53,14 +54,13 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     local int index;
 
     pri.addToHiddenStat(pri.HiddenStat.TIME_CONNECT, Level.GRI.ElapsedTime - pri.StartTime);
-    pri.addToHiddenStat(pri.HiddenStat.RESULT, KFGameReplicationInfo(Level.GRI).EndGameType);
-
     baseMsg= "playerid:" $ pri.playerIDHash $ ";";
 
     statMsgs[statMsgs.Length]= timeStamp $ "seq:0;stat:" $ getStatValues(pri.playerStats, pri.PlayerStat.EnumCount, Enum'PlayerStat');
     statMsgs[statMsgs.Length]= "seq:1;stat:" $ getStatValues(pri.kfWeaponStats, pri.WeaponStat.EnumCount, Enum'WeaponStat');
     statMsgs[statMsgs.Length]= "seq:2;stat:" $ getStatValues(pri.killStats, pri.KillStat.EnumCount, Enum'KillStat');
-    statMsgs[statMsgs.Length]= "seq:3;stat:" $ getStatValues(pri.hiddenStats, pri.HiddenStat.EnumCount, Enum'HiddenStat') $ ";_close";
+    statMsgs[statMsgs.Length]= "seq:3;stat:" $ getStatValues(pri.hiddenStats, pri.HiddenStat.EnumCount, Enum'HiddenStat');
+    statMsgs[statMsgs.Length]= "seq:4;" $ matchData $ "result=" $ KFGameReplicationInfo(Level.GRI).EndGameType $ ",wave=" $ KFGameType(Level.Game).WaveNum $ ";_close";
     for(index= 0; index < statMsgs.Length; index++) {
         SendText(serverAddr, baseMsg $ statMsgs[index]);
     }

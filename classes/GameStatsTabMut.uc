@@ -52,7 +52,7 @@ function PostBeginPlay() {
 
 function Timer() {
     if (KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType != 0) {
-        serverLink.broadcastMatchData();
+        serverLink.broadcastMatchResults();
         if (accumulateStats && Level.NetMode != NM_DedicatedServer) {
             serverLink.saveStats(GSTPlayerReplicationInfo(Level.GetLocalPlayerController().PlayerReplicationInfo));
         }
