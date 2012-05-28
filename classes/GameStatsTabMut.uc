@@ -5,6 +5,7 @@ class GameStatsTabMut extends Mutator
 var() config bool accumulateStats;
 var() config int serverPort;
 var() config string serverAddress, localHostSteamId;
+var KFGameType gameType;
 var string endGameBossClass, fallbackMonsterClass;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
 var class<GameRules> statsTabRules;
@@ -16,8 +17,6 @@ var class<StatsServerUDPLink> statsUDPLink;
 var transient StatsServerUDPLink serverLink;
 
 function PostBeginPlay() {
-    local KFGameType gameType;
-
     gameType= KFGameType(Level.Game);
     if (gameType == none) {
         Destroy();
@@ -51,7 +50,8 @@ function PostBeginPlay() {
 }
 
 function Timer() {
-    if (KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType != 0) {
+    if (KFGameReplicationInfo(Level.Game.GameReplicationInfo).EndGameType != 0 &&
+        (gameType.WaveNum != gameType.InitialWave || gameType.bWaveInProgress)) {
         serverLink.broadcastMatchResults();
         if (accumulateStats && Level.NetMode != NM_DedicatedServer) {
             serverLink.saveStats(GSTPlayerReplicationInfo(Level.GetLocalPlayerController().PlayerReplicationInfo));
@@ -87,6 +87,7 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 
 function NotifyLogout(Controller Exiting) {
     if (accumulateStats && Level.Game.GameReplicationInfo.bMatchHasBegun && 
+        (gameType.WaveNum != gameType.InitialWave || gameType.bWaveInProgress) &&
         Exiting != Level.GetLocalPlayerController()) {
         serverLink.saveStats(GSTPlayerReplicationInfo(Exiting.PlayerReplicationInfo));
     }
