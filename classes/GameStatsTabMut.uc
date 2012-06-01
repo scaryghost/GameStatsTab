@@ -4,7 +4,7 @@ class GameStatsTabMut extends Mutator
 
 var() config bool accumulateStats;
 var() config int serverPort;
-var() config string serverAddress, localHostSteamId;
+var() config string serverAddress, serverPwd, localHostSteamId;
 var KFGameType gameType;
 var string endGameBossClass, fallbackMonsterClass;
 var array<GSTAuxiliary.ReplacementPair> monsterReplacement, fireModeReplacement;
@@ -99,6 +99,7 @@ static function FillPlayInfo(PlayInfo PlayInfo) {
     PlayInfo.AddSetting("GameStatsTab", "localHostSteamId", "Local Host Steam ID", 0, 0, "Text", "16");
     PlayInfo.AddSetting("GameStatsTab", "serverAddress", "Remote Server Address", 0, 0, "Text", "128");
     PlayInfo.AddSetting("GameStatsTab", "serverPort", "Remote Server Port", 0, 0, "Text");
+    PlayInfo.AddSetting("GameStatsTab", "serverPwd", "Remote Server Password", 0, 0, "Text", "128");
 }
 
 static event string GetDescriptionText(string property) {
@@ -108,9 +109,11 @@ static event string GetDescriptionText(string property) {
         case "localHostSteamId":
             return "16 digit steam id of the game's local host.  Used for solo or listen server games by the host.";
         case "serverAddress":
-            return "Remote address of remote tracking server";
+            return "Address of tracking server";
         case "serverPort":
-            return "Port number of remote tracking server";
+            return "Port number of tracking server";
+        case "serverPwd":
+            return "Password of tracking server";
         default:
             return Super.GetDescriptionText(property);
     }

@@ -30,6 +30,7 @@ function broadcastMatchResults() {
     results$= "wave=" $ KFGameType(Level.Game).WaveNum+1 $ ",";
     results$= getStatValues(GSTGameReplicationInfo(Level.GRI).deathStats, 
             GSTGameReplicationInfo(Level.GRI).DeathStat.EnumCount, Enum'DeathStat');
+    SendText(serverAddr, "pwd:" $ class'GameStatsTabMut'.default.serverPwd);
     SendText(serverAddr, timestamp $ matchData $ results);
 }    
 
@@ -61,6 +62,7 @@ function saveStats(GSTPlayerReplicationInfo pri) {
     statMsgs[statMsgs.Length]= "seq:2;stat:" $ getStatValues(pri.killStats, pri.KillStat.EnumCount, Enum'KillStat');
     statMsgs[statMsgs.Length]= "seq:3;stat:" $ getStatValues(pri.hiddenStats, pri.HiddenStat.EnumCount, Enum'HiddenStat');
     statMsgs[statMsgs.Length]= "seq:4;" $ matchData $ "result=" $ KFGameReplicationInfo(Level.GRI).EndGameType $ ",wave=" $ KFGameType(Level.Game).WaveNum+1 $ ";_close";
+    SendText(serverAddr, "pwd:" $ class'GameStatsTabMut'.default.serverPwd);
     for(index= 0; index < statMsgs.Length; index++) {
         SendText(serverAddr, baseMsg $ statMsgs[index]);
     }
